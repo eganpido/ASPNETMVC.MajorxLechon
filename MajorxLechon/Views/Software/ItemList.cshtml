@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
-    <title>Product List</title>
+    <title>Item List</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
@@ -29,7 +29,7 @@
 
             <div class="container">
                 <h3>
-                    📦 Product List
+                    ♨️ Item List
                 </h3>
             </div>
             <section class="container">
@@ -38,11 +38,11 @@
                         <table style="width: 100%" border="0">
                             <tr>
                                 <td style="width: 59%">
-                                    <button class="btn btn-primary" id="btnProductAdd" onclick="addProduct()">🞧 Add</button>
+                                    <button class="btn btn-primary" id="btnItemAdd" onclick="addItem()">🞧 Add</button>
                                 </td>
                                 <td style="width: 1%"></td>
                                 <td style="width: 40%" align="right">
-                                    <button class="btn btn-danger" id="btnProductClose" onclick="closeProduct()">🗙 Close</button>
+                                    <button class="btn btn-danger" id="btnItemClose" onclick="closeItem()">🗙 Close</button>
                                 </td>
                             </tr>
                         </table>
@@ -53,7 +53,7 @@
                             <tr class="selected">
                                 <th></th>
                                 <th>Code</th>
-                                <th>Product</th>
+                                <th>Item</th>
                                 <th>Price</th>
                                 <th>Created By</th>
                                 <th>Created Date</th>
@@ -67,20 +67,20 @@
             </section>
 
             <!--
-                Product Confirm Delete Modal
+                Item Confirm Delete Modal
             -->
-            <div class="modal fade" id="deleteProductConfirm" role="dialog">
+            <div class="modal fade" id="deleteItemConfirm" role="dialog">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Delete</h4>
                         </div>
                         <div class="modal-body">
-                            Delete Product?
+                            Delete Item?
                         </div>
                         <div class="modal-footer">
-                            <button id="btnProductConfirmDelete" class="btn btn-danger" onclick="confirmDeleteProduct()">🗑 Delete</button>
-                            <button id="btnProductCloseConfirmDelete" class="btn btn-primary" data-dismiss="modal">🗙 Cancel</button>
+                            <button id="btnItemConfirmDelete" class="btn btn-danger" onclick="confirmDeleteItem()">🗑 Delete</button>
+                            <button id="btnItemCloseConfirmDelete" class="btn btn-primary" data-dismiss="modal">🗙 Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -95,8 +95,8 @@
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
-        var prodId = 0;
-        function populateProduct() {
+        var Id = 0;
+        function populateItem() {
             Loader.show();
             // ✅ Destroy existing DataTable if already initialized
             if ($.fn.DataTable.isDataTable('#datagridList')) {
@@ -115,7 +115,7 @@
             // ✅ Initialize DataTable
             $('#datagridList').DataTable({
                 ajax: {
-                    url: '/api/product/list',
+                    url: '/api/item/list',
                     dataSrc: ''
                 },
                 columns: [
@@ -123,11 +123,11 @@
                         data: null,
                         className: 'text-center',
                         render: function (data, type, row) {
-                            return '<button class="btn btn-primary btn-sm" onclick="editProduct(' + row.Id + ')">📝 Edit</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="editItem(' + row.Id + ')">📝 Edit</button>';
                         }
                     },
-                    { data: 'ProductCode', className: 'text-left' },
-                    { data: 'ProductDescription' },
+                    { data: 'ItemCode', className: 'text-left' },
+                    { data: 'ItemDescription' },
                     { data: 'Price' },
                     { data: 'CreatedBy' },
                     {
@@ -147,7 +147,7 @@
                         data: null,
                         className: 'text-center',
                         render: function (data, type, row) {
-                            return '<button class="btn btn-danger btn-sm" onclick="deleteProduct(' + row.Id + ', ' + row.IsLocked + ')">🗑 Delete</button>';
+                            return '<button class="btn btn-danger btn-sm" onclick="deleteItem(' + row.Id + ', ' + row.IsLocked + ')">🗑 Delete</button>';
                         }
                     }
                 ],
@@ -155,6 +155,16 @@
                     {
                         targets: 1, // ProductCode column
                         className: 'text-left'
+                    },
+                    {
+                        targets: 2, // ProductCode column
+                        className: 'text-left',
+                        width: '400px'             /* Set column width to 300px */
+                    },
+                    {
+                        targets: 3, // ProductCode column
+                        className: 'text-left',
+                        width: '200px'             /* Set column width to 300px */
                     },
                     {
                         targets: [0, 7], // Edit and Delete columns
@@ -172,113 +182,116 @@
             });
         }
 
-        // Add Product
-        function addProduct() {
-            document.getElementById('btnProductAdd').innerHTML = "🞧 Adding...";
-            $('#btnProductAdd').prop('disabled', true);
-            $('#btnProductClose').prop('disabled', true);
+        // Add Item
+        function addItem() {
+            document.getElementById('btnItemAdd').innerHTML = "🞧 Adding...";
+            $('#btnItemAdd').prop('disabled', true);
+            $('#btnItemClose').prop('disabled', true);
 
             $.ajax({
                 type: "POST",
-                url: '/api/product/add',
+                url: '/api/item/add',
                 contentType: "application/json; charset=utf-8",
                 statusCode: {
                     200: function (id) {
-                        window.location = '/Software/ProductDetail?id=' + id;
+                        window.location = '/Software/ItemDetail?id=' + id;
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductAdd').innerHTML = "🞧 Add";
-                        $('#btnProductAdd').prop('disabled', false);
-                        $('#btnProductClose').prop('disabled', false);
+                        document.getElementById('btnItemAdd').innerHTML = "🞧 Add";
+                        $('#btnItemAdd').prop('disabled', false);
+                        $('#btnItemClose').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductAdd').innerHTML = "🞧 Add";
-                        $('#btnProductAdd').prop('disabled', false);
-                        $('#btnProductClose').prop('disabled', false);
+                        document.getElementById('btnItemAdd').innerHTML = "🞧 Add";
+                        $('#btnItemAdd').prop('disabled', false);
+                        $('#btnItemClose').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductAdd').innerHTML = "🞧 Add";
-                        $('#btnProductAdd').prop('disabled', false);
-                        $('#btnProductClose').prop('disabled', false);
+                        document.getElementById('btnItemAdd').innerHTML = "🞧 Add";
+                        $('#btnItemAdd').prop('disabled', false);
+                        $('#btnItemClose').prop('disabled', false);
                     }
                 }
             });
         }
-        // Edit Product
-        function editProduct(productId) {
-            window.location = '/Software/ProductDetail?id=' + productId;
+        // Edit Item
+        function editItem(itemId) {
+            window.location = '/Software/ItemDetail?id=' + itemId;
         }
 
-        // Delete Product
-        function deleteProduct(productId, isLocked) {
-            prodId = productId;
+        // Delete Item
+        function deleteItem(itemId, isLocked) {
+            Id = itemId;
             if (isLocked) {
                 toastr.error("Please unlock the record first before deleting...", "", { positionClass: "toast-bottom-right" });
             } else {
-                $('#deleteProductConfirm').modal({
+                $('#deleteItemConfirm').modal({
                     show: true,
                     backdrop: 'static'
                 });
 
-                document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Delete";
-                $('#btnProductConfirmDelete').prop('disabled', false);
-                $('#btnProductCloseConfirmDelete').prop('disabled', false);
+                document.getElementById('btnItemConfirmDelete').innerHTML = "🗑 Delete";
+                $('#btnItemConfirmDelete').prop('disabled', false);
+                $('#btnItemCloseConfirmDelete').prop('disabled', false);
             }
         }
 
-        // Confirm Delete Product
-        function confirmDeleteProduct() {
-            document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Deleting...";
-            $('#btnProductConfirmDelete').prop('disabled', true);
-            $('#btnProductCloseConfirmDelete').prop('disabled', true);
+        // Confirm Delete Item
+        function confirmDeleteItem() {
+            document.getElementById('btnItemConfirmDelete').innerHTML = "🗑 Deleting...";
+            $('#btnItemConfirmDelete').prop('disabled', true);
+            $('#btnItemCloseConfirmDelete').prop('disabled', true);
 
             $.ajax({
-                url: '/api/product/delete/' + prodId,
+                url: '/api/item/delete/' + Id,
                 type: "DELETE",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 statusCode: {
                     200: function () {
                         toastr.success("Delete Successful", "", { positionClass: "toast-bottom-right" });
-                        $('#deleteProductConfirm').modal('hide');
-                        populateProduct();
+                        $('#deleteItemConfirm').modal('hide');
+                        populateItem();
+                        setTimeout(() => {
+                            Loader.hide();
+                        }, 1000);
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        $('#deleteProductConfirm').modal('hide');
+                        $('#deleteItemConfirm').modal('hide');
                         document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Delete";
-                        $('#btnProductConfirmDelete').prop('disabled', false);
-                        $('#btnProductCloseConfirmDelete').prop('disabled', false);
+                        $('#btnItemConfirmDelete').prop('disabled', false);
+                        $('#btnItemCloseConfirmDelete').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        $('#deleteProductConfirm').modal('hide');
+                        $('#deleteItemConfirm').modal('hide');
                         document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Delete";
-                        $('#btnProductConfirmDelete').prop('disabled', false);
-                        $('#btnProductCloseConfirmDelete').prop('disabled', false);
+                        $('#btnItemConfirmDelete').prop('disabled', false);
+                        $('#btnItemCloseConfirmDelete').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        $('#deleteProductConfirm').modal('hide');
+                        $('#deleteItemConfirm').modal('hide');
                         document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Delete";
-                        $('#btnProductConfirmDelete').prop('disabled', false);
-                        $('#btnProductCloseConfirmDelete').prop('disabled', false);
+                        $('#btnItemConfirmDelete').prop('disabled', false);
+                        $('#btnItemCloseConfirmDelete').prop('disabled', false);
                     }
                 }
             });
         }
 
-        // Close Product
-        function closeProduct() {
+        // Close Item
+        function closeItem() {
             window.location = '/Software';
         }
 
         // On Load Page
         $(document).ready(function () {
-            populateProduct();
+            populateItem();
             setTimeout(() => {
                 Loader.hide();
             }, 1000);

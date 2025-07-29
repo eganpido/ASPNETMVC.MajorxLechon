@@ -32,15 +32,26 @@
         /* General Body Font (Keep your existing) */
         body {
             font-family: 'Poppins', 'Open Sans', sans-serif;
+            background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
+            background-repeat: no-repeat; /* Ensures the background doesn't repeat */
+            background-size: cover;
         }
 
         /* Existing styles (adjust as needed, ensure no conflicting margins/paddings) */
         .hero {
-            background: transparent;
-            /*background: linear-gradient(to bottom, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));*/
+            background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
             color: white;
             padding: 70px 0;
-        }   
+        }
+
+            .hero img {
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+                -webkit-mask-composite: intersect;
+                mask-image: linear-gradient(to top, transparent 0%, black 10%, black 90%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+                mask-composite: intersect;
+                max-width: 100%;
+                object-fit: cover;
+            }
 
         .feature-icon {
             font-size: 7rem;
@@ -66,6 +77,7 @@
             .footer-custom img {
                 vertical-align: middle; /* Align with text */
             }
+
         .navbar-default {
             -webkit-transition: all .35s;
             -moz-transition: all .35s;
@@ -74,16 +86,42 @@
             border-bottom: none;
             background-color: white;
         }
+
         .feature-title {
             font-weight: bold;
             font-size: 2rem;
             color: darkslategray;
         }
+
         .feature-description {
             font-size: 1.5rem;
         }
-        body {
-            background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
+        .order-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #28a745; /* Green */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+            .order-btn:hover {
+                background-color: #218838;
+            }
+        .carousel-inner .item img {
+            display: block; /* Ensures the image is a block-level element */
+            margin: 0 auto; /* Horizontally centers the image */
+            max-width: 100%; /* Keeps the image from stretching outside the container */
+            height: 400px; /* Controls the height of the image */
+            object-fit: cover; /* Ensures the image covers the area without distorting */
+        }
+        .img-banner {
+            max-width: 1300px;
+            width: 1300px;
+            margin: 0 auto; /* Centers the image horizontally */
+            display: block; /* Makes the image a block element to center it */
         }
     </style>
 </head>
@@ -105,35 +143,59 @@
     <div class="main-content">
         <section class="hero text-center">
             <div class="container">
-                <h1 class="display-4" style="margin-top:30px;">Track Every Peso, Power Every Decision</h1>
-                <p class="lead mt-3">Smart and simple tracking of your business sales and expenses - anytime, anywhere.</p>
-                <a href="/Account/Login" class="btn btn-primary btn-lg mt-4" style="margin-top:30px;">🚀 Get Started</a>
+                <br />
+                <br />
+                <div>
+                    <img class="img-banner" src="~/Images/majorxBanner.jpg" alt="Majorx Banner">
+                </div>
+                <a href="/Account/Login" class="btn btn-primary order-btn" style="margin-top:40px;">🐷 Order Now!</a>
             </div>
-        </section>
-
-        <section class="py-5" style="margin-top:10px;">
-            <div class="container text-center">
-                <h2 class="mb-4">Key Features</h2>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="feature-icon mb-2">💰</div>
-                        <h4 class="feature-title">Real-Time Sales Tracking</h4>
-                        <p class="feature-description">Monitor daily sales with live updates and detailed summaries.</p>
+            <div class="container" style="padding: 40px 0;">
+                <!-- Image Carousel -->
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="~/Images/slides/Image2.jpg" class="d-block w-100" alt="Image 1">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image1.jpg" class="d-block w-100" alt="Image 2">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image3.jpg" class="d-block w-100" alt="Image 3">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image4.jpg" class="d-block w-100" alt="Image 4">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image5.jpg" class="d-block w-100" alt="Image 5">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image6.jpg" class="d-block w-100" alt="Image 6">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image7.jpg" class="d-block w-100" alt="Image 7">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image8.jpg" class="d-block w-100" alt="Image 8">
+                        </div>
+                        <div class="item">
+                            <img src="~/Images/slides/Image9.jpg" class="d-block w-100" alt="Image 9">
+                        </div>
+                        <!-- Add more carousel items here -->
                     </div>
-                    <div class="col-md-4">
-                        <div class="feature-icon mb-2">📉</div>
-                        <h4 class="feature-title">Expense Monitoring</h4>
-                        <p class="feature-description">Log, categorize, and review all expenses with full transparency.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-icon mb-2">📊</div>
-                        <h4 class="feature-title">Reports & Analytics</h4>
-                        <p class="feature-description">Generate visual reports to help guide smart financial decisions.</p>
-                    </div>
+                    <a class="left carousel-control" href="#carouselExampleIndicators" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carouselExampleIndicators" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
                 </div>
             </div>
+            <div>
+                <img src="~/Images/logo/majorxLogo.png" alt="Majorx Logo" style="mask-composite: unset; height: 300px; width: 300px; ">
+            </div>
         </section>
-    </div> 
+    </div>
     <footer class="footer-custom">
         <div class="container">
             <div class="row">

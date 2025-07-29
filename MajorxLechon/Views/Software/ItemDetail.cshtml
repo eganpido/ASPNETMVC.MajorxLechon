@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
-    <title>Product Detail</title>
+    <title>Item Detail</title>
 
     @Styles.Render("~/Content/Software-css")
 </head>
@@ -26,7 +26,7 @@
             @Html.Partial("_SoftwareHeader")
             <div class="container">
                 <h3>
-                    📦 Product Detail
+                    ♨️ Item Detail
                 </h3>
             </div>
             <section class="container">
@@ -38,12 +38,12 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-md-2">
-                                <button class="btn btn-primary" id="btnProductDetailSave" onclick="saveProduct()">💾 Save</button>
+                                <button class="btn btn-primary" id="btnItemDetailSave" onclick="saveItem()">💾 Save</button>
                             </div>
                             <div class="col-md-10" align="right">
-                                <button class="btn btn-primary" id="btnProductDetailLock" onclick="lockProduct()">🔒 Lock</button>
-                                <button class="btn btn-primary" id="btnProductDetailUnlock" onclick="unlockProduct()">🔓 Unlock</button>
-                                <button class="btn btn-danger" id="btnProductDetailClose" onclick="closeProductDetail()">🗙 Close</button>
+                                <button class="btn btn-primary" id="btnItemDetailLock" onclick="lockItem()">🔒 Lock</button>
+                                <button class="btn btn-primary" id="btnItemDetailUnlock" onclick="unlockItem()">🔓 Unlock</button>
+                                <button class="btn btn-danger" id="btnItemDetailClose" onclick="closeItemDetail()">🗙 Close</button>
                             </div>
                         </div>
                     </div>
@@ -58,25 +58,25 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-2">Code</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inpProductDetailProductCode" placeholder="Code" disabled />
+                                            <input type="text" class="form-control" id="inpItemDetailItemCode" placeholder="Code" disabled />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2">Product</label>
+                                        <label class="control-label col-sm-2">Item</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="inpProductDetailProductDescription" placeholder="Product" />
+                                            <input type="text" class="form-control" id="inpItemDetailItemDescription" placeholder="Item" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-sm-2">Price</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control numberField" id="inpProductDetailPrice" placeholder="0.00" />
+                                            <input type="text" class="form-control numberField" id="inpItemDetailPrice" placeholder="0.00" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-sm-2">Cost</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control numberField" id="inpProductDetailCost" placeholder="0.00" />
+                                            <input type="text" class="form-control numberField" id="inpItemDetailCost" placeholder="0.00" />
                                         </div>
                                     </div>
                                 </div>
@@ -132,77 +132,77 @@
             }
         }
 
-        // Get Product Detail Data
-        function getProductDetailData() {
+        // Get Item Detail Data
+        function getItemDetailData() {
             Loader.show();
 
             if (document.location.search.length > 0) {
                 $.ajax({
-                    url: '/api/product/detail/' + getURLParameterValue("id"),
+                    url: '/api/item/detail/' + getURLParameterValue("id"),
                     cache: false,
                     type: 'GET',
                     contentType: 'application/json; charset=utf-8',
                     success: function (results) {
                         if (results != null) {
-                            document.getElementById('inpProductDetailProductCode').value = results.ProductCode;
-                            document.getElementById('inpProductDetailProductDescription').value = results.ProductDescription;
-                            document.getElementById('inpProductDetailPrice').value = results.Price;
-                            document.getElementById('inpProductDetailCost').value = results.Cost;
+                            document.getElementById('inpItemDetailItemCode').value = results.ItemCode;
+                            document.getElementById('inpItemDetailItemDescription').value = results.ItemDescription;
+                            document.getElementById('inpItemDetailPrice').value = results.Price;
+                            document.getElementById('inpItemDetailCost').value = results.Cost;
                             document.getElementById('createdBy').innerHTML = results.CreatedBy;
                             document.getElementById('createdDate').innerHTML = results.CreatedDateTime;
                             document.getElementById('updatedBy').innerHTML = results.UpdatedBy;
                             document.getElementById('updatedDate').innerHTML = results.UpdatedDateTime;
 
                             if (results.IsLocked) {
-                                document.getElementById('inpProductDetailProductCode').disabled = true;
-                                document.getElementById('inpProductDetailProductDescription').disabled = true;
-                                document.getElementById('inpProductDetailPrice').disabled = true;
-                                document.getElementById('inpProductDetailCost').disabled = true;
+                                document.getElementById('inpItemDetailItemCode').disabled = true;
+                                document.getElementById('inpItemDetailItemDescription').disabled = true;
+                                document.getElementById('inpItemDetailPrice').disabled = true;
+                                document.getElementById('inpItemDetailCost').disabled = true;
 
-                                $('#btnProductDetailSave').prop('disabled', true);
-                                $('#btnProductDetailLock').prop('disabled', true);
+                                $('#btnItemDetailSave').prop('disabled', true);
+                                $('#btnItemDetailLock').prop('disabled', true);
 
                                 isLocked = true;
                             } else {
-                                $('#btnProductDetailUnlock').prop('disabled', true);
+                                $('#btnItemDetailUnlock').prop('disabled', true);
                             }
                         } else {
                             alert("No Data");
-                            window.location = "/Software/ProductList";
+                            window.location = "/Software/ItemList";
                         }
                     }
                 });
             } else {
                 alert("No Id Parameter Value");
-                window.location = "/Software/ProductList";
+                window.location = "/Software/ItemList";
             }
         }
 
-        // Product Data Object
-        function productDataObject() {
-            var productObject = new Object();
-            productObject.ProductCode = document.getElementById('inpProductDetailProductCode').value;
-            productObject.ProductDescription = document.getElementById('inpProductDetailProductDescription').value;
-            productObject.Price = document.getElementById('inpProductDetailPrice').value;
-            productObject.Cost = document.getElementById('inpProductDetailCost').value;
-            var data = JSON.stringify(productObject);
+        // Item Data Object
+        function itemDataObject() {
+            var itemObject = new Object();
+            itemObject.ItemCode = document.getElementById('inpItemDetailItemCode').value;
+            itemObject.ItemDescription = document.getElementById('inpItemDetailItemDescription').value;
+            itemObject.Price = document.getElementById('inpItemDetailPrice').value;
+            itemObject.Cost = document.getElementById('inpItemDetailCost').value;
+            var data = JSON.stringify(itemObject);
             return data;
         }
 
-        // Save Product
-        function saveProduct() {
-            document.getElementById('btnProductDetailSave').innerHTML = "💾 Saving...";
-            $('#btnProductDetailSave').prop('disabled', true);
-            $('#btnProductDetailLock').prop('disabled', true);
-            $('#btnProductDetailUnlock').prop('disabled', true);
-            $('#btnProductDetailClose').prop('disabled', true);
+        // Save Item
+        function saveItem() {
+            document.getElementById('btnItemtDetailSave').innerHTML = "💾 Saving...";
+            $('#btnItemDetailSave').prop('disabled', true);
+            $('#btnItemDetailLock').prop('disabled', true);
+            $('#btnItemDetailUnlock').prop('disabled', true);
+            $('#btnItemDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/product/save/' + getURLParameterValue("id"),
+                url: '/api/item/save/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: productDataObject(),
+                data: itemDataObject(),
                 statusCode: {
                     200: function () {
                         toastr.success("Save Successful", "", { positionClass: "toast-bottom-right" });
@@ -212,61 +212,61 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailSave').innerHTML = "💾 Save";
-                        $("#btnProductDetailSave").prop("disabled", false);
+                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
+                        $("#btnItemDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnProductDetailUnlock").prop("disabled", false);
+                            $("#btnItemDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnProductDetailLock").prop("disabled", false);
+                            $("#btnItemDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnProductDetailClose").prop("disabled", false);
+                        $("#btnItemDetailClose").prop("disabled", false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailSave').innerHTML = "💾 Save";
-                        $("#btnProductDetailSave").prop("disabled", false);
+                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
+                        $("#btnItemDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnProductDetailUnlock").prop("disabled", false);
+                            $("#btnItemDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnProductDetailLock").prop("disabled", false);
+                            $("#btnItemDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnProductDetailClose").prop("disabled", false);
+                        $("#btnItemDetailClose").prop("disabled", false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailSave').innerHTML = "💾 Save";
-                        $("#btnProductDetailSave").prop("disabled", false);
+                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
+                        $("#btnItemDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnProductDetailUnlock").prop("disabled", false);
+                            $("#btnItemDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnProductDetailLock").prop("disabled", false);
+                            $("#btnItemDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnProductDetailClose").prop("disabled", false);
+                        $("#btnItemDetailClose").prop("disabled", false);
                     }
                 },
             });
         }
 
-        // Lock Product
-        function lockProduct() {
-            document.getElementById('btnProductDetailLock').innerHTML = "🔒 Locking...";
-            $('#btnProductDetailSave').prop('disabled', true);
-            $('#btnProductDetailLock').prop('disabled', true);
-            $('#btnProductDetailUnlock').prop('disabled', true);
-            $('#btnProductDetailClose').prop('disabled', true);
+        // Lock Item
+        function lockItem() {
+            document.getElementById('btnItemDetailLock').innerHTML = "🔒 Locking...";
+            $('#btnItemDetailSave').prop('disabled', true);
+            $('#btnItemDetailLock').prop('disabled', true);
+            $('#btnItemDetailUnlock').prop('disabled', true);
+            $('#btnItemDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/product/lock/' + getURLParameterValue("id"),
+                url: '/api/item/lock/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: productDataObject(),
+                data: itemDataObject(),
                 statusCode: {
                     200: function () {
                         toastr.success("Lock Successful", "", { positionClass: "toast-bottom-right" });
@@ -276,40 +276,40 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailLock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailLock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailLock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailLock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailLock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailLock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     }
                 },
             });
         }
 
-        // Unlock Product
-        function unlockProduct() {
-            document.getElementById('btnProductDetailUnlock').innerHTML = "🔓 Unlocking...";
-            $('#btnProductDetailSave').prop('disabled', true);
-            $('#btnProductDetailLock').prop('disabled', true);
-            $('#btnProductDetailUnlock').prop('disabled', true);
-            $('#btnProductDetailClose').prop('disabled', true);
+        // Unlock Item
+        function unlockItem() {
+            document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlocking...";
+            $('#btnItemDetailSave').prop('disabled', true);
+            $('#btnItemDetailLock').prop('disabled', true);
+            $('#btnItemDetailUnlock').prop('disabled', true);
+            $('#btnItemDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/product/unlock/' + getURLParameterValue("id"),
+                url: '/api/item/unlock/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 statusCode: {
@@ -321,39 +321,39 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailUnlock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailUnlock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailUnlock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailUnlock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnProductDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnProductDetailSave').prop('disabled', false);
-                        $('#btnProductDetailUnlock').prop('disabled', false);
-                        $('#btnProductDetailClose').prop('disabled', false);
+                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnItemDetailSave').prop('disabled', false);
+                        $('#btnItemDetailUnlock').prop('disabled', false);
+                        $('#btnItemDetailClose').prop('disabled', false);
                     }
                 }
             });
         }
 
-        // Close Product
-        function closeProductDetail() {
-            window.location = '/Software/ProductList';
+        // Close Item
+        function closeItemDetail() {
+            window.location = '/Software/ItemList';
         }
 
         // ============
         // On Load Page
         // ============
         $(document).ready(function () {
-            getProductDetailData();
+            getItemDetailData();
             setTimeout(() => {
                 Loader.hide();
             }, 1000);

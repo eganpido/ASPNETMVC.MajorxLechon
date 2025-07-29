@@ -135,7 +135,7 @@ label {
 body.account-body-custom {
     margin-top: 100px;
     margin-bottom: 100px;
-    background: linear-gradient(#1c6c74, #3f9794);
+    background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
 }
 
 .panel {
