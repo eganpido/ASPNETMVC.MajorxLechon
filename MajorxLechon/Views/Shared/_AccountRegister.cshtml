@@ -1,0 +1,75 @@
+﻿@model salesexpensetracker.Models.RegisterViewModel
+
+<section>
+    <div class="container">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "", role = "form" }))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background-color: #f5f5f5; border-color: #ddd;">
+                    <div class="row">
+                        <div class="col-md-12" align="right">
+                            <button type="submit" class="btn btn-primary">✍️ Register</button>
+                            <a class="btn btn-danger" href="/Software/UserList">🗙 Close</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Fullname</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Fullname" })
+                                        @*@Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Username</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })
+                                        @*@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Password</label>
+                                    <div class="col-sm-8">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                        @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Confirm Password</label>
+                                    <div class="col-sm-8">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                                        @*@Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })*@
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                    <label class="control-label col-sm-4">Captcha</label>
+                                    <div class="col-sm-8">
+                                        <div class="g-recaptcha" style="width: 100%" data-sitekey="6LfCXGcUAAAAAGyq78s9F3iaIqB17cjIrJ5ACxlt"></div>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @ViewBag.StatusMessage
+                            <br />
+                            @*@if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Any()))
+                            {
+                                <div class="alert alert-danger">
+                                    <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    @Html.ValidationMessage("CaptiaError", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("", new { @class = "text-danger" })
+                                </div>
+                            }*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

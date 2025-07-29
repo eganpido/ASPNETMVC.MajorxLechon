@@ -1,0 +1,743 @@
+﻿<!DOCTYPE html>
+<html class="account-html-custom">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="shortcut icon" href="~/Images/icon/liteclerkicon.ico">
+
+    @Styles.Render("~/Content/Home-css")
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_ManageHeader")
+            <section class="content-header">
+                <div class="container">
+                    <h3 style="overflow:inherit">
+                        Settings
+                    </h3>
+                    <p>
+                        <i class="fa fa-building-o fa-fw"></i> &nbsp; @ViewData["Company"] <br />
+                        <i class="fa fa-home fa-fw"></i> &nbsp; <a href="#" onclick="getUserBranches()" style="color: white;">@ViewData["Branch"]</a>
+                    </p>
+                </div>
+            </section>
+            @Html.Partial("_ManageIndex")
+            @Html.Partial("_ManageFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    <!--
+        ====================================
+        Delete All Transaction Confirm Modal
+        ====================================
+    -->
+    <div class="modal fade" id="deleteAllTransactionConfirmModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Trasactions</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete all Trasactions?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="btnConfirmDeleteAllTransaction" onclick="btnConfirmDeleteAllTransactionOnclick()"><i class="fa fa-trash"></i> Delete</button>
+                    <button class="btn btn-primary" id="btnConfirmDeleteAllTransactionCloseModal" data-dismiss="modal"><i class="fa fa-close"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScripts -->
+    @Scripts.Render("~/Scripts/Home-js")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // =================
+        // Is Locked Default
+        // =================
+        var isLocked = true;
+
+        // ================
+        // Assigned Company
+        // ================
+        var cboCurrentUserCompany = new wijmo.input.ComboBox('#cboCurrentUserCompany');
+        var isCboCurrentUserCompanyChanged = false;
+        var cboCurrentUserBranch = new wijmo.input.ComboBox('#cboCurrentUserBranch');
+        var cboCurrentUserBranchSelectedValue = 0;
+
+        // ===============
+        // System Settings
+        // ===============
+        var cboCurrentUserDefaultIncomeAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultIncomeAccount');
+        var cboCurrentUserDefaultSupplierAdvancesAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSupplierAdvancesAccount');
+        var cboCurrentUserDefaultCustomerAdvancesAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultCustomerAdvancesAccount');
+        var cboCurrentUserInventoryType = new wijmo.input.ComboBox('#cboCurrentUserInventoryType');
+        var cboCurrentUserDefaultSupplierReturnAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSupplierReturnAccount');
+        var cboCurrentUserDefaultCustomerReturnAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultCustomerReturnAccount');
+
+        // =========================
+        // Sales Invoice Transaction
+        // =========================
+        var cboCurrentUserDefaultSalesInvoiceDiscount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceDiscount');
+        var cboCurrentUserDefaultSalesInvoiceCheckedBy = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceCheckedBy');
+        var cboCurrentUserDefaultSalesInvoiceApprovededBy = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceApprovededBy');
+
+        // ========================
+        // Create Combo Box Company
+        // ========================
+        function createComboBoxCompany() {
+            var companyObservableArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/manage/current/user/dropdown/list/company',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results.length > 0) {
+                        for (i = 0; i < results.length; i++) {
+                            companyObservableArray.push({
+                                CompanyId: results[i]["CompanyId"],
+                                Company: results[i]["Company"]
+                            });
+                        }
+                    }
+
+                    cboCurrentUserCompany.dispose();
+                    cboCurrentUserCompany = new wijmo.input.ComboBox('#cboCurrentUserCompany', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Select Company",
+                        itemsSource: companyObservableArray,
+                        displayMemberPath: "Company",
+                        selectedValuePath: "CompanyId",
+                        onSelectedIndexChanged: function () {
+                            isCboCurrentUserCompanyChanged = true;
+                            createComboBoxBranch();
+                        }
+                    });
+
+                    createComboBoxBranch();
+                }
+            });
+        }
+
+        // =======================
+        // Create Combo Box Branch
+        // =======================
+        function createComboBoxBranch() {
+            var branchObservableArray = new wijmo.collections.ObservableArray;
+            if (cboCurrentUserCompany.selectedValue != null) {
+                $.ajax({
+                    url: '/api/manage/current/user/dropdown/list/branch/' + cboCurrentUserCompany.selectedValue,
+                    cache: false,
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (results) {
+                        var disabled = true;
+                        if (results.length > 0) {
+                            for (i = 0; i < results.length; i++) {
+                                branchObservableArray.push({
+                                    BranchId: results[i]["BranchId"],
+                                    Branch: results[i]["Branch"]
+                                });
+                            }
+
+                            if (!isLocked) {
+                                disabled = false;
+                            }
+                        }
+
+                        cboCurrentUserBranch.dispose();
+                        cboCurrentUserBranch = new wijmo.input.ComboBox('#cboCurrentUserBranch', {
+                            disabled: disabled,
+                            isEditable: false,
+                            itemsSource: branchObservableArray,
+                            displayMemberPath: "Branch",
+                            selectedValuePath: "BranchId",
+                            selectedValue: cboCurrentUserBranchSelectedValue
+                        });
+
+                        if (!isCboCurrentUserCompanyChanged) {
+                            createComboBoxAccount();
+                        }
+                    }
+                });
+            }
+        }
+
+        // ========================
+        // Create Combo Box Account
+        // ========================
+        function createComboBoxAccount() {
+            var accountObservableArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/manage/current/user/dropdown/list/account',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results.length > 0) {
+                        for (i = 0; i < results.length; i++) {
+                            accountObservableArray.push({
+                                Id: results[i]["Id"],
+                                Account: results[i]["Account"]
+                            });
+                        }
+                    }
+
+                    cboCurrentUserDefaultIncomeAccount.dispose();
+                    cboCurrentUserDefaultIncomeAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultIncomeAccount', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Account",
+                        itemsSource: accountObservableArray,
+                        displayMemberPath: "Account",
+                        selectedValuePath: "Id"
+                    });
+
+                    cboCurrentUserDefaultSupplierAdvancesAccount.dispose();
+                    cboCurrentUserDefaultSupplierAdvancesAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSupplierAdvancesAccount', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Account",
+                        itemsSource: accountObservableArray,
+                        displayMemberPath: "Account",
+                        selectedValuePath: "Id"
+                    });
+
+                    cboCurrentUserDefaultCustomerAdvancesAccount.dispose();
+                    cboCurrentUserDefaultCustomerAdvancesAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultCustomerAdvancesAccount', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Account",
+                        itemsSource: accountObservableArray,
+                        displayMemberPath: "Account",
+                        selectedValuePath: "Id"
+                    });
+
+                    cboCurrentUserDefaultSupplierReturnAccount.dispose();
+                    cboCurrentUserDefaultSupplierReturnAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSupplierReturnAccount', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Account",
+                        itemsSource: accountObservableArray,
+                        displayMemberPath: "Account",
+                        selectedValuePath: "Id"
+                    });
+
+                    cboCurrentUserDefaultCustomerReturnAccount.dispose();
+                    cboCurrentUserDefaultCustomerReturnAccount = new wijmo.input.ComboBox('#cboCurrentUserDefaultCustomerReturnAccount', {
+                        disabled: true,
+                        isEditable: false,
+                        placeholder: "Account",
+                        itemsSource: accountObservableArray,
+                        displayMemberPath: "Account",
+                        selectedValuePath: "Id"
+                    });
+
+                    createComboBoxInventoryType();
+                }
+            });
+        }
+
+        // ===============================
+        // Create Combo Box Inventory Type
+        // ===============================
+        function createComboBoxInventoryType() {
+            var inventoryTypeObservableArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/manage/current/user/dropdown/list/inventoryType',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    var disabled = true;
+                    var isInventoryDisabled = true;
+                    if (results.length > 0) {
+                        for (i = 0; i < results.length; i++) {
+                            isInventoryDisabled = results[0]["IsDisabled"];
+
+                            inventoryTypeObservableArray.push({
+                                InventoryType: results[i]["InventoryType"],
+                                IsDisabled: results[i]["IsDisabled"]
+                            });
+                        }
+                    }
+
+                    if (!isLocked) {
+                        disabled = false;
+
+                        if (isInventoryDisabled) {
+                            disabled = true;
+                        }
+                    }
+
+                    cboCurrentUserInventoryType.dispose();
+                    cboCurrentUserInventoryType = new wijmo.input.ComboBox('#cboCurrentUserInventoryType', {
+                        disabled: disabled,
+                        itemsSource: inventoryTypeObservableArray,
+                        displayMemberPath: "InventoryType",
+                        selectedValuePath: "InventoryType",
+                        placeholder: "Select Inventory Type"
+                    });
+
+                    createComboBoxDiscount();
+                }
+            });
+        }
+
+        // =========================
+        // Create Combo Box Discount
+        // =========================
+        function createComboBoxDiscount() {
+            var discountObservableArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/manage/current/user/dropdown/list/discount',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results.length > 0) {
+                        for (i = 0; i < results.length; i++) {
+                            discountObservableArray.push({
+                                Id: results[i]["Id"],
+                                Discount: results[i]["Discount"]
+                            });
+                        }
+
+                        cboCurrentUserDefaultSalesInvoiceDiscount.dispose();
+                        cboCurrentUserDefaultSalesInvoiceDiscount = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceDiscount', {
+                            disabled: true,
+                            isEditable: false,
+                            placeholder: "Select Discount",
+                            itemsSource: discountObservableArray,
+                            displayMemberPath: "Discount",
+                            selectedValuePath: "Id"
+                        });
+                    }
+
+                    createComboBoxUser();
+                }
+            });
+        }
+
+        // =====================
+        // Create Combo Box User
+        // =====================
+        function createComboBoxUser() {
+            var usersObservableArray = new wijmo.collections.ObservableArray;
+            $.ajax({
+                url: '/api/manage/current/user/users/list',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results.length > 0) {
+                        for (i = 0; i < results.length; i++) {
+                            usersObservableArray.push({
+                                Id: results[i]["Id"],
+                                FullName: results[i]["FullName"]
+                            });
+                        }
+
+                        cboCurrentUserDefaultSalesInvoiceCheckedBy.dispose();
+                        cboCurrentUserDefaultSalesInvoiceCheckedBy = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceCheckedBy', {
+                            disabled: true,
+                            isEditable: false,
+                            placeholder: "Select User",
+                            itemsSource: usersObservableArray,
+                            displayMemberPath: "FullName",
+                            selectedValuePath: "Id"
+                        });
+
+                        cboCurrentUserDefaultSalesInvoiceApprovededBy.dispose();
+                        cboCurrentUserDefaultSalesInvoiceApprovededBy = new wijmo.input.ComboBox('#cboCurrentUserDefaultSalesInvoiceApprovededBy', {
+                            disabled: true,
+                            isEditable: false,
+                            placeholder: "Select User",
+                            itemsSource: usersObservableArray,
+                            displayMemberPath: "FullName",
+                            selectedValuePath: "Id"
+                        });
+                    }
+
+                    getCurrentUserData();
+                }
+            });
+        }
+
+        // =====================
+        // Get Current User Data
+        // =====================
+        function getCurrentUserData() {
+            NProgress.start();
+            $.ajax({
+                url: '/api/manage/current/user/detail',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results != null) {
+                        document.getElementById("inpCurrentUserUsername").value = results.UserName;
+                        document.getElementById("inpCurrentUserFullname").value = results.FullName;
+
+                        cboCurrentUserCompany.selectedValue = results.CompanyId;
+                        cboCurrentUserBranch.selectedValue = results.BranchId;
+                        cboCurrentUserBranchSelectedValue = results.BranchId;
+
+                        cboCurrentUserDefaultIncomeAccount.selectedValue = results.IncomeAccountId;
+                        cboCurrentUserDefaultSupplierAdvancesAccount.selectedValue = results.SupplierAdvancesAccountId;
+                        cboCurrentUserDefaultCustomerAdvancesAccount.selectedValue = results.CustomerAdvancesAccountId;
+                        cboCurrentUserInventoryType.selectedValue = results.InventoryType;
+                        document.getElementById("inpCurrentUserActivateAuditTrail").checked = results.ActivateAuditTrail;
+                        cboCurrentUserDefaultSupplierReturnAccount.selectedValue = results.SupplierReturnAccountId;
+                        cboCurrentUserDefaultCustomerReturnAccount.selectedValue = results.CustomerReturnAccountId;
+
+                        cboCurrentUserDefaultSalesInvoiceDiscount.selectedValue = results.DefaultSalesInvoiceDiscountId;
+                        document.getElementById("inpCurrentUserDefaultSalesInvoiceName").value = results.SalesInvoiceName;
+                        document.getElementById("inpCurrentUserDefaultSalesInvoicePrefix").value = results.SalesInvoicePrefix;
+                        document.getElementById("inpCurrentUserIsStockReportCostIncluded").checked = results.IsIncludeCostStockReports;
+                        document.getElementById("inpCurrentUserIsRRItemBranchIncluded").checked = results.IsIncludeBranchRRItem;
+                        cboCurrentUserDefaultSalesInvoiceCheckedBy.selectedValue = results.SalesInvoiceCheckedById;
+                        cboCurrentUserDefaultSalesInvoiceApprovededBy.selectedValue = results.SalesInvoiceApprovedById;
+                        document.getElementById("inpCurrentUserIsVATAnalysisIncluded").checked = results.IsSIVATAnalysisIncluded;
+                        document.getElementById("inpCurrentUserIsDuplicateDocRefAllowed").checked = results.IsSIDuplicateDocumentReferenceAllowed;
+                        document.getElementById("inpCurrentUserDefaultUsePriceStockTransfer").checked = results.UsePriceStockTransfer;
+
+                        document.getElementById("inpCurrentUserIsPriceBelowCostSellingAllowed").checked = results.IsPriceBelowCostSellingAllowed;
+                        document.getElementById("inpCurrentUserIsNegativeInventorySellingAllowed").checked = results.IsNegativeInventorySellingAllowed;
+
+                        document.getElementById("inpCurrentUserDefaultCollectionOfficialReceiptName").value = results.OfficialReceiptName;
+                        document.getElementById("inpCurrentUserDefaultCollectionOfficialReceiptPrefix").value = results.OfficialReceiptPrefix;
+
+                        document.getElementById("inpCurrentORDuplicateSIReferenceAllowed").checked = results.ORDuplicateSIReferenceAllowed;
+                        document.getElementById("inpCurrentCVDuplicateRRReferenceAllowed").checked = results.CVDuplicateRRReferenceAllowed;
+
+                        document.getElementById("inpIsIncludeTotalQuantityPerUnit").checked = results.IsIncludeTotalQuantityPerUnit;
+                        document.getElementById("inpIsShowItemDescriptionSOA").checked = results.IsShowItemDescriptionSOA;
+                        document.getElementById("inpRestrictItemCategory").checked = results.RestrictItemCategory;
+
+                        NProgress.done();
+                    } else {
+                        confirm("No Data");
+                        window.location = '/Software/Users';
+                    }
+                }
+            });
+        }
+
+        // =================
+        // Lock Current User
+        // =================
+        function btnLockCurrentUserOnclick() {
+            var isValid = true;
+            $('.requiredCurrentUser').each(function () {
+                if ($.trim($(this).val()) == '') { isValid = false; $(this).css({ "border": "1px solid red" }); }
+                else { $(this).css({ "border": "" }); }
+            });
+
+            if (isValid) {
+                document.getElementById('btnLockCurrentUser').innerHTML = "<i class='fa fa-lock'></i> Locking...";
+                $('#btnLockCurrentUser').prop('disabled', true);
+                $('#btnUnlockCurrentUser').prop('disabled', true);
+
+                var userObject = new Object();
+                userObject.FullName = document.getElementById('inpCurrentUserFullname').value;
+                userObject.CompanyId = cboCurrentUserCompany.selectedValue;
+                userObject.BranchId = cboCurrentUserBranch.selectedValue;
+                userObject.IncomeAccountId = cboCurrentUserDefaultIncomeAccount.selectedValue;
+                userObject.SupplierAdvancesAccountId = cboCurrentUserDefaultSupplierAdvancesAccount.selectedValue;
+                userObject.CustomerAdvancesAccountId = cboCurrentUserDefaultCustomerAdvancesAccount.selectedValue;
+                userObject.InventoryType = cboCurrentUserInventoryType.selectedValue;
+                userObject.DefaultSalesInvoiceDiscountId = cboCurrentUserDefaultSalesInvoiceDiscount.selectedValue;
+                userObject.SalesInvoiceName = document.getElementById("inpCurrentUserDefaultSalesInvoiceName").value;
+                userObject.SalesInvoicePrefix = document.getElementById("inpCurrentUserDefaultSalesInvoicePrefix").value;
+                userObject.SalesInvoiceCheckedById = cboCurrentUserDefaultSalesInvoiceCheckedBy.selectedValue;
+                userObject.SalesInvoiceApprovedById = cboCurrentUserDefaultSalesInvoiceApprovededBy.selectedValue;
+                userObject.OfficialReceiptName = document.getElementById("inpCurrentUserDefaultCollectionOfficialReceiptName").value;
+                userObject.OfficialReceiptPrefix = document.getElementById("inpCurrentUserDefaultCollectionOfficialReceiptPrefix").value;
+                userObject.IsIncludeCostStockReports = document.getElementById("inpCurrentUserIsStockReportCostIncluded").checked;
+                userObject.IsIncludeBranchRRItem = document.getElementById("inpCurrentUserIsRRItemBranchIncluded").checked;
+                userObject.ActivateAuditTrail = document.getElementById("inpCurrentUserActivateAuditTrail").checked;
+                userObject.IsIncludeTotalQuantityPerUnit = document.getElementById("inpIsIncludeTotalQuantityPerUnit").checked;
+                userObject.IsSIVATAnalysisIncluded = document.getElementById("inpCurrentUserIsVATAnalysisIncluded").checked;
+                userObject.IsSIDuplicateDocumentReferenceAllowed = document.getElementById("inpCurrentUserIsDuplicateDocRefAllowed").checked;
+                userObject.IsPriceBelowCostSellingAllowed = document.getElementById("inpCurrentUserIsPriceBelowCostSellingAllowed").checked;
+                userObject.IsNegativeInventorySellingAllowed = document.getElementById("inpCurrentUserIsNegativeInventorySellingAllowed").checked;
+                userObject.UsePriceStockTransfer = document.getElementById("inpCurrentUserDefaultUsePriceStockTransfer").checked;
+                userObject.SupplierReturnAccountId = cboCurrentUserDefaultSupplierReturnAccount.selectedValue; 
+                userObject.CustomerReturnAccountId = cboCurrentUserDefaultCustomerReturnAccount.selectedValue;
+                userObject.ORDuplicateSIReferenceAllowed = document.getElementById("inpCurrentORDuplicateSIReferenceAllowed").checked;
+                userObject.CVDuplicateRRReferenceAllowed = document.getElementById("inpCurrentCVDuplicateRRReferenceAllowed").checked;
+                userObject.IsShowItemDescriptionSOA = document.getElementById("inpIsShowItemDescriptionSOA").checked;
+                userObject.RestrictItemCategory = document.getElementById("inpRestrictItemCategory").checked;
+                var data = JSON.stringify(userObject);
+
+                $.ajax({
+                    type: "PUT",
+                    url: '/api/manage/current/user/update',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: data,
+                    statusCode: {
+                        200: function () {
+                            toastr.success("Lock Successful");
+                            window.setTimeout(function () { location.reload() }, 1000);
+                        },
+                        404: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
+                            document.getElementById('btnLockCurrentUser').innerHTML = "<i class='fa fa-lock'></i> Lock";
+                            $('#btnLockCurrentUser').prop('disabled', false);
+                            $('#btnUnlockCurrentUser').prop('disabled', true);
+                        },
+                        400: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400");
+                            document.getElementById('btnLockCurrentUser').innerHTML = "<i class='fa fa-lock'></i> Lock";
+                            $('#btnLockCurrentUser').prop('disabled', false);
+                            $('#btnUnlockCurrentUser').prop('disabled', true);
+                        },
+                        500: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500");
+                            document.getElementById('btnLockCurrentUser').innerHTML = "<i class='fa fa-lock'></i> Lock";
+                            $('#btnLockCurrentUser').prop('disabled', false);
+                            $('#btnUnlockCurrentUser').prop('disabled', true);
+                        }
+                    }
+                });
+            } else {
+                toastr.error("Invalid Entry");
+            }
+        }
+
+        // ===================
+        // Unlock Current User
+        // ===================
+        function btnUnlockCurrentUserOnclick() {
+            isLocked = false;
+
+            document.getElementById('btnUnlockCurrentUser').innerHTML = "<i class='fa fa-unlock'></i> Unlocking...";
+            $('#btnLockCurrentUser').prop('disabled', true);
+            $('#btnUnlockCurrentUser').prop('disabled', true);
+
+            isSaved = false;
+            document.getElementById('inpCurrentUserFullname').disabled = false;
+
+            cboCurrentUserCompany.disabled = false;
+            cboCurrentUserBranch.disabled = false;
+
+            cboCurrentUserDefaultIncomeAccount.disabled = false;
+            cboCurrentUserDefaultSupplierAdvancesAccount.disabled = false;
+            cboCurrentUserDefaultCustomerAdvancesAccount.disabled = false;
+            if (!cboCurrentUserInventoryType.selectedItem["IsDisabled"]) { cboCurrentUserInventoryType.disabled = false; }
+            document.getElementById('inpCurrentUserActivateAuditTrail').disabled = false;
+            document.getElementById('inpIsIncludeTotalQuantityPerUnit').disabled = false;
+            document.getElementById('inpCurrentUserIsStockReportCostIncluded').disabled = false;
+            document.getElementById('inpCurrentUserIsRRItemBranchIncluded').disabled = false;
+            document.getElementById('inpCurrentUserDefaultCollectionOfficialReceiptName').disabled = false;
+            document.getElementById('inpCurrentUserDefaultCollectionOfficialReceiptPrefix').disabled = false;
+            cboCurrentUserDefaultSupplierReturnAccount.disabled = false;
+            cboCurrentUserDefaultCustomerReturnAccount.disabled = false;
+
+            document.getElementById('inpCurrentUserDefaultSalesInvoiceName').disabled = false;
+            document.getElementById('inpCurrentUserDefaultSalesInvoicePrefix').disabled = false;
+            cboCurrentUserDefaultSalesInvoiceDiscount.disabled = false;
+            cboCurrentUserDefaultSalesInvoiceCheckedBy.disabled = false;
+            cboCurrentUserDefaultSalesInvoiceApprovededBy.disabled = false;
+            document.getElementById('inpCurrentUserIsVATAnalysisIncluded').disabled = false;
+            document.getElementById('inpCurrentUserIsDuplicateDocRefAllowed').disabled = false;
+            document.getElementById('inpCurrentUserDefaultUsePriceStockTransfer').disabled = false;
+
+            document.getElementById('inpCurrentUserIsPriceBelowCostSellingAllowed').disabled = false;
+            document.getElementById('inpCurrentUserIsNegativeInventorySellingAllowed').disabled = false;
+
+            document.getElementById('inpCurrentORDuplicateSIReferenceAllowed').disabled = false;
+            document.getElementById('inpCurrentCVDuplicateRRReferenceAllowed').disabled = false;
+
+            document.getElementById('inpIsShowItemDescriptionSOA').disabled = false;
+            document.getElementById('inpRestrictItemCategory').disabled = false;
+
+            window.setTimeout(function () {
+                toastr.success("Unlock Successful");
+
+                document.getElementById('btnUnlockCurrentUser').innerHTML = "<i class='fa fa-unlock'></i> Unlock";
+                $('#btnLockCurrentUser').prop('disabled', false);
+                $('#btnUnlockCurrentUser').prop('disabled', true);
+            }, 500);
+        }
+
+        // ======================
+        // Delete All Transaction
+        // ======================
+        function btnDeleteAllTransactionOnclick() {
+            $('#deleteAllTransactionConfirmModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+        }
+
+        // ==============================
+        // Confirm Delete All Transaction
+        // ==============================
+        function btnConfirmDeleteAllTransactionOnclick() {
+            document.getElementById('btnConfirmDeleteAllTransaction').innerHTML = "<i class='fa fa-trash'></i> Deleting...";
+            $("#btnConfirmDeleteAllTransaction").prop("disabled", true);
+            $("#btnConfirmDeleteAllTransactionCloseModal").prop("disabled", true);
+
+            $.ajax({
+                url: '/api/utilities/delete/allTransactions',
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Delete Successful.");
+                        window.setTimeout(function () { location.reload() }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
+                        document.getElementById('btnConfirmDeleteAllTransaction').innerHTML = "<i class='fa fa-trash'></i> Delete";
+                        $("#btnConfirmDeleteAllTransaction").prop("disabled", false);
+                        $("#btnConfirmDeleteAllTransactionCloseModal").prop("disabled", false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400");
+                        document.getElementById('btnConfirmDeleteAllTransaction').innerHTML = "<i class='fa fa-trash'></i> Delete";
+                        $("#btnConfirmDeleteAllTransaction").prop("disabled", false);
+                        $("#btnConfirmDeleteAllTransactionCloseModal").prop("disabled", false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500");
+                        document.getElementById('btnConfirmDeleteAllTransaction').innerHTML = "<i class='fa fa-trash'></i> Delete";
+                        $("#btnConfirmDeleteAllTransaction").prop("disabled", false);
+                        $("#btnConfirmDeleteAllTransactionCloseModal").prop("disabled", false);
+                    }
+                }
+            });
+        }
+
+        // ============
+        // On Load Page
+        // ============
+        $(document).ready(function () {
+            createComboBoxCompany();
+        });
+    </script>
+    <script type="text/javascript">
+        // =================
+        // User Branch Combo
+        // =================
+        var cboUserBranches = new wijmo.input.ComboBox('#cboUserBranches');
+
+        // =========================
+        // Get Current User Branches
+        // =========================
+        function getUserBranches() {
+            $("#loadingUserBranches").show();
+            document.getElementById("loadingUserBranches").innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+            $("#userBranchContent").hide();
+
+            $('#userBranchesModal').modal({ show: true, backdrop: 'static' });
+
+            document.getElementById('updateUserBranch').innerHTML = "<i class='fa fa-save fa-fw'></i> Update";
+            $("#updateUserBranch").prop("disabled", false);
+            $("#closeUserBranch").prop("disabled", false);
+
+            var userBranchesObservableArray = new wijmo.collections.ObservableArray();
+            $.ajax({
+                url: '/api/userBranch/list',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (userBranchesResults) {
+                    if (userBranchesResults.length > 0) {
+                        for (i = 0; i < userBranchesResults.length; i++) {
+                            userBranchesObservableArray.push({
+                                BranchId: userBranchesResults[i]["BranchId"],
+                                Branch: userBranchesResults[i]["Branch"]
+                            });
+                        }
+                    }
+
+                    var currentBranch = "@ViewData["BranchId"]";
+                    cboUserBranches.dispose();
+                    cboUserBranches = new wijmo.input.ComboBox('#cboUserBranches', {
+                        isEditable: false,
+                        placeholder: "Select Branches",
+                        itemsSource: userBranchesObservableArray,
+                        displayMemberPath: "Branch",
+                        selectedValuePath: "BranchId",
+                        selectedValue: currentBranch
+                    });
+
+                    setTimeout(function () {
+                        $("#loadingUserBranches").hide();
+                        $("#userBranchContent").show();
+                    }, 500)
+                }
+            });
+        }
+
+        // ==========================
+        // Update Current User Branch
+        // ==========================
+        function updateUserBranchOnclick() {
+            document.getElementById('updateUserBranch').innerHTML = "<i class='fa fa-spinner fa-spin'></i> Updating";
+            $("#updateUserBranch").prop("disabled", true);
+            $("#closeUserBranch").prop("disabled", true);
+
+            var userBranchObject = new Object();
+            userBranchObject.BranchId = cboUserBranches.selectedValue;
+            var userBranchData = JSON.stringify(userBranchObject);
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/userBranch/update',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: userBranchData,
+                statusCode: {
+                    200: function () {
+                        toastr.success("Update Successful");
+                        window.setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    },
+                    404: function () {
+                        toastr.error("Not Found");
+                        document.getElementById('updateUserBranch').innerHTML = "<i class='fa fa-save fa-fw'></i> Update";
+                        $("#updateUserBranch").prop("disabled", false);
+                        $("#closeUserBranch").prop("disabled", false);
+                    },
+                    500: function () {
+                        toastr.error("Bad Request");
+                        document.getElementById('updateUserBranch').innerHTML = "<i class='fa fa-save fa-fw'></i> Update";
+                        $("#updateUserBranch").prop("disabled", false);
+                        $("#closeUserBranch").prop("disabled", false);
+                    }
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        // ======================
+        // Side Bar Menu Settings
+        // ======================
+        var slideLeft = new Menu({
+            wrapper: '#o-wrapper',
+            type: 'slide-left',
+            menuOpenerClass: '.c-button',
+            maskId: '#c-mask'
+        });
+
+        var slideLeftBtn = document.querySelector('#c-button--slide-left');
+
+        slideLeftBtn.addEventListener('click', function (e) {
+            e.preventDefault;
+            slideLeft.open();
+        });
+    </script>
+</body>
+</html>

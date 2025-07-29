@@ -1,0 +1,343 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+
+@if (Request.IsAuthenticated)
+{
+    <!--
+        ===============
+        Control Buttons
+        ===============
+    -->
+    <section class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-success" onclick="window.location.href = '/Manage/ChangePassword'"><i class="fa fa-edit"></i> Change Password</button>
+                    </div>
+                    <div class="col-md-8" align="right">
+                        <button class="btn btn-primary" onclick="btnLockCurrentUserOnclick()" id="btnLockCurrentUser" disabled><i class="fa fa-lock"></i> Lock</button>
+                        <button class="btn btn-primary" onclick="btnUnlockCurrentUserOnclick()" id="btnUnlockCurrentUser"><i class="fa fa-unlock"></i> Unlock</button>
+                        <button class="btn btn-danger" onclick="window.location.href = '/Software'"><i class="fa fa-close"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <!--
+                    ============
+                    Current User
+                    ============
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Current User
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Username</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserUsername" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Fullname</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserFullname" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    ================
+                    Assigned Company
+                    ================
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Assigned Company
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Company</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserCompany"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Branch</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserBranch"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    ======
+                    System
+                    ======
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        System
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Net Income Account</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserDefaultIncomeAccount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Supplier Advances Account</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserDefaultSupplierAdvancesAccount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Customer Advances Account</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserDefaultCustomerAdvancesAccount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Inventory Type</label>
+                                <div class="col-sm-7">
+                                    <div id="cboCurrentUserInventoryType"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Show Cost in Stock Reports</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsStockReportCostIncluded" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Show Branch in RR Item</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsRRItemBranchIncluded" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Activate Audit Trail</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserActivateAuditTrail" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Supplier Return Account</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserDefaultSupplierReturnAccount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Customer Return Account</label>
+                                <div class="col-sm-7">
+                                    <div class="comboBox-wide" id="cboCurrentUserDefaultCustomerReturnAccount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Show Total Qty. Per Unit</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpIsIncludeTotalQuantityPerUnit" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Show Item Description in SOA</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpIsShowItemDescriptionSOA" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Restrict Item Category</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpRestrictItemCategory" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                <!--
+                    =================
+                    Sales Transaction
+                    =================
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Sales
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Sales Invoice Name</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserDefaultSalesInvoiceName" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Sales Invoice Prefix</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserDefaultSalesInvoicePrefix" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Discount</label>
+                                <div class="col-sm-7">
+                                    <div id="cboCurrentUserDefaultSalesInvoiceDiscount"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Checked By</label>
+                                <div class="col-sm-7">
+                                    <div id="cboCurrentUserDefaultSalesInvoiceCheckedBy"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Approved By</label>
+                                <div class="col-sm-7">
+                                    <div id="cboCurrentUserDefaultSalesInvoiceApprovededBy"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Show VAT Analysis</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsVATAnalysisIncluded" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Duplicate Doc. Ref.</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsDuplicateDocRefAllowed" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Price Below Cost Selling</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsPriceBelowCostSellingAllowed" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Allow negative inventory </label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserIsNegativeInventorySellingAllowed" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    ========================
+                    Disbursement Transaction
+                    ========================
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Disbursement
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Duplicate RR Ref.</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentCVDuplicateRRReferenceAllowed" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    ======================
+                    Collection Transaction
+                    ======================
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Collection
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Official Receipt Name</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserDefaultCollectionOfficialReceiptName" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Official Receipt Prefix</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control requiredCurrentUser" id="inpCurrentUserDefaultCollectionOfficialReceiptPrefix" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Duplicate SI Ref.</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentORDuplicateSIReferenceAllowed" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    ==========================
+                    Stock Transfer Transaction
+                    ==========================
+                -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Stock Transfer
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5">Use Price</label>
+                                <div class="col-sm-7">
+                                    <input type="checkbox" id="inpCurrentUserDefaultUsePriceStockTransfer" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--
+                    =======================
+                    Delete All Transcations
+                    =======================
+                -->
+                @{
+                    if (ViewData["UserName"].Equals("admin"))
+                    {
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                Archive
+                            </div>
+                            <div class="panel-body" align="right">
+                                <button class="btn btn-danger" id="btnDeleteAllTransaction" onclick="btnDeleteAllTransactionOnclick()"><i class="fa fa-trash"></i> Delete All Transaction</button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section>
+        @{ Response.Redirect("~/Account/Login");}
+    </section>
+}

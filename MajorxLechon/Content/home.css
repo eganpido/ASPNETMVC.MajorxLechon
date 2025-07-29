@@ -1,0 +1,1262 @@
+@font-face {
+    font-family: "CurrentFont";
+    src: url("/fonts/SegoeUI.woff") format("woff2"), url("/fonts/Segoe UI.ttf") format("truetype");
+}
+
+body.loginPage {
+    padding-top: 20px;
+}
+
+body {
+    font-family: CurrentFont;
+    margin-bottom: 150px;
+    color: #333;
+}
+
+#gmap_canvas img {
+    max-width: none !important;
+    background: none !important;
+}
+
+html.home-html-height,
+body.home-body-height {
+    height: 100%;
+}
+
+html.account-html-custom {
+    position: relative;
+    min-height: 100%;
+}
+
+body.account-body-custom {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(../images/coverImages/header.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+hr {
+    border-width: 3px;
+}
+
+    hr.light {
+        border-color: #fff;
+    }
+
+p {
+    font-size: 17px;
+}
+
+section.aboutSection {
+    padding: 60px 0;
+}
+
+/*.carousel {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}*/
+
+.filter {
+    opacity: 0.6;
+}
+
+    .filter:hover {
+        opacity: 1;
+        transition: all 0.2s;
+    }
+
+.navbar-default {
+    border-color: rgba(34,34,34,.05);
+    font-family: CurrentFont;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+    box-shadow: 0px 0px 5px 1px;
+    border-bottom: 0px !important;
+    background-color: #D3D3D3;
+}
+
+.navbar-brand > img {
+    margin-top: 5px;
+    height: 25px;
+}
+
+.navbar-default .navbar-header .navbar-brand {
+    font-family: CurrentFont;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar-default .nav > li > a {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0090B5;
+}
+
+    .navbar-default .nav > li > a:hover {
+        background-color: #e1e1e1;
+    }
+
+.navbar-default .navbar-toggle {
+    border-color: #112540;
+    background-color: #112540;
+}
+
+    .navbar-default .navbar-toggle:focus,
+    .navbar-default .navbar-toggle:hover {
+        border-color: #112540;
+        background-color: #112540;
+    }
+
+    .navbar-default .navbar-toggle .icon-bar {
+        background-color: #ffffff;
+    }
+
+    .navbar-default .navbar-toggle:hover .icon-bar {
+        background-color: #ffffff;
+    }
+
+.btn-lg-i {
+    padding: 10px 16px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+
+.btn-success-i {
+    color: #fff;
+    background-color: #0090B5;
+    border-color: #0090B5;
+}
+
+.btn-i {
+    display: inline-block;
+    padding: 20px 80px 20px 80px;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+/*header.homeHeader {
+    width: 100%;
+}
+
+.home-header-img {
+    width: 100%;
+}
+
+@media (max-width:768px) {
+    header.homeHeader {
+        margin-top: 45px;
+        width: 100%;
+    }
+}*/
+
+.btn-xl {
+    padding: 20px 30px;
+}
+
+.footer-custom {
+    background-color: #2B2B2B;
+    padding: 20px;
+    color: #383838;
+}
+
+.footer-custom-userAuthentication {
+    background-color: #2B2B2B;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+}
+
+.section-pad-tutorial {
+    background: #242424;
+    color: white;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.contact-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    /*background-color: #112540;*/
+    background: #242424;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.section-pad-a {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    background-color: #E9E8E8;
+}
+
+.feature-item {
+    font-style: normal;
+    color: #656565;
+}
+
+.section-pad-b {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.manageDivider {
+    border-bottom: 1px solid #c6c6c6;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.nav-tabs {
+    background-color: #f5f5f5;
+    border-bottom: 4px solid #337ab7;
+    border-radius: 3px;
+}
+
+    .nav-tabs > li {
+        border: 0px;
+    }
+
+        .nav-tabs > li > a:hover {
+            color: #75a7d2;
+            border-color: transparent;
+            background-color: transparent;
+        }
+
+        .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:focus,
+        .nav-tabs > li.active > a:hover {
+            background-color: #337ab7 !important;
+            border-top-width: 0px;
+            border-right-width: 0px;
+            border-left-width: 0px;
+            color: #fff;
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+
+.pill-custom {
+    background-color: #f5f5f5;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+    .pill-custom > li > a:hover {
+        color: #75a7d2;
+        border-color: transparent;
+        background-color: transparent;
+    }
+
+dt {
+    margin-top: 4px;
+}
+
+dd {
+    margin-bottom: 9px;
+}
+
+.secStyle {
+    background-color: #ecf0f5;
+}
+
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+    .box.box-primary {
+        border-top-color: #3c8dbc;
+    }
+
+    .box.box-info {
+        border-top-color: #00c0ef;
+    }
+
+    .box.box-danger {
+        border-top-color: #dd4b39;
+    }
+
+    .box.box-warning {
+        border-top-color: #f39c12;
+    }
+
+    .box.box-success {
+        border-top-color: #00a65a;
+    }
+
+    .box.box-default {
+        border-top-color: #d2d6de;
+    }
+
+.box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+/*.modal-header {
+    background-color: #f2f2f2;
+    box-shadow: 0px 4px 10px -8px #000;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}*/
+
+.popover-ol {
+    display: block;
+    padding-left: 15px;
+}
+
+    .popover-ol > li {
+        padding-top: 10px;
+    }
+
+.panel-theme {
+    background-color: #112540;
+    color: #ffffff;
+    font-weight: bold;
+    transition: all 0.1s ease;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.panel-theme-red {
+    background-color: #950f10;
+    color: #ffffff;
+    font-weight: bold;
+    transition: all 0.1s ease;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.launchSoftware {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* custom */
+input[type="text"] {
+    color: #000;
+}
+
+textarea.form-control {
+    /*color: #000;*/
+}
+
+.wj-dropdown {
+    color: #000;
+    padding-left: 3px;
+    display: block;
+    width: 100%;
+    height: 34px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.wj-control[disabled] {
+    color: #000;
+    opacity: 10;
+}
+
+a {
+    color: #3c8dbc;
+}
+
+    a:hover,
+    a:active,
+    a:focus {
+        outline: none;
+        text-decoration: none;
+    }
+
+.image-custom {
+    text-align: center;
+    background: #f2f2f2;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+    .image-custom > #photoDiv > images > .img-custom-div {
+        height: 50px;
+    }
+
+.content-header {
+    position: relative;
+    padding-top: 47px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(../images/coverImages/header.jpg) no-repeat center center;
+    background-size: cover;
+    border-bottom: 5px solid #0090b5;
+}
+
+    .content-header > .container > h3 {
+        color: #ffffff;
+        font-size: 27px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: CurrentFont;
+        font-weight: bold;
+        /*text-transform: uppercase;*/
+        width: 60%;
+    }
+
+    .content-header > .container > p {
+        color: #f5f5f5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-transform: initial;
+        font-family: CurrentFont;
+        text-transform: initial;
+        font-size: initial;
+        width: 60%;
+    }
+
+@media screen and (max-width: 991px) {
+
+    .content-header {
+        padding-top: 50px;
+        padding-bottom: 10px;
+    }
+
+        .content-header > .container > h3 {
+            color: #ffffff;
+            font-size: 25px;
+            width: 100%;
+        }
+
+        .content-header > .container > p {
+            color: white;
+            font-size: 13px;
+            width: 100%;
+        }
+
+
+    @media screen and (max-width: 767px) {
+    }
+}
+
+.o-wrapper {
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+/* -----------------------------------------------------------------------------
+
+  CONTAINER OBJECTS
+  
+----------------------------------------------------------------------------- */
+.o-container {
+    margin: 0 auto;
+    padding: 0 12px;
+    max-width: 960px;
+}
+
+@media all and (min-width: 480px) {
+    .o-container {
+        padding: 0 24px;
+    }
+}
+
+@media all and (min-width: 720px) {
+    .o-container {
+        padding: 0 48px;
+    }
+}
+/* -----------------------------------------------------------------------------
+
+  HEADER OBJECT
+  
+----------------------------------------------------------------------------- */
+.o-header {
+    margin: 0;
+    padding: 0;
+}
+
+.o-header-nav {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    background-color: #67b5d1;
+}
+
+.o-header-nav__link {
+    padding: 12px;
+    color: #fff;
+}
+
+    .o-header-nav__link:hover {
+        color: #fff;
+        background-color: #3184a1;
+    }
+
+.o-header__title {
+    margin: 24px;
+    padding: 0;
+    color: #818181;
+    font-size: 28px;
+    font-weight: 300;
+    text-align: center;
+}
+
+@media all and (min-width: 480px) {
+    .o-header__title {
+        margin: 36px;
+        font-size: 42px;
+    }
+}
+/* -----------------------------------------------------------------------------
+
+  MAIN OBJECT
+  
+----------------------------------------------------------------------------- */
+.o-main {
+    /**/
+}
+
+/* -----------------------------------------------------------------------------
+
+  SUB-NAVIGATION OBJECT
+  
+----------------------------------------------------------------------------- */
+.o-sub-nav {
+    margin: 0 0 24px 0;
+    padding: 0;
+}
+
+.o-sub-nav__items {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.o-sub-nav__item {
+    margin: 0;
+    padding: 4px;
+}
+
+.o-sub-nav__link {
+    display: block;
+    margin: 0;
+    padding: 4px 24px;
+    border: solid 2px #67b5d1;
+}
+
+    .o-sub-nav__link:hover,
+    .o-sub-nav__item.active .o-sub-nav__link {
+        color: #fff;
+        background-color: #67b5d1;
+    }
+
+@media all and (min-width: 720px) {
+    .o-sub-nav {
+        margin: 0 0 48px 0;
+    }
+}
+/* -----------------------------------------------------------------------------
+
+  FOOTER OBJECT
+  
+----------------------------------------------------------------------------- */
+.o-footer {
+    padding: 12px 0;
+    text-align: center;
+}
+
+@media all and (min-width: 480px) {
+    .o-footer {
+        padding: 24px 0;
+    }
+}
+
+@media all and (min-width: 720px) {
+    .o-footer {
+        padding: 48px 0;
+    }
+}
+/* -----------------------------------------------------------------------------
+
+  SLIDE AND PUSH MENUS COMPONENT
+  
+----------------------------------------------------------------------------- */
+/**
+ * Menu overview.
+ */
+.c-menu {
+    position: fixed;
+    z-index: 200;
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(../images/coverImages/templateHeader.jpg) no-repeat center center;
+    background-size: cover;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+
+.c-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**
+ * Left and right menus
+ *
+ * Slide and push menus coming in from the left and right inherit a lot of
+ * common styles. We'll start each of them off by doing up the common styles
+ * for each version, followed by individual styles.
+ *
+ * The various versions are governed by modifier classes.
+ */
+/**
+ * Common modifiers for left/right menus.
+ */
+.c-menu--slide-left,
+.c-menu--slide-right,
+.c-menu--push-left,
+.c-menu--push-right {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+@media all and (min-width: 320px) {
+    .c-menu--slide-left,
+    .c-menu--slide-right,
+    .c-menu--push-left,
+    .c-menu--push-right {
+        width: 300px;
+    }
+}
+
+.c-menu--slide-left .c-menu__item,
+.c-menu--slide-right .c-menu__item,
+.c-menu--push-left .c-menu__item,
+.c-menu--push-right .c-menu__item {
+    display: block;
+    text-align: center;
+    border-top: solid 1px #b5dbe9;
+    border-bottom: solid 1px #3184a1;
+}
+
+    .c-menu--slide-left .c-menu__item:first-child,
+    .c-menu--slide-right .c-menu__item:first-child,
+    .c-menu--push-left .c-menu__item:first-child,
+    .c-menu--push-right .c-menu__item:first-child {
+        border-top: none;
+    }
+
+    .c-menu--slide-left .c-menu__item:last-child,
+    .c-menu--slide-right .c-menu__item:last-child,
+    .c-menu--push-left .c-menu__item:last-child,
+    .c-menu--push-right .c-menu__item:last-child {
+        border-bottom: none;
+    }
+
+.c-menu--slide-left .c-menu__link,
+.c-menu--slide-right .c-menu__link,
+.c-menu--push-left .c-menu__link,
+.c-menu--push-right .c-menu__link {
+    display: block;
+    padding: 12px 24px;
+    color: #fff;
+}
+
+/*.c-menu--slide-left .c-menu__close,
+.c-menu--slide-right .c-menu__close,
+.c-menu--push-left .c-menu__close,
+.c-menu--push-right .c-menu__close {
+    display: block;
+    padding: 15px 15px;
+    width: 100%;
+}*/
+
+/**
+ * Slide/Push Menu Left.
+ */
+.c-menu--slide-left,
+.c-menu--push-left {
+    padding-top: 51px;
+    top: 0;
+    left: 0;
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+@media all and (min-width: 320px) {
+    .c-menu--slide-left,
+    .c-menu--push-left {
+        -webkit-transform: translateX(-300px);
+        -ms-transform: translateX(-300px);
+        transform: translateX(-300px);
+    }
+}
+
+.c-menu--slide-left.is-active,
+.c-menu--push-left.is-active {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+}
+
+/**
+ * Slide/Push Menu Right.
+ */
+.c-menu--slide-right,
+.c-menu--push-right {
+    top: 0;
+    right: 0;
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+@media all and (min-width: 320px) {
+    .c-menu--slide-right,
+    .c-menu--push-right {
+        -webkit-transform: translateX(300px);
+        -ms-transform: translateX(300px);
+        transform: translateX(300px);
+    }
+}
+
+.c-menu--slide-right.is-active,
+.c-menu--push-right.is-active {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+}
+
+/**
+ * Top and bottom menus
+ *
+ * Slide and push menus coming in from the top and bottom inherit a lot of
+ * common styles. We'll start each of them off by doing up the common styles
+ * for each version, followed by individual styles.
+ *
+ * The various versions are governed by modifier classes.
+
+/**
+ * Common modifiers for top/bottom menus
+ */
+.c-menu--slide-top,
+.c-menu--slide-bottom,
+.c-menu--push-top,
+.c-menu--push-bottom {
+    vertical-align: middle;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    overflow-x: scroll;
+}
+
+    .c-menu--slide-top .c-menu__items,
+    .c-menu--slide-bottom .c-menu__items,
+    .c-menu--push-top .c-menu__items,
+    .c-menu--push-bottom .c-menu__items {
+        display: inline-block;
+        text-align: center;
+    }
+
+    .c-menu--slide-top .c-menu__item,
+    .c-menu--slide-bottom .c-menu__item,
+    .c-menu--push-top .c-menu__item,
+    .c-menu--push-bottom .c-menu__item {
+        display: inline-block;
+        line-height: 60px;
+    }
+
+    .c-menu--slide-top .c-menu__link,
+    .c-menu--slide-bottom .c-menu__link,
+    .c-menu--push-top .c-menu__link,
+    .c-menu--push-bottom .c-menu__link {
+        display: block;
+        padding: 0 4px;
+        color: #fff;
+    }
+
+/*.c-menu--slide-top .c-menu__close,
+    .c-menu--slide-bottom .c-menu__close,
+    .c-menu--push-top .c-menu__close,
+    .c-menu--push-bottom .c-menu__close {
+        display: inline-block;
+        margin-right: 12px;
+        padding: 0 24px;
+        height: 60px;
+        line-height: 60px;
+    }*/
+
+/**
+ * Slide/Push Menu Top.
+ */
+.c-menu--slide-top,
+.c-menu--push-top {
+    top: 0;
+    left: 0;
+    -webkit-transform: translateY(-60px);
+    -ms-transform: translateY(-60px);
+    transform: translateY(-60px);
+}
+
+    .c-menu--slide-top.is-active,
+    .c-menu--push-top.is-active {
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+/**
+ * Slide/Push Menu Bottom.
+ */
+.c-menu--slide-bottom,
+.c-menu--push-bottom {
+    bottom: 0;
+    left: 0;
+    -webkit-transform: translateY(60px);
+    -ms-transform: translateY(60px);
+    transform: translateY(60px);
+}
+
+    .c-menu--slide-bottom.is-active,
+    .c-menu--push-bottom.is-active {
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+/**
+ * Wrapper states.
+ *
+ * Various wrapper states occur depending on if a menu is pushing into view, in
+ * which case, the wrapper has to be pushed by the respective distance.
+ */
+.o-wrapper.has-push-left {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+@media all and (min-width: 320px) {
+    .o-wrapper.has-push-left {
+        -webkit-transform: translateX(300px);
+        -ms-transform: translateX(300px);
+        transform: translateX(300px);
+    }
+}
+
+.o-wrapper.has-push-right {
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+@media all and (min-width: 320px) {
+    .o-wrapper.has-push-right {
+        -webkit-transform: translateX(-300px);
+        -ms-transform: translateX(-300px);
+        transform: translateX(-300px);
+    }
+}
+
+.o-wrapper.has-push-top {
+    -webkit-transform: translateY(60px);
+    -ms-transform: translateY(60px);
+    transform: translateY(60px);
+}
+
+.o-wrapper.has-push-bottom {
+    -webkit-transform: translateY(-60px);
+    -ms-transform: translateY(-60px);
+    transform: translateY(-60px);
+}
+
+/**
+ * Body states.
+ *
+ * When a menu is active, we want to hide the overflows on the body to prevent
+ * awkward document scrolling.
+ */
+body.has-active-menu {
+    overflow: hidden;
+}
+
+/**
+ * Close button resets.
+ */
+/*.c-menu__close {
+    color: #fff;
+    background-color: #3184a1;
+    font-size: 14px;
+    border: none;
+    box-shadow: none;
+    border-radius: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+}*/
+
+/*.c-menu__close:focus {
+        outline: none;
+    }*/
+
+/* -----------------------------------------------------------------------------
+
+  MASK COMPONENT
+  
+----------------------------------------------------------------------------- */
+.c-mask {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    background-color: #000;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s, width 0s 0.3s, height 0s 0.3s;
+    transition: opacity 0.3s, width 0s 0.3s, height 0s 0.3s;
+}
+
+    .c-mask.is-active {
+        width: 100%;
+        height: 100%;
+        opacity: 0.7;
+        -webkit-transition: opacity 0.3s;
+        transition: opacity 0.3s;
+    }
+
+/* -----------------------------------------------------------------------------
+
+  BUTTONS
+  
+----------------------------------------------------------------------------- */
+.c-buttons {
+    margin-bottom: 48px;
+    text-align: center;
+}
+
+.c-button {
+    display: inline-block;
+    margin: 4px;
+    padding: 12px 24px;
+    color: #67b5d1;
+    background: none;
+    font-size: 14px;
+    border: solid 2px #67b5d1;
+    box-shadow: none;
+    border-radius: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+    .c-button:focus {
+        outline: none;
+    }
+
+    .c-button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
+
+/* -----------------------------------------------------------------------------
+
+  CARBON AD COMPONENT
+  
+----------------------------------------------------------------------------- */
+#carbonads {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    z-index: 1000;
+    padding: 24px 12px 12px 12px;
+    width: 154px;
+    background-color: #fff;
+    line-height: 1.1;
+    border: solid 1px #e7e7e7;
+}
+
+.carbon-wrap {
+    display: block;
+    margin: 0 0 4px 0;
+}
+
+.carbon-img {
+    display: block;
+    margin: 0 0 4px 0;
+    padding: 0;
+    width: 130px;
+    height: 100px;
+}
+
+.carbon-text {
+    color: #818181;
+    font-size: 12px;
+}
+
+.carbon-poweredby {
+    font-size: 10px;
+    font-style: italic;
+}
+
+.carbonad__close {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 12px;
+    height: 24px;
+    font-size: 11px;
+    line-height: 24px;
+}
+
+@media all and (max-width: 660px) {
+    #carbonads {
+        display: none;
+    }
+}
+
+.panel-group-menu > .panel-side {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+}
+
+.panel-side > .panel-heading-menu {
+    background-color: transparent;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+    .panel-side > .panel-heading-menu > .panel-link-menu > .panel-title {
+        background-color: #323232;
+        color: white;
+        padding: 15px 20px 15px 20px;
+        border-left: 5px solid #323232;
+    }
+
+        .panel-side > .panel-heading-menu > .panel-link-menu > .panel-title:hover {
+            background-color: #7a0400;
+            border-left: 5px solid #a19b9b;
+        }
+
+
+    .panel-side > .panel-heading-menu > .panel-link-menu {
+        width: 100%;
+    }
+
+.panel-side > .panel-collapse-menu {
+    border-top: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .panel-side > .panel-collapse-menu > .panel-body {
+        padding: 0;
+        margin: 0;
+        border: none;
+    }
+
+        .panel-side > .panel-collapse-menu > .panel-body > ul {
+            list-style: none;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+            .panel-side > .panel-collapse-menu > .panel-body > ul > li {
+                color: white;
+            }
+
+                .panel-side > .panel-collapse-menu > .panel-body > ul > li > a {
+                    padding: 10px 10px 10px 50px;
+                    color: white;
+                    display: block;
+                }
+
+                    .panel-side > .panel-collapse-menu > .panel-body > ul > li > a:hover {
+                        color: white;
+                        background-color: #112540;
+                        margin: 0;
+                    }
+
+.btn-menu-link {
+    border: none;
+    background-color: transparent;
+    height: 51px;
+    padding-left: 13px;
+    padding-right: 13px;
+    text-align: left;
+    float: left;
+}
+
+    .btn-menu-link:hover {
+        background-color: #d7d7d7;
+    }
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #0090B5;
+    font-size: 16px;
+}
+
+.svg-icon-style {
+    height: 75px;
+    margin-top: 2px;
+}
+
+.svg-icon-style-side-menu {
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.svg-icon-style-side-menu-BIR {
+    height: 20px;
+    margin-bottom: 3px;
+}
+
+.c-menu--slide-left::-webkit-scrollbar {
+    width: 10px;
+    background-color: #ffffff;
+    opacity: 0.75;
+    transition: 1s all;
+}
+
+.c-menu--slide-left::-webkit-scrollbar-thumb {
+    background-color: #8f8f8f;
+    opacity: 0.5;
+    transition: 1s all;
+}
+
+@media (min-width: 768px) {
+    .modal-xl {
+        width: 85%;
+        max-width: 1200px;
+    }
+}
+
+.c-menu > .panel-group > .panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: transparent;
+}
+
+.c-menu > .panel-group .panel + .panel {
+    margin-top: 1px;
+}
+
+.form-group {
+    margin-bottom: 5px !important;
+}
+
+/* Customized CSS */
+.section-custom-a, .section-custom-b, .section-custom-c {
+    color: #0090B5;
+}
+
+.btn-success {
+    background: #91C354;
+    border-color: #91C354;
+}
+
+.btn-primary {
+    background: #0090B5;
+    border-color: #0090B5;
+}
+
+.btn-danger {
+    background: #C32938;
+    border-color: #C32938;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary[disabled]:hover {
+    background-color: #08677f;
+    border-color: #08677f;
+}
+
+.label-footer {
+    font-family: CurrentFont;
+    font-weight: 100;
+    color: #767271;
+    font-size: 12px;
+}
+
+.panel-default > .panel-heading {
+    background-color: #D3D3D3;
+}
+
+.panel-footer {
+    background-color: #2B2B2B;
+}
+
+.panel {
+    border: none;
+}
+
+.section-pad-b-feature {
+    padding-top: 70px;
+}
+
+.section-custom-c {
+    padding-top: 50px;
+    padding-bottom: 0;
+}

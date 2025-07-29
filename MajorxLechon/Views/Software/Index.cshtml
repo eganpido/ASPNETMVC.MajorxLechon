@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>Sales & Expense Tracker - Main Menu </title>
+
+    @Styles.Render("~/Content/Software-css")
+
+    <style>
+        .title {
+            font-size: 19px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            color: whitesmoke;
+            margin-left: 10px;
+        }
+
+        .icon-card-setup {
+            display: inline-block;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #FF8A8A;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+            .icon-card-setup:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px #C0D100;
+            }
+
+            .icon-card-setup h4 {
+                margin: 10px 0 0 0;
+                font-size: 16px;
+                color: whitesmoke;
+            }
+
+            .icon-card-setup .emoji {
+                font-size: 36px;
+            }
+
+        .icon-card-activity {
+            display: inline-block;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #21c1a3;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+            .icon-card-activity:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px #21c1a3;
+            }
+
+            .icon-card-activity h4 {
+                margin: 10px 0 0 0;
+                font-size: 16px;
+                color: whitesmoke;
+            }
+
+            .icon-card-activity .emoji {
+                font-size: 36px;
+            }
+
+        .icon-card-report {
+            display: inline-block;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #20887c;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+            .icon-card-report:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px #20887c;
+            }
+
+            .icon-card-report h4 {
+                margin: 10px 0 0 0;
+                font-size: 16px;
+                color: whitesmoke;
+            }
+
+            .icon-card-report .emoji {
+                font-size: 36px;
+            }
+
+        .a-icon {
+            margin-left: 40px;
+        }
+
+        .panel-body {
+            padding: 1px;
+        }
+
+        body {
+            background: linear-gradient(to top, rgba(255, 255, 0, 0.8), rgba(156, 7, 15, 0.9));
+        }
+    </style>
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_SoftwareHeader")
+            <section class="container" style="padding-top: 20px">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row title">📋 Main Menu</div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="a-icon" href="/Software/ItemList">
+                                    <div class="icon-card-setup">
+                                        <div class="emoji">♨️</div>
+                                        <h4>Item</h4>
+                                    </div>
+                                </a>
+                                <a class="a-icon" href="/Software/UserList">
+                                    <div class="icon-card-setup">
+                                        <div class="emoji">🧑‍💻</div>
+                                        <h4>User</h4>
+                                    </div>
+                                </a>
+                                <a class="a-icon" href="/Software/SalesList">
+                                    <div class="icon-card-setup">
+                                        <div class="emoji">🧾</div>
+                                        <h4>Order</h4>
+                                    </div>
+                                </a>
+                                <a class="a-icon" href="/Software/SalesReport">
+                                    <div class="icon-card-setup">
+                                        <div class="emoji">🖨️</div>
+                                        <h4>Report</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            @Html.Partial("_SoftwareFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    @Scripts.Render("~/Scripts/Software-js")
+    <script type="text/javascript">
+        // ============
+        // On Load Page
+        // ============
+        $(document).ready(function () {
+            Loader.show();
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        });
+    </script>
+    <div id="loader-overlay">
+        <div class="loader-circle"></div>
+    </div>
+</body>
+</html>

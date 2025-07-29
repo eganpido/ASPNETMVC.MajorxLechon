@@ -1,0 +1,32 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html class="account-html-custom">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title of the Page -->
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>Sales & Expense Tracker Login</title>
+
+    <!-- CSS StyleSheets-->
+    @Styles.Render("~/Content/Home-css")
+    <style>
+        @Html.Raw(@"@media (min-width: 1200px) { .container { width: 1170px; } }")
+    </style>
+</head>
+<body data-spy="scroll" data-offset="100" id="home" class="account-body-custom">
+    <!-- Header -->
+    @*@Html.Partial("_AccountHeader")*@
+
+    <!-- After Login -->
+    @Html.Partial("_AccountLogin")
+
+    <!-- Footer -->
+    @*@Html.Partial("_AccountFooter")*@
+
+    @Scripts.Render("~/Scripts/Home-js")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

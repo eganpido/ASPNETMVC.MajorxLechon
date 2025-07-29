@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html class="home-html-height">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>Majorx Lechon</title>
+
+    @Styles.Render("~/Content/Home-css")
+    <style>
+        /*
+        * CSS for Sticky Footer using Flexbox
+        * This ensures the footer is always at the bottom of the viewport
+        * even if the content is short.
+        */
+        html, body {
+            height: 100%; /* Make html and body take full viewport height */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
+            display: flex; /* Enable flexbox on the body */
+            flex-direction: column; /* Stack children vertically */
+        }
+
+        /* This is the key: it allows your main content to grow and push the footer down */
+        .main-content {
+            flex-grow: 1; /* Occupy all available space */
+            display: flex; /* Use flexbox for internal content if needed */
+            flex-direction: column; /* Stack content sections vertically */
+            /* Add any padding or margin here if you want space around the content */
+        }
+
+        /* General Body Font (Keep your existing) */
+        body {
+            font-family: 'Poppins', 'Open Sans', sans-serif;
+        }
+
+        /* Existing styles (adjust as needed, ensure no conflicting margins/paddings) */
+        .hero {
+            background: transparent;
+            /*background: linear-gradient(to bottom, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));*/
+            color: white;
+            padding: 70px 0;
+        }   
+
+        .feature-icon {
+            font-size: 7rem;
+            color: #0d6efd;
+        }
+
+        /* Footer styles (your existing ones) */
+        .footer-custom { /* Changed from generic 'footer' to 'footer-custom' to be specific */
+            background-color: lightgray;
+            color: white;
+            padding: 7px 0; /* Adjusted padding to be symmetrical */
+            width: 100%; /* Ensure footer spans full width */
+            box-sizing: border-box; /* Include padding in the width calculation */
+        }
+
+            /* You might want to adjust these specific labels if they have default browser margins */
+            .footer-custom .label-footer {
+                margin-bottom: 0; /* Remove any default bottom margin */
+                display: inline-block; /* Helps with vertical alignment if next to img */
+                vertical-align: middle; /* Align with the image */
+            }
+
+            .footer-custom img {
+                vertical-align: middle; /* Align with text */
+            }
+        .navbar-default {
+            -webkit-transition: all .35s;
+            -moz-transition: all .35s;
+            transition: all .35s;
+            box-shadow: 0 0px 5px #3f9794;
+            border-bottom: none;
+            background-color: white;
+        }
+        .feature-title {
+            font-weight: bold;
+            font-size: 2rem;
+            color: darkslategray;
+        }
+        .feature-description {
+            font-size: 1.5rem;
+        }
+        body {
+            background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
+        }
+    </style>
+</head>
+<body id="page-top" class="home-body-height">
+
+    <nav id="nav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <img src="~/Images/logo/STREETSMART.png" />
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section class="hero text-center">
+            <div class="container">
+                <h1 class="display-4" style="margin-top:30px;">Track Every Peso, Power Every Decision</h1>
+                <p class="lead mt-3">Smart and simple tracking of your business sales and expenses - anytime, anywhere.</p>
+                <a href="/Account/Login" class="btn btn-primary btn-lg mt-4" style="margin-top:30px;">🚀 Get Started</a>
+            </div>
+        </section>
+
+        <section class="py-5" style="margin-top:10px;">
+            <div class="container text-center">
+                <h2 class="mb-4">Key Features</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-icon mb-2">💰</div>
+                        <h4 class="feature-title">Real-Time Sales Tracking</h4>
+                        <p class="feature-description">Monitor daily sales with live updates and detailed summaries.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-icon mb-2">📉</div>
+                        <h4 class="feature-title">Expense Monitoring</h4>
+                        <p class="feature-description">Log, categorize, and review all expenses with full transparency.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-icon mb-2">📊</div>
+                        <h4 class="feature-title">Reports & Analytics</h4>
+                        <p class="feature-description">Generate visual reports to help guide smart financial decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> 
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <label><img src="~/Images/logo/STREETSMART.png" style="height:40px; margin-top:5px; opacity: 70%" /></label>
+                    <label class="label-footer" style="color:darkslategray; margin-top:5px;">© 2025, Streetsmart Corporation</label>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/Scripts/Home-js")
+</body>
+</html>

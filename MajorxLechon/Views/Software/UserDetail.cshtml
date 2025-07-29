@@ -1,0 +1,348 @@
+﻿@*@model easyfis.Entities.MstUserForm*@
+@{
+    // =====================
+    // User Rights Variables
+    // =====================
+    //var canAdd = Model.CanAdd;
+    //var canEdit = Model.CanEdit;
+    //var canDelete = Model.CanDelete;
+    //var canLock = Model.CanLock;
+    //var canUnlock = Model.CanUnlock;
+    //var canPrint = Model.CanPrint;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>User Detail</title>
+
+    @Styles.Render("~/Content/Software-css")
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_SoftwareHeader")
+            <div class="container">
+                <h3>
+                    🧑‍💻 User Detail
+                </h3>
+            </div>
+            <section class="container">
+                <div class="panel panel-default">
+
+                    <!--
+                        Options: Lock, Unlock, and Close Button
+                    -->
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btnUserDetailSave" onclick="saveUser()">💾 Save</button>
+                            </div>
+                            <div class="col-md-10" align="right">
+                                <button class="btn btn-primary" id="btnUserDetailLock" onclick="lockUser()">🔒 Lock</button>
+                                <button class="btn btn-primary" id="btnUserDetailUnlock" onclick="unlockUser()">🔓 Unlock</button>
+                                <button class="btn btn-danger" id="btnUserDetailClose" onclick="closeUserDetail()">🗙 Close</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--
+                        Details, Fields and Other Informations
+                    -->
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Username</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inpUserDetailUsername" placeholder="Username" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inpUserDetailFullName" placeholder="Full Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:40px;">
+                                <div class="col-md-2">
+                                    <p>Created by:</p>
+                                    <div style="padding-left: 10px;">
+                                        <i class="fa fa-key fa-fw"></i> <label id="createdBy">NA</label>
+                                        <br />
+                                        <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="createdDate">mm/dd/yyyy</span></small>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div class="col-md-4">
+                                    <p>Updated by:</p>
+                                    <div style="padding-left: 10px;">
+                                        <i class="fa fa-key fa-fw"></i> <label id="updatedBy">NA</label>
+                                        <br />
+                                        <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="updatedDate">mm/dd/yyyy</span></small>
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            @Html.Partial("_SoftwareFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    @Scripts.Render("~/Scripts/Software-js")
+    <script type="text/javascript">
+        var isLocked = false;
+
+        // =======================
+        // Get URL Parameter Value
+        // =======================
+        function getURLParameterValue(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+
+            var results = regex.exec(window.location.href);
+            if (results == null) {
+                return "";
+            } else {
+                return results[1];
+            }
+        }
+
+        // Get User Detail Data
+        function getUserDetailData() {
+            Loader.show();
+
+            if (document.location.search.length > 0) {
+                $.ajax({
+                    url: '/api/user/detail/' + getURLParameterValue("id"),
+                    cache: false,
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (results) {
+                        if (results != null) {
+                            document.getElementById('inpUserDetailUsername').value = results.UserName;
+                            document.getElementById('inpUserDetailFullName').value = results.FullName;
+                            document.getElementById('createdBy').innerHTML = results.CreatedBy;
+                            document.getElementById('createdDate').innerHTML = results.CreatedDateTime;
+                            document.getElementById('updatedBy').innerHTML = results.UpdatedBy;
+                            document.getElementById('updatedDate').innerHTML = results.UpdatedDateTime;
+
+                            if (results.IsLocked) {
+                                document.getElementById('inpUserDetailUsername').disabled = true;
+                                document.getElementById('inpUserDetailFullName').disabled = true;
+
+                                $('#btnUserDetailSave').prop('disabled', true);
+                                $('#btnUserDetailLock').prop('disabled', true);
+
+                                isLocked = true;
+                            } else {
+                                $('#btnUserDetailUnlock').prop('disabled', true);
+                            }
+                        } else {
+                            alert("No Data");
+                            window.location = "/Software/UserList";
+                        }
+                    }
+                });
+            } else {
+                alert("No Id Parameter Value");
+                window.location = "/Software/UserList";
+            }
+        }
+
+        // User Data Object
+        function userDataObject() {
+            var userObject = new Object();
+            userObject.UserName = document.getElementById('inpUserDetailUsername').value;
+            userObject.FullName = document.getElementById('inpUserDetailFullName').value;
+            var data = JSON.stringify(userObject);
+            return data;
+        }
+
+        // Save User
+        function saveUser() {
+            document.getElementById('btnUserDetailSave').innerHTML = "💾 Saving...";
+            $('#btnUserDetailSave').prop('disabled', true);
+            $('#btnUserDetailLock').prop('disabled', true);
+            $('#btnUserDetailUnlock').prop('disabled', true);
+            $('#btnUserDetailClose').prop('disabled', true);
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/user/save/' + getURLParameterValue("id"),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: userDataObject(),
+                statusCode: {
+                    200: function () {
+                        toastr.success("Save Successful", "", { positionClass: "toast-bottom-right" });
+                        window.setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailSave').innerHTML = "💾 Save";
+                        $("#btnUserDetailSave").prop("disabled", false);
+
+                        if (isLocked) {
+                            $("#btnUserDetailUnlock").prop("disabled", false);
+                        } else {
+                            $("#btnUserDetailLock").prop("disabled", false);
+                        }
+
+                        $("#btnUserDetailClose").prop("disabled", false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailSave').innerHTML = "💾 Save";
+                        $("#btnUserDetailSave").prop("disabled", false);
+
+                        if (isLocked) {
+                            $("#btnUserDetailUnlock").prop("disabled", false);
+                        } else {
+                            $("#btnUserDetailLock").prop("disabled", false);
+                        }
+
+                        $("#btnUserDetailClose").prop("disabled", false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailSave').innerHTML = "💾 Save";
+                        $("#btnUserDetailSave").prop("disabled", false);
+
+                        if (isLocked) {
+                            $("#btnUserDetailUnlock").prop("disabled", false);
+                        } else {
+                            $("#btnUserDetailLock").prop("disabled", false);
+                        }
+
+                        $("#btnUserDetailClose").prop("disabled", false);
+                    }
+                },
+            });
+        }
+
+        // Lock User
+        function lockUser() {
+            document.getElementById('btnUserDetailLock').innerHTML = "🔒 Locking...";
+            $('#btnUserDetailSave').prop('disabled', true);
+            $('#btnUserDetailLock').prop('disabled', true);
+            $('#btnUserDetailUnlock').prop('disabled', true);
+            $('#btnUserDetailClose').prop('disabled', true);
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/user/lock/' + getURLParameterValue("id"),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: userDataObject(),
+                statusCode: {
+                    200: function () {
+                        toastr.success("Lock Successful", "", { positionClass: "toast-bottom-right" });
+                        window.setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailLock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailLock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailLock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    }
+                },
+            });
+        }
+
+        // Unlock User
+        function unlockUser() {
+            document.getElementById('btnUserDetailUnlock').innerHTML = "🔓 Unlocking...";
+            $('#btnUserDetailSave').prop('disabled', true);
+            $('#btnUserDetailLock').prop('disabled', true);
+            $('#btnUserDetailUnlock').prop('disabled', true);
+            $('#btnUserDetailClose').prop('disabled', true);
+
+            $.ajax({
+                type: "PUT",
+                url: '/api/user/unlock/' + getURLParameterValue("id"),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Unlock Successful", "", { positionClass: "toast-bottom-right" });
+                        window.setTimeout(function () {
+                            location.reload()
+                        }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailUnlock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailUnlock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnUserDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnUserDetailSave').prop('disabled', false);
+                        $('#btnUserDetailUnlock').prop('disabled', false);
+                        $('#btnUserDetailClose').prop('disabled', false);
+                    }
+                }
+            });
+        }
+
+        // Close User
+        function closeUserDetail() {
+            window.location = '/Software/UserList';
+        }
+
+        // ============
+        // On Load Page
+        // ============
+        $(document).ready(function () {
+            getUserDetailData();
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        });
+    </script>
+    <div id="loader-overlay">
+        <div class="loader-circle"></div>
+    </div>
+</body>
+</html>

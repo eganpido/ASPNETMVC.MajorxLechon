@@ -1,0 +1,830 @@
+﻿<style>
+    /* General Body Font (Keep your existing) */
+    body {
+        font-family: 'Poppins', 'Open Sans', sans-serif;
+    }
+    .navbar-default {
+        -webkit-transition: all .35s;
+        -moz-transition: all .35s;
+        transition: all .35s;
+        box-shadow: 0 0px 5px #3f9794;
+        border-bottom: none;
+        background-color: white;
+    }
+</style>
+<!-- header navbar menu -->
+<header>
+    <nav id="mainNav" class="navbar navbar-default userAuthentication navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                @*<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+                <a class="navbar-brand page-scroll" href="/Software">
+                    <img src="~/Images/logo/STREETSMART.png" class="softwarelogo" />
+                </a>
+                @*<button id="c-button--slide-left" class="btn-menu-link"><i class="fa fa-bars fa-2x" style="color: #0090B5"></i></button>*@
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- sidebar collapse menu -->
+@*<nav id="c-menu--slide-left" class="c-menu c-menu--slide-left">
+        <div class="panel-group panel-group-menu" id="accordion">
+            @{
+                var host = Request.Url.Host;
+            }
+
+            @if (host.Equals("localhost"))
+            {
+                <div class="panel panel-default panel-side">
+                    <div class="panel-heading panel-heading-menu">
+                        <div class="image-custom">
+                            <img src="~/Images/customerLogos/greenware/greenware.png" height="35" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (host.Equals("www.easyfis.com"))
+            {
+                <div class="panel panel-default panel-side">
+                    <div class="panel-heading panel-heading-menu">
+                        <div class="image-custom">
+                            <img src="~/Images/logo/liteclerklogo.png" height="50" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (host.Equals("innosoft.easyfis.com"))
+            {
+                <div class="panel panel-default panel-side">
+                    <div class="panel-heading panel-heading-menu">
+                        <div class="image-custom">
+                            <img src="~/Images/customerLogos/innosoft/innosoft.png" height="50" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (host.Equals("abomar.easyfis.com"))
+            {
+                <div class="panel panel-default panel-side">
+                    <div class="panel-heading panel-heading-menu">
+                        <div class="image-custom">
+                            <img src="~/Images/customerLogos/abomar/abomar-logo.png" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (host.Equals("greenware.easyfis.com"))
+            {
+                <div class="panel panel-default panel-side">
+                    <div class="panel-heading panel-heading-menu">
+                        <div class="image-custom">
+                            <img src="~/Images/customerLogos/greenware/greenware.png" height="40" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a href="#index" class="panel-link-menu c-menu__close">
+                        <h4 class="panel-title">
+                            <i class="fa fa-arrow-left fa-fw"></i> &nbsp; Close Menu
+                        </h4>
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a href="/Software" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-dashboard fa-fw"></i> &nbsp; Main Menu
+                        </h4>
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a href="#" onclick="menuSystemItemQuery_OnClick()" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-database fa-fw"></i> &nbsp; Item Query
+                        </h4>
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-wrench fa-fw"></i> &nbsp; Setups <i class="fa fa-chevron-down pull-right"></i>
+                        </h4>
+                    </a>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse panel-collapse-menu">
+                    <div class="panel-body panel-body-menu">
+                        <ul class="panel-list-menu">
+                            <li><a href="/Software/Supplier"><img src="~/Images/svgIcons/businessman.svg" class="svg-icon-style-side-menu" /> Supplier</a></li>
+                            <li><a href="/Software/Customer"><img src="~/Images/svgIcons/conference_call.svg" class="svg-icon-style-side-menu" /> Customer</a></li>
+                            <li><a href="/Software/Item"><img src="~/Images/svgIcons/paid.svg" class="svg-icon-style-side-menu" /> Item</a></li>
+                            <li><a href="/Software/Bank"><img src="~/Images/svgIcons/library.svg" class="svg-icon-style-side-menu" /> Bank</a></li>
+                            <li><a href="/Software/ChartOfAccounts"><img src="~/Images/svgIcons/todo_list.svg" class="svg-icon-style-side-menu" /> Chart of Accounts</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-line-chart fa-fw"></i> &nbsp; Activities <i class="fa fa-chevron-down pull-right"></i>
+                        </h4>
+                    </a>
+                </div>
+                <div id="collapse3" class="panel-collapse collapse panel-collapse-menu">
+                    <div class="panel-body">
+                        <ul>
+                            <li><a href="/Software/PurchaseRequest"><img src="~/Images/svgIcons/survey.svg" class="svg-icon-style-side-menu" /> Purchase Request</a></li>
+                            <li><a href="/Software/PurchaseOrder"><img src="~/Images/svgIcons/inspection.svg" class="svg-icon-style-side-menu" /> Purchase Order</a></li>
+                            <li><a href="/Software/ReceivingReceipt"><img src="~/Images/svgIcons/in_transit.svg" class="svg-icon-style-side-menu" /> Receiving Receipt</a></li>
+                            <li><a href="/Software/SalesOrder"><img src="~/Images/svgIcons/sell.svg" class="svg-icon-style-side-menu" /> Sales Order</a></li>
+                            <li><a href="/Software/Sales"><img src="~/Images/svgIcons/approval.svg" class="svg-icon-style-side-menu" /> Sales</a></li>
+                            <li><a href="/Software/Disbursement"><img src="~/Images/svgIcons/money_transfer.svg" class="svg-icon-style-side-menu" /> Disbursement</a></li>
+                            <li><a href="/Software/Collection"><img src="~/Images/svgIcons/sales_performance.svg" class="svg-icon-style-side-menu" /> Collection</a></li>
+                            <li><a href="/Software/JournalVoucher"><img src="~/Images/svgIcons/news.svg" class="svg-icon-style-side-menu" /> Journal Voucher</a></li>
+                            <li><a href="/Software/BankReconciliation"><img src="~/Images/svgIcons/ok.svg" class="svg-icon-style-side-menu" /> Bank Reconciliation</a></li>
+                            <li><a href="/Software/StockIn"><img src="~/Images/svgIcons/internal.svg" class="svg-icon-style-side-menu" /> Stock-In</a></li>
+                            <li><a href="/Software/StockOut"><img src="~/Images/svgIcons/external.svg" class="svg-icon-style-side-menu" /> Stock-Out</a></li>
+                            <li><a href="/Software/StockTransfer"><img src="~/Images/svgIcons/move_by_trolley.svg" class="svg-icon-style-side-menu" /> Stock Transfer</a></li>
+                            <li><a href="/Software/StockCount"><img src="~/Images/svgIcons/rules.svg" class="svg-icon-style-side-menu" /> Stock Count</a></li>
+                            <li><a href="/Software/StockWithdrawal"><img src="~/Images/svgIcons/up_right.svg" class="svg-icon-style-side-menu" /> Stock Withdrawal</a></li>
+                            <li><a href="/Software/ItemPrice"><img src="~/Images/svgIcons/price_tag_usd.svg" class="svg-icon-style-side-menu" /> Item Price</a></li>
+                            <li><a href="/Software/CounterReceipt"><img src="~/Images/svgIcons/cash_register.svg" class="svg-icon-style-side-menu" /> Counter Receipt</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-desktop fa-fw"></i> &nbsp; Systems <i class="fa fa-chevron-down pull-right"></i>
+                        </h4>
+                    </a>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse  panel-collapse-menu">
+                    <div class="panel-body">
+                        <ul>
+                            <li><a href="/Software/Company"><img src="~/Images/svgIcons/organization.svg" class="svg-icon-style-side-menu" /> Company</a></li>
+                            <li><a href="/Software/Users"><img src="~/Images/svgIcons/key.svg" class="svg-icon-style-side-menu" /> User</a></li>
+                            <li><a href="/Software/SystemTables"><img src="~/Images/svgIcons/grid.svg" class="svg-icon-style-side-menu" /> System Tables</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse4" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-print fa-fw"></i> &nbsp; Reports <i class="fa fa-chevron-down pull-right"></i>
+                        </h4>
+                    </a>
+                </div>
+                <div id="collapse4" class="panel-collapse collapse panel-collapse-menu">
+                    <div class="panel-body">
+                        <ul>
+                            <li><a href="/Software/AccountsPayable"><img src="~/Images/svgIcons/print.svg" class="svg-icon-style-side-menu" /> Accounts Payable</a></li>
+                            <li><a href="/Software/AccountsReceivable"><img src="~/Images/svgIcons/print.svg" class="svg-icon-style-side-menu" /> Accounts Receivable</a></li>
+                            <li><a href="/Software/Inventory"><img src="~/Images/svgIcons/print.svg" class="svg-icon-style-side-menu" /> Inventory Report</a></li>
+                            <li><a href="/Software/FinancialStatements"><img src="~/Images/svgIcons/print.svg" class="svg-icon-style-side-menu" /> Financial Statements</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a href="/Software/BIRCASReports" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <img src="~/Images/sectionImages/BIR Logo.png" class="svg-icon-style-side-menu-BIR" /> &nbsp; BIR CAS
+                        </h4>
+                    </a>
+                </div>
+            </div>
+            <div class="panel panel-default panel-side">
+                <div class="panel-heading panel-heading-menu">
+                    <a href="/Manage" class="panel-link-menu">
+                        <h4 class="panel-title">
+                            <i class="fa fa-gear fa-fw"></i> &nbsp; Settings
+                        </h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>*@
+
+<!-- modal logout confirmation -->
+@*<div class="modal fade" id="modalLogout" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Logout</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-primary"><i class="fa fa-power-off fa-fw"></i> Logout</a>
+                <button class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-fw"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userBranchesModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">User Branch</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <span id="loadingUserBranches"></span>
+                </center>
+                <div id="userBranchContent">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Branch</label>
+                            <div class="col-sm-8">
+                                <div class="comboBox-wide" id="cboUserBranches"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="updateUserBranch" onclick="updateUserBranchOnclick()"><i class="fa fa-save fa-fw"></i> Update</button>
+                <button class="btn btn-danger" id="closeUserBranch" data-dismiss="modal"><i class="fa fa-close fa-fw"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+
+<!--<script type="text/javascript">-->
+    @*var systemItemInventoryCollectionView;
+    var systemItemInventoryFlexGrid = new wijmo.grid.FlexGrid('#systemItemInventoryFlexGrid');
+    var systemItemNonInventoryCollectionView;
+    var systemItemNonInventoryFlexGrid = new wijmo.grid.FlexGrid('#systemItemNonInventoryFlexGrid');
+    var systemItemPackageCollectionView;
+    var systemItemPackageFlexGrid = new wijmo.grid.FlexGrid('#systemItemPackageFlexGrid');
+    var btnSystemMoveToFirstPageGridItemInventory = document.getElementById('btnSystemMoveToFirstPageGridItemInventory');
+    var btnSystemMoveToPreviousPageGridItemInventory = document.getElementById('btnSystemMoveToPreviousPageGridItemInventory');
+    var btnSystemMoveToNextPageGridItemInventory = document.getElementById('btnSystemMoveToNextPageGridItemInventory');
+    var btnSystemMoveToLastPageGridItemInventory = document.getElementById('btnSystemMoveToLastPageGridItemInventory');
+    var btnSystemCurrentPageGridItemInventory = document.getElementById('btnSystemCurrentPageGridItemInventory');
+    var btnSystemMoveToFirstPageGridItemNonInventory = document.getElementById('btnSystemMoveToFirstPageGridItemNonInventory');
+    var btnSystemMoveToPreviousPageGridItemNonInventory = document.getElementById('btnSystemMoveToPreviousPageGridItemNonInventory');
+    var btnSystemMoveToNextPageGridItemNonInventory = document.getElementById('btnSystemMoveToNextPageGridItemNonInventory');
+    var btnSystemMoveToLastPageGridItemNonInventory = document.getElementById('btnSystemMoveToLastPageGridItemNonInventory');
+    var btnSystemCurrentPageGridItemNonInventory = document.getElementById('btnSystemCurrentPageGridItemNonInventory');
+    var btnSystemMoveToFirstPageGridItemPackage = document.getElementById('btnSystemMoveToFirstPageGridItemPackage');
+    var btnSystemMoveToPreviousPageGridItemPackage = document.getElementById('btnSystemMoveToPreviousPageGridItemPackage');
+    var btnSystemMoveToNextPageGridItemPackage = document.getElementById('btnSystemMoveToNextPageGridItemPackage');
+    var btnSystemMoveToLastPageGridItemPackage = document.getElementById('btnSystemMoveToLastPageGridItemPackage');
+    var btnSystemCurrentPageGridItemPackage = document.getElementById('btnSystemCurrentPageGridItemPackage');
+
+    function menuSystemItemQuery_OnClick() {
+        $('#systemItemQueryModal').modal({
+            show: true,
+            backdrop: 'static'
+        });
+
+        $("#loadingSystemItemInventory").show();
+        document.getElementById("loadingSystemItemInventory").innerHTML = 'Loading...';
+        $("#systemItemInventoryGridDetail").hide();
+
+        $("#loadingSystemItemNonInventory").show();
+        document.getElementById("loadingSystemItemNonInventory").innerHTML = 'Loading...';
+        $("#systemItemNonInventoryGridDetail").hide();
+
+        $("#loadingSystemItemPackage").show();
+        document.getElementById("loadingSystemItemPackage").innerHTML = 'Loading...';
+        $("#systemItemPackageGridDetail").hide();
+
+        setTimeout(function () {
+            createSystemItemInventoryGrid();
+            createSystemItemNonInventoryGrid();
+            createSystemItemPackageGrid();
+        }, 500);
+    }
+
+    // ===============
+    // Inventory Items
+    // ===============
+    function getSystemItemInventory() {
+        var itemsObservableArray = new wijmo.collections.ObservableArray();
+        $.ajax({
+            url: '/api/sysItemQuery/list/inventory/items',
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (articleInventoriesResults) {
+                if (articleInventoriesResults.length > 0) {
+                    for (i = 0; i < articleInventoriesResults.length; i++) {
+                        itemsObservableArray.push({
+                            Article: articleInventoriesResults[i]["Article"],
+                            InventoryCode: articleInventoriesResults[i]["InventoryCode"],
+                            Quantity: articleInventoriesResults[i]["Quantity"],
+                            QuantityDisplay: parseFloat(articleInventoriesResults[i]["Quantity"]).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                            Cost: articleInventoriesResults[i]["Cost"],
+                            CostDisplay: parseFloat(articleInventoriesResults[i]["Cost"]).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                            Price: articleInventoriesResults[i]["Price"],
+                            PriceDisplay: parseFloat(articleInventoriesResults[i]["Price"]).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                            ManualArticleCode: articleInventoriesResults[i]["ManualArticleCode"],
+                            Unit: articleInventoriesResults[i]["Unit"],
+                        });
+                    }
+                }
+
+                $("#loadingSystemItemInventory").hide();
+                $("#systemItemInventoryGridDetail").show();
+            }
+        });
+
+        return itemsObservableArray;
+    }
+
+    // =========================
+    // Update Navigation Buttons
+    // =========================
+    function updateSystemNavigateButtonsItemInventory() {
+        if (systemItemInventoryCollectionView.pageSize <= 0) {
+            document.getElementById('systemNaviagtionPageGridItemInventory').style.display = 'none';
+            return;
+        }
+        document.getElementById('systemNaviagtionPageGridItemInventory').style.display = 'block';
+        if (systemItemInventoryCollectionView.pageIndex === 0) {
+            btnSystemMoveToFirstPageGridItemInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToPreviousPageGridItemInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToNextPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemInventory.removeAttribute('disabled');
+        } else if (systemItemInventoryCollectionView.pageIndex === (systemItemInventoryCollectionView.pageCount - 1)) {
+            btnSystemMoveToFirstPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToLastPageGridItemInventory.setAttribute('disabled', 'disabled');
+        } else {
+            btnSystemMoveToFirstPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemInventory.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemInventory.removeAttribute('disabled');
+        }
+        btnSystemCurrentPageGridItemInventory.innerHTML = (systemItemInventoryCollectionView.pageIndex + 1) + ' / ' + systemItemInventoryCollectionView.pageCount;
+    }
+
+    var isItemQueryItemInventoryClicked = false;
+
+    function createSystemItemInventoryGrid() {
+        systemItemInventoryCollectionView = new wijmo.collections.CollectionView(getSystemItemInventory());
+        systemItemInventoryCollectionView.canFilter = true;
+        systemItemInventoryCollectionView.pageSize = 10;
+
+        var filterText = '';
+        $('#searchSystemItemInventory').keyup(function () {
+            filterText = this.value.toLowerCase();
+            systemItemInventoryCollectionView.refresh();
+        });
+
+        systemItemInventoryCollectionView.filter = function (item) {
+            return !filterText || (item.InventoryCode.toLowerCase().indexOf(filterText) > -1)
+                || (item.ManualArticleCode.toLowerCase().indexOf(filterText) > -1)
+                || (item.Article.toLowerCase().indexOf(filterText) > -1);
+        }
+
+        systemItemInventoryCollectionView.collectionChanged.addHandler(function (sender, args) {
+            updateSystemNavigateButtonsItemInventory();
+        });
+
+        systemItemInventoryFlexGrid.dispose();
+        systemItemInventoryFlexGrid = new wijmo.grid.FlexGrid('#systemItemInventoryFlexGrid');
+        systemItemInventoryFlexGrid.initialize({
+            columns: [
+                {
+                    "header": "Inventory Code",
+                    "binding": "InventoryCode",
+                    "allowSorting": true,
+                    "width": "2*"
+                },
+                {
+                    "header": "Code",
+                    "binding": "ManualArticleCode",
+                    "allowSorting": true,
+                    "width": "2*",
+                },
+                {
+                    "header": "Item",
+                    "binding": "Article",
+                    "allowSorting": true,
+                    "width": "3*",
+                },
+                @{
+                    if (Convert.ToBoolean(ViewData["ShowCostInItemList"]) == true)
+                    {
+                        <text>
+                            {
+                                "header": "Cost",
+                                "binding": "CostDisplay",
+                                "align": "right",
+                                "allowSorting": true,
+                                "width": "1.5*"
+                            },
+                        </text>
+                    }
+                }
+                {
+                    "header": "Price",
+                    "binding": "PriceDisplay",
+                    "allowSorting": true,
+                    "align": "right",
+                    "width": "2*",
+                },
+                {
+                    "header": "On Hand Quantity",
+                    "binding": "QuantityDisplay",
+                    "allowSorting": true,
+                    "align": "right",
+                    "width": "2*",
+                },
+                {
+                    "header": "Unit",
+                    "binding": "Unit",
+                    "allowSorting": true,
+                    "width": "1*",
+                }
+            ],
+            autoGenerateColumns: false,
+            itemsSource: systemItemInventoryCollectionView,
+            isReadOnly: true,
+            autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+            allowDragging: wijmo.grid.AllowDragging.None,
+            selectionMode: wijmo.grid.SelectionMode.Row
+        });
+
+        systemItemInventoryFlexGrid.trackChanges = true;
+
+        if (!isItemQueryItemInventoryClicked) {
+            updateSystemNavigateButtonsItemInventory();
+
+            btnSystemMoveToFirstPageGridItemInventory.addEventListener('click', function () {
+                systemItemInventoryCollectionView.moveToFirstPage();
+                updateSystemNavigateButtonsItemInventory();
+            });
+
+            btnSystemMoveToPreviousPageGridItemInventory.addEventListener('click', function () {
+                systemItemInventoryCollectionView.moveToPreviousPage();
+                updateSystemNavigateButtonsItemInventory();
+            });
+
+            btnSystemMoveToNextPageGridItemInventory.addEventListener('click', function () {
+                systemItemInventoryCollectionView.moveToNextPage();
+                updateSystemNavigateButtonsItemInventory();
+            });
+
+            btnSystemMoveToLastPageGridItemInventory.addEventListener('click', function () {
+                systemItemInventoryCollectionView.moveToLastPage();
+                updateSystemNavigateButtonsItemInventory();
+            });
+
+            isItemQueryItemInventoryClicked = true;
+        }
+    }
+
+    // ===================
+    // Non Inventory Items
+    // ===================
+    function getSystemItemNonInventory() {
+        var itemsObservableArray = new wijmo.collections.ObservableArray;
+        $.ajax({
+            url: '/api/sysItemQuery/list/nonInventory/items',
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (itemResults) {
+                if (itemResults.length > 0) {
+                    for (i = 0; i < itemResults.length; i++) {
+                        itemsObservableArray.push({
+                            ManualArticleCode: itemResults[i]["ManualArticleCode"],
+                            Article: itemResults[i]["Article"],
+                            Price: itemResults[i]["Price"],
+                            PriceDisplay: parseFloat(itemResults[i]["Price"]).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        });
+                    }
+                }
+
+                $("#loadingSystemItemNonInventory").hide();
+                $("#systemItemNonInventoryGridDetail").show();
+            }
+        });
+
+        return itemsObservableArray;
+    }
+
+    // =========================
+    // Update Navigation Buttons
+    // =========================
+    function updateSystemNavigateButtonsItemNonInventory() {
+        if (systemItemNonInventoryCollectionView.pageSize <= 0) {
+            document.getElementById('systemNaviagtionPageGridItemNonInventory').style.display = 'none';
+            return;
+        }
+        document.getElementById('systemNaviagtionPageGridItemNonInventory').style.display = 'block';
+        if (systemItemNonInventoryCollectionView.pageIndex === 0) {
+            btnSystemMoveToFirstPageGridItemNonInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToPreviousPageGridItemNonInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToNextPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemNonInventory.removeAttribute('disabled');
+        } else if (systemItemNonInventoryCollectionView.pageIndex === (systemItemNonInventoryCollectionView.pageCount - 1)) {
+            btnSystemMoveToFirstPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemNonInventory.setAttribute('disabled', 'disabled');
+            btnSystemMoveToLastPageGridItemNonInventory.setAttribute('disabled', 'disabled');
+        } else {
+            btnSystemMoveToFirstPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemNonInventory.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemNonInventory.removeAttribute('disabled');
+        }
+        btnSystemCurrentPageGridItemNonInventory.innerHTML = (systemItemNonInventoryCollectionView.pageIndex + 1) + ' / ' + systemItemNonInventoryCollectionView.pageCount;
+    }
+
+    var isItemQueryItemNonInventoryClicked = false;
+
+    function createSystemItemNonInventoryGrid() {
+        systemItemNonInventoryCollectionView = new wijmo.collections.CollectionView(getSystemItemNonInventory());
+        systemItemNonInventoryCollectionView.canFilter = true;
+        systemItemNonInventoryCollectionView.pageSize = 10;
+
+        var filterText = '';
+        $('#InputFilterItemQueryGridNonInventory').keyup(function () {
+            filterText = this.value.toLowerCase();
+            systemItemNonInventoryCollectionView.refresh();
+        });
+
+        systemItemNonInventoryCollectionView.filter = function (item) {
+            return !filterText || (item.ManualArticleCode.toLowerCase().indexOf(filterText) > -1)
+                || (item.Article.toLowerCase().indexOf(filterText) > -1);
+        }
+
+        systemItemNonInventoryCollectionView.collectionChanged.addHandler(function (sender, args) {
+            updateSystemNavigateButtonsItemNonInventory();
+        });
+
+        systemItemNonInventoryFlexGrid.dispose();
+        systemItemNonInventoryFlexGrid = new wijmo.grid.FlexGrid('#systemItemNonInventoryFlexGrid');
+        systemItemNonInventoryFlexGrid.initialize({
+            columns: [
+                {
+                    "header": "Code",
+                    "binding": "ManualArticleCode",
+                    "allowSorting": true,
+                    "width": "3*"
+                },
+                {
+                    "header": "Item",
+                    "binding": "Article",
+                    "allowSorting": true,
+                    "width": "5*"
+                },
+                {
+                    "header": "Price",
+                    "binding": "PriceDisplay",
+                    "allowSorting": true,
+                    "align": "right",
+                    "width": "2*"
+                }
+            ],
+            autoGenerateColumns: false,
+            itemsSource: systemItemNonInventoryCollectionView,
+            isReadOnly: true,
+            autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+            allowDragging: wijmo.grid.AllowDragging.None,
+            selectionMode: wijmo.grid.SelectionMode.Row
+        });
+
+        systemItemNonInventoryFlexGrid.trackChanges = true;
+
+        if (!isItemQueryItemNonInventoryClicked) {
+            updateSystemNavigateButtonsItemNonInventory();
+
+            btnSystemMoveToFirstPageGridItemNonInventory.addEventListener('click', function () {
+                systemItemNonInventoryCollectionView.moveToFirstPage();
+                updateSystemNavigateButtonsItemNonInventory();
+            });
+
+            btnSystemMoveToPreviousPageGridItemNonInventory.addEventListener('click', function () {
+                systemItemNonInventoryCollectionView.moveToPreviousPage();
+                updateSystemNavigateButtonsItemNonInventory();
+            });
+
+            btnSystemMoveToNextPageGridItemNonInventory.addEventListener('click', function () {
+                systemItemNonInventoryCollectionView.moveToNextPage();
+                updateSystemNavigateButtonsItemNonInventory();
+            });
+
+            btnSystemMoveToLastPageGridItemNonInventory.addEventListener('click', function () {
+                systemItemNonInventoryCollectionView.moveToLastPage();
+                updateSystemNavigateButtonsItemNonInventory();
+            });
+
+            isItemQueryItemNonInventoryClicked = true;
+        }
+    }
+
+    // =============
+    // Package Items
+    // =============
+    function getSystemItemPackage() {
+        var itemsObservableArray = new wijmo.collections.ObservableArray;
+        $.ajax({
+            url: '/api/sysItemQuery/list/package/items',
+            cache: false,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (itemResults) {
+                if (itemResults.length > 0) {
+                    for (i = 0; i < itemResults.length; i++) {
+                        itemsObservableArray.push({
+                            ManualArticleCode: itemResults[i]["ManualArticleCode"],
+                            Article: itemResults[i]["Article"],
+                            Price: itemResults[i]["Price"],
+                            PriceDisplay: parseFloat(itemResults[i]["Price"]).toFixed(2).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        });
+                    }
+                }
+
+                $("#loadingSystemItemPackage").hide();
+                $("#systemItemPackageGridDetail").show();
+            }
+        });
+
+        return itemsObservableArray;
+    }
+
+    // =========================
+    // Update Navigation Buttons
+    // =========================
+    function updateSystemNavigateButtonsItemPackage() {
+        if (systemItemPackageCollectionView.pageSize <= 0) {
+            document.getElementById('systemNaviagtionPageGridItemPackage').style.display = 'none';
+            return;
+        }
+        document.getElementById('systemNaviagtionPageGridItemPackage').style.display = 'block';
+        if (systemItemPackageCollectionView.pageIndex === 0) {
+            btnSystemMoveToFirstPageGridItemPackage.setAttribute('disabled', 'disabled');
+            btnSystemMoveToPreviousPageGridItemPackage.setAttribute('disabled', 'disabled');
+            btnSystemMoveToNextPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemPackage.removeAttribute('disabled');
+        } else if (systemItemPackageCollectionView.pageIndex === (systemItemPackageCollectionView.pageCount - 1)) {
+            btnSystemMoveToFirstPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemPackage.setAttribute('disabled', 'disabled');
+            btnSystemMoveToLastPageGridItemPackage.setAttribute('disabled', 'disabled');
+        } else {
+            btnSystemMoveToFirstPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToPreviousPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToNextPageGridItemPackage.removeAttribute('disabled');
+            btnSystemMoveToLastPageGridItemPackage.removeAttribute('disabled');
+        }
+        btnSystemCurrentPageGridItemPackage.innerHTML = (systemItemPackageCollectionView.pageIndex + 1) + ' / ' + systemItemPackageCollectionView.pageCount;
+    }
+
+    var isItemQueryItemPackageClicked = false;
+
+    function createSystemItemPackageGrid() {
+        systemItemPackageCollectionView = new wijmo.collections.CollectionView(getSystemItemPackage());
+        systemItemPackageCollectionView.canFilter = true;
+        systemItemPackageCollectionView.pageSize = 10;
+
+        var filterText = '';
+        $('#InputFilterItemQueryGridPackage').keyup(function () {
+            filterText = this.value.toLowerCase();
+            systemItemPackageCollectionView.refresh();
+        });
+
+        systemItemPackageCollectionView.filter = function (item) {
+            return !filterText || (item.ManualArticleCode.toLowerCase().indexOf(filterText) > -1)
+                || (item.Article.toLowerCase().indexOf(filterText) > -1);
+        }
+
+        systemItemPackageCollectionView.collectionChanged.addHandler(function (sender, args) {
+            updateSystemNavigateButtonsItemPackage();
+        });
+
+        systemItemPackageFlexGrid.dispose();
+        systemItemPackageFlexGrid = new wijmo.grid.FlexGrid('#systemItemPackageFlexGrid');
+        systemItemPackageFlexGrid.initialize({
+            columns: [
+                {
+                    "header": "Code",
+                    "binding": "ManualArticleCode",
+                    "allowSorting": true,
+                    "width": "4*"
+                },
+                {
+                    "header": "Item",
+                    "binding": "Article",
+                    "allowSorting": true,
+                    "width": "5*"
+                },
+                {
+                    "header": "Price",
+                    "binding": "PriceDisplay",
+                    "allowSorting": true,
+                    "align": "right",
+                    "width": "2*"
+                }
+            ],
+            autoGenerateColumns: false,
+            itemsSource: systemItemPackageCollectionView,
+            isReadOnly: true,
+            autoSizeMode: wijmo.grid.AutoSizeMode.Both,
+            allowDragging: wijmo.grid.AllowDragging.None,
+            selectionMode: wijmo.grid.SelectionMode.Row
+        });
+
+        systemItemPackageFlexGrid.trackChanges = true;
+
+        if (!isItemQueryItemPackageClicked) {
+            updateSystemNavigateButtonsItemPackage();
+
+            btnSystemMoveToFirstPageGridItemPackage.addEventListener('click', function () {
+                systemItemPackageCollectionView.moveToFirstPage();
+                updateSystemNavigateButtonsItemPackage();
+            });
+
+            btnSystemMoveToPreviousPageGridItemPackage.addEventListener('click', function () {
+                systemItemPackageCollectionView.moveToPreviousPage();
+                updateSystemNavigateButtonsItemPackage();
+            });
+
+            btnSystemMoveToNextPageGridItemPackage.addEventListener('click', function () {
+                systemItemPackageCollectionView.moveToNextPage();
+                updateSystemNavigateButtonsItemPackage();
+            });
+
+            btnSystemMoveToLastPageGridItemPackage.addEventListener('click', function () {
+                systemItemPackageCollectionView.moveToLastPage();
+                updateSystemNavigateButtonsItemPackage();
+            });
+
+            isItemQueryItemPackageClicked = true;
+        }
+    }
+
+    $('#systemItemInventoryId').click(function () {
+        $("#loadingSystemItemInventory").show();
+        document.getElementById("loadingSystemItemInventory").innerHTML = 'Loading...';
+        $("#systemItemInventoryGridDetail").hide();
+
+        setTimeout(function () {
+            createSystemItemInventoryGrid();
+        }, 500);
+    });
+
+    $('#systemItemNonInventoryId').click(function () {
+        $("#loadingSystemItemNonInventory").show();
+        document.getElementById("loadingSystemItemNonInventory").innerHTML = 'Loading...';
+        $("#systemItemNonInventoryGridDetail").hide();
+
+        setTimeout(function () {
+            createSystemItemNonInventoryGrid();
+        }, 500);
+    });
+
+    $('#systemItemPackageId').click(function () {
+        $("#loadingSystemItemPackage").show();
+        document.getElementById("loadingSystemItemPackage").innerHTML = 'Loading...';
+        $("#systemItemPackageGridDetail").hide();
+
+        setTimeout(function () {
+            createSystemItemPackageGrid();
+        }, 500);
+    });*@
+<!--</script>-->

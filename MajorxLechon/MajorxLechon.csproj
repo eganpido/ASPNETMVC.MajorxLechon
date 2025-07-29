@@ -1,0 +1,937 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B8EB74A0-AB39-42DA-9ACA-35010DC4ECA5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MajorxLechon</RootNamespace>
+    <AssemblyName>MajorxLechon</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44367</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.6.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.4\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.4\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.4\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.2.3\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.3\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.2.3\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.2.3\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.2.3\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.3\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\home.css" />
+    <Content Include="Content\loader.css" />
+    <Content Include="Content\nprogress.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\software.css" />
+    <Content Include="Content\system.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\wijmo.css" />
+    <Content Include="Content\wijmo.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\coverImages\cover.png" />
+    <Content Include="Images\coverImages\easyfis-bg.png" />
+    <Content Include="Images\coverImages\header.jpg" />
+    <Content Include="Images\coverImages\header2.jpg" />
+    <Content Include="Images\coverImages\headerbg.png" />
+    <Content Include="Images\coverImages\headerbg2.png" />
+    <Content Include="Images\coverImages\landingpagebg-new.png" />
+    <Content Include="Images\coverImages\landingpagebg.png" />
+    <Content Include="Images\coverImages\loginbackground.png" />
+    <Content Include="Images\coverImages\templateHeader.jpg" />
+    <Content Include="Images\customers\abomar.png" />
+    <Content Include="Images\customers\cmm.png" />
+    <Content Include="Images\customers\customerlogo.jpg" />
+    <Content Include="Images\customers\danenrico.png" />
+    <Content Include="Images\customers\elora.png" />
+    <Content Include="Images\customers\jmpoultry.png" />
+    <Content Include="Images\customers\priland.png" />
+    <Content Include="Images\customers\racal.png" />
+    <Content Include="Images\customers\rafaels.png" />
+    <Content Include="Images\customers\rmo.png" />
+    <Content Include="Images\customers\smplytext.png" />
+    <Content Include="Images\customers\sunkai.png" />
+    <Content Include="Images\icon\easyfislogomini.ico" />
+    <Content Include="Images\icon\liteclerkicon.ico" />
+    <Content Include="Images\icon\liteclerklogomini.png" />
+    <Content Include="Images\icon\streetsmartLogo.ico" />
+    <Content Include="Images\logo\easyfislogo - Copy.png" />
+    <Content Include="Images\logo\easyfislogo.png" />
+    <Content Include="Images\logo\easyfislogonew.png" />
+    <Content Include="Images\logo\fab.png" />
+    <Content Include="Images\logo\liteclerklogo.png" />
+    <Content Include="Images\logo\liteclerklogoimg.png" />
+    <Content Include="Images\logo\STREETSMART.png" />
+    <Content Include="Images\sectionImages\BIR Logo.png" />
+    <Content Include="Images\sectionImages\contact_us.png" />
+    <Content Include="Images\sectionImages\easyfis.png" />
+    <Content Include="Images\sectionImages\icon1.png" />
+    <Content Include="Images\sectionImages\icon2.png" />
+    <Content Include="Images\sectionImages\icon3.png" />
+    <Content Include="Images\sectionImages\realtimepos.png" />
+    <Content Include="Images\sectionImages\syspro1.png" />
+    <Content Include="Images\sectionImages\syspro2.png" />
+    <Content Include="Images\sectionImages\womanfeature.jpeg" />
+    <Content Include="Images\svgIcons\about.svg" />
+    <Content Include="Images\svgIcons\accept_database.svg" />
+    <Content Include="Images\svgIcons\address_book.svg" />
+    <Content Include="Images\svgIcons\add_column.svg" />
+    <Content Include="Images\svgIcons\add_database.svg" />
+    <Content Include="Images\svgIcons\add_image.svg" />
+    <Content Include="Images\svgIcons\add_row.svg" />
+    <Content Include="Images\svgIcons\advance.svg" />
+    <Content Include="Images\svgIcons\advertising.svg" />
+    <Content Include="Images\svgIcons\alarm_clock.svg" />
+    <Content Include="Images\svgIcons\alphabetical_sorting_az.svg" />
+    <Content Include="Images\svgIcons\alphabetical_sorting_za.svg" />
+    <Content Include="Images\svgIcons\android_os.svg" />
+    <Content Include="Images\svgIcons\answers.svg" />
+    <Content Include="Images\svgIcons\apartment.svg" />
+    <Content Include="Images\svgIcons\approval.svg" />
+    <Content Include="Images\svgIcons\approve.svg" />
+    <Content Include="Images\svgIcons\archeology.svg" />
+    <Content Include="Images\svgIcons\area_chart.svg" />
+    <Content Include="Images\svgIcons\assistant.svg" />
+    <Content Include="Images\svgIcons\audio_file.svg" />
+    <Content Include="Images\svgIcons\automatic.svg" />
+    <Content Include="Images\svgIcons\automotive.svg" />
+    <Content Include="Images\svgIcons\bad_decision.svg" />
+    <Content Include="Images\svgIcons\barcode_scanner.svg" />
+    <Content Include="Images\svgIcons\barn.svg" />
+    <Content Include="Images\svgIcons\bar_chart.svg" />
+    <Content Include="Images\svgIcons\bbc.svg" />
+    <Content Include="Images\svgIcons\bearish.svg" />
+    <Content Include="Images\svgIcons\bed.svg" />
+    <Content Include="Images\svgIcons\binoculars.svg" />
+    <Content Include="Images\svgIcons\biohazard.svg" />
+    <Content Include="Images\svgIcons\biomass.svg" />
+    <Content Include="Images\svgIcons\biotech.svg" />
+    <Content Include="Images\svgIcons\bookmark.svg" />
+    <Content Include="Images\svgIcons\bridge.svg" />
+    <Content Include="Images\svgIcons\briefcase.svg" />
+    <Content Include="Images\svgIcons\broken_link.svg" />
+    <Content Include="Images\svgIcons\bug.svg" />
+    <Content Include="Images\svgIcons\bullish.svg" />
+    <Content Include="Images\svgIcons\bureau.svg" />
+    <Content Include="Images\svgIcons\burn_cd.svg" />
+    <Content Include="Images\svgIcons\business.svg" />
+    <Content Include="Images\svgIcons\businessman.svg" />
+    <Content Include="Images\svgIcons\businesswoman.svg" />
+    <Content Include="Images\svgIcons\business_contact.svg" />
+    <Content Include="Images\svgIcons\butting_in.svg" />
+    <Content Include="Images\svgIcons\button.svg" />
+    <Content Include="Images\svgIcons\buy.svg" />
+    <Content Include="Images\svgIcons\cable_release.svg" />
+    <Content Include="Images\svgIcons\calculator.svg" />
+    <Content Include="Images\svgIcons\calendar.svg" />
+    <Content Include="Images\svgIcons\callback.svg" />
+    <Content Include="Images\svgIcons\call_transfer.svg" />
+    <Content Include="Images\svgIcons\camcorder.svg" />
+    <Content Include="Images\svgIcons\camcorder_pro.svg" />
+    <Content Include="Images\svgIcons\camera.svg" />
+    <Content Include="Images\svgIcons\camera_addon.svg" />
+    <Content Include="Images\svgIcons\camera_identification.svg" />
+    <Content Include="Images\svgIcons\cancel.svg" />
+    <Content Include="Images\svgIcons\candle_sticks.svg" />
+    <Content Include="Images\svgIcons\capacitor.svg" />
+    <Content Include="Images\svgIcons\carousel.svg" />
+    <Content Include="Images\svgIcons\car_theft.svg" />
+    <Content Include="Images\svgIcons\cash_register.svg" />
+    <Content Include="Images\svgIcons\cathedral.svg" />
+    <Content Include="Images\svgIcons\cd_logo.svg" />
+    <Content Include="Images\svgIcons\cell_phone.svg" />
+    <Content Include="Images\svgIcons\chainsaw.svg" />
+    <Content Include="Images\svgIcons\charge_battery.svg" />
+    <Content Include="Images\svgIcons\checkmark.svg" />
+    <Content Include="Images\svgIcons\circuit.svg" />
+    <Content Include="Images\svgIcons\clapperboard.svg" />
+    <Content Include="Images\svgIcons\clear_filters.svg" />
+    <Content Include="Images\svgIcons\clock.svg" />
+    <Content Include="Images\svgIcons\close_up_mode.svg" />
+    <Content Include="Images\svgIcons\cloth.svg" />
+    <Content Include="Images\svgIcons\coffee_maker.svg" />
+    <Content Include="Images\svgIcons\collaboration.svg" />
+    <Content Include="Images\svgIcons\collapse.svg" />
+    <Content Include="Images\svgIcons\collect.svg" />
+    <Content Include="Images\svgIcons\combo_chart.svg" />
+    <Content Include="Images\svgIcons\command_line.svg" />
+    <Content Include="Images\svgIcons\comments.svg" />
+    <Content Include="Images\svgIcons\compact_camera.svg" />
+    <Content Include="Images\svgIcons\confectionery.svg" />
+    <Content Include="Images\svgIcons\conference_call.svg" />
+    <Content Include="Images\svgIcons\contacts.svg" />
+    <Content Include="Images\svgIcons\controller.svg" />
+    <Content Include="Images\svgIcons\cooker.svg" />
+    <Content Include="Images\svgIcons\copyleft.svg" />
+    <Content Include="Images\svgIcons\copyright.svg" />
+    <Content Include="Images\svgIcons\cottage.svg" />
+    <Content Include="Images\svgIcons\cotton_candy.svg" />
+    <Content Include="Images\svgIcons\crystal_oscillator.svg" />
+    <Content Include="Images\svgIcons\currency_exchange.svg" />
+    <Content Include="Images\svgIcons\cursor.svg" />
+    <Content Include="Images\svgIcons\customer_support.svg" />
+    <Content Include="Images\svgIcons\cut.svg" />
+    <Content Include="Images\svgIcons\dam.svg" />
+    <Content Include="Images\svgIcons\dashboard.svg" />
+    <Content Include="Images\svgIcons\database.svg" />
+    <Content Include="Images\svgIcons\data_backup.svg" />
+    <Content Include="Images\svgIcons\data_configuration.svg" />
+    <Content Include="Images\svgIcons\data_encryption.svg" />
+    <Content Include="Images\svgIcons\data_protection.svg" />
+    <Content Include="Images\svgIcons\data_recovery.svg" />
+    <Content Include="Images\svgIcons\data_sheet.svg" />
+    <Content Include="Images\svgIcons\debian.svg" />
+    <Content Include="Images\svgIcons\debt.svg" />
+    <Content Include="Images\svgIcons\decision.svg" />
+    <Content Include="Images\svgIcons\delete_column.svg" />
+    <Content Include="Images\svgIcons\delete_database.svg" />
+    <Content Include="Images\svgIcons\delete_row.svg" />
+    <Content Include="Images\svgIcons\delivery.svg" />
+    <Content Include="Images\svgIcons\department.svg" />
+    <Content Include="Images\svgIcons\deployment.svg" />
+    <Content Include="Images\svgIcons\device_manager.svg" />
+    <Content Include="Images\svgIcons\diploma_1.svg" />
+    <Content Include="Images\svgIcons\diploma_2.svg" />
+    <Content Include="Images\svgIcons\disapprove.svg" />
+    <Content Include="Images\svgIcons\disclaimer.svg" />
+    <Content Include="Images\svgIcons\discount.svg" />
+    <Content Include="Images\svgIcons\dislike.svg" />
+    <Content Include="Images\svgIcons\display.svg" />
+    <Content Include="Images\svgIcons\document.svg" />
+    <Content Include="Images\svgIcons\donate.svg" />
+    <Content Include="Images\svgIcons\doughnut_chart.svg" />
+    <Content Include="Images\svgIcons\down.svg" />
+    <Content Include="Images\svgIcons\download.svg" />
+    <Content Include="Images\svgIcons\down_left.svg" />
+    <Content Include="Images\svgIcons\down_right.svg" />
+    <Content Include="Images\svgIcons\do_not_inhale.svg" />
+    <Content Include="Images\svgIcons\do_not_insert.svg" />
+    <Content Include="Images\svgIcons\do_not_mix.svg" />
+    <Content Include="Images\svgIcons\drafting_compass.svg" />
+    <Content Include="Images\svgIcons\dribbble.svg" />
+    <Content Include="Images\svgIcons\drill.svg" />
+    <Content Include="Images\svgIcons\dvd_logo.svg" />
+    <Content Include="Images\svgIcons\edit_image.svg" />
+    <Content Include="Images\svgIcons\electrical_sensor.svg" />
+    <Content Include="Images\svgIcons\electrical_threshold.svg" />
+    <Content Include="Images\svgIcons\electricity.svg" />
+    <Content Include="Images\svgIcons\electronics.svg" />
+    <Content Include="Images\svgIcons\electro_devices.svg" />
+    <Content Include="Images\svgIcons\empty_battery.svg" />
+    <Content Include="Images\svgIcons\empty_filter.svg" />
+    <Content Include="Images\svgIcons\empty_trash.svg" />
+    <Content Include="Images\svgIcons\end_call.svg" />
+    <Content Include="Images\svgIcons\engineering.svg" />
+    <Content Include="Images\svgIcons\entering_heaven_alive.svg" />
+    <Content Include="Images\svgIcons\ethernet_off.svg" />
+    <Content Include="Images\svgIcons\expand.svg" />
+    <Content Include="Images\svgIcons\expired.svg" />
+    <Content Include="Images\svgIcons\export.svg" />
+    <Content Include="Images\svgIcons\external.svg" />
+    <Content Include="Images\svgIcons\factory.svg" />
+    <Content Include="Images\svgIcons\factory_breakdown.svg" />
+    <Content Include="Images\svgIcons\fan.svg" />
+    <Content Include="Images\svgIcons\faq.svg" />
+    <Content Include="Images\svgIcons\feedback.svg" />
+    <Content Include="Images\svgIcons\feed_in.svg" />
+    <Content Include="Images\svgIcons\file.svg" />
+    <Content Include="Images\svgIcons\filing_cabinet.svg" />
+    <Content Include="Images\svgIcons\filled_filter.svg" />
+    <Content Include="Images\svgIcons\film.svg" />
+    <Content Include="Images\svgIcons\film_reel.svg" />
+    <Content Include="Images\svgIcons\fine_print.svg" />
+    <Content Include="Images\svgIcons\flash_auto.svg" />
+    <Content Include="Images\svgIcons\flash_off.svg" />
+    <Content Include="Images\svgIcons\flash_on.svg" />
+    <Content Include="Images\svgIcons\flow_chart.svg" />
+    <Content Include="Images\svgIcons\folder.svg" />
+    <Content Include="Images\svgIcons\frame.svg" />
+    <Content Include="Images\svgIcons\fraud.svg" />
+    <Content Include="Images\svgIcons\full_battery.svg" />
+    <Content Include="Images\svgIcons\full_trash.svg" />
+    <Content Include="Images\svgIcons\gallery.svg" />
+    <Content Include="Images\svgIcons\garage.svg" />
+    <Content Include="Images\svgIcons\gas_mask.svg" />
+    <Content Include="Images\svgIcons\gas_station.svg" />
+    <Content Include="Images\svgIcons\genealogy.svg" />
+    <Content Include="Images\svgIcons\generic_sorting_asc.svg" />
+    <Content Include="Images\svgIcons\generic_sorting_desc.svg" />
+    <Content Include="Images\svgIcons\gift.svg" />
+    <Content Include="Images\svgIcons\globe.svg" />
+    <Content Include="Images\svgIcons\good_decision.svg" />
+    <Content Include="Images\svgIcons\google.svg" />
+    <Content Include="Images\svgIcons\graduation_cap.svg" />
+    <Content Include="Images\svgIcons\greentech.svg" />
+    <Content Include="Images\svgIcons\grid.svg" />
+    <Content Include="Images\svgIcons\hacking.svg" />
+    <Content Include="Images\svgIcons\hammer.svg" />
+    <Content Include="Images\svgIcons\handcuffs.svg" />
+    <Content Include="Images\svgIcons\handshake.svg" />
+    <Content Include="Images\svgIcons\hdmi.svg" />
+    <Content Include="Images\svgIcons\hdtv.svg" />
+    <Content Include="Images\svgIcons\headset.svg" />
+    <Content Include="Images\svgIcons\heat_map.svg" />
+    <Content Include="Images\svgIcons\high_battery.svg" />
+    <Content Include="Images\svgIcons\high_priority.svg" />
+    <Content Include="Images\svgIcons\home.svg" />
+    <Content Include="Images\svgIcons\home_decorations.svg" />
+    <Content Include="Images\svgIcons\hospital.svg" />
+    <Content Include="Images\svgIcons\housekeeper_female.svg" />
+    <Content Include="Images\svgIcons\icons8_cup.svg" />
+    <Content Include="Images\svgIcons\idea.svg" />
+    <Content Include="Images\svgIcons\image_file.svg" />
+    <Content Include="Images\svgIcons\import.svg" />
+    <Content Include="Images\svgIcons\info.svg" />
+    <Content Include="Images\svgIcons\inspection.svg" />
+    <Content Include="Images\svgIcons\integrated_webcam.svg" />
+    <Content Include="Images\svgIcons\internal.svg" />
+    <Content Include="Images\svgIcons\invite.svg" />
+    <Content Include="Images\svgIcons\in_transit.svg" />
+    <Content Include="Images\svgIcons\ipad.svg" />
+    <Content Include="Images\svgIcons\iphone.svg" />
+    <Content Include="Images\svgIcons\iron.svg" />
+    <Content Include="Images\svgIcons\jacuzzi.svg" />
+    <Content Include="Images\svgIcons\jewelry.svg" />
+    <Content Include="Images\svgIcons\keep_dry.svg" />
+    <Content Include="Images\svgIcons\key.svg" />
+    <Content Include="Images\svgIcons\keyboard.svg" />
+    <Content Include="Images\svgIcons\kindle.svg" />
+    <Content Include="Images\svgIcons\kitchenwares.svg" />
+    <Content Include="Images\svgIcons\landscape.svg" />
+    <Content Include="Images\svgIcons\leave.svg" />
+    <Content Include="Images\svgIcons\left.svg" />
+    <Content Include="Images\svgIcons\left_down.svg" />
+    <Content Include="Images\svgIcons\left_down2.svg" />
+    <Content Include="Images\svgIcons\left_up.svg" />
+    <Content Include="Images\svgIcons\left_up2.svg" />
+    <Content Include="Images\svgIcons\library.svg" />
+    <Content Include="Images\svgIcons\lights.svg" />
+    <Content Include="Images\svgIcons\light_at_the_end_of_tunnel.svg" />
+    <Content Include="Images\svgIcons\like.svg" />
+    <Content Include="Images\svgIcons\like_placeholder.svg" />
+    <Content Include="Images\svgIcons\line_chart.svg" />
+    <Content Include="Images\svgIcons\link.svg" />
+    <Content Include="Images\svgIcons\linux.svg" />
+    <Content Include="Images\svgIcons\list.svg" />
+    <Content Include="Images\svgIcons\lock.svg" />
+    <Content Include="Images\svgIcons\lock_landscape.svg" />
+    <Content Include="Images\svgIcons\lock_portrait.svg" />
+    <Content Include="Images\svgIcons\low_battery.svg" />
+    <Content Include="Images\svgIcons\low_priority.svg" />
+    <Content Include="Images\svgIcons\make_decision.svg" />
+    <Content Include="Images\svgIcons\manager.svg" />
+    <Content Include="Images\svgIcons\medium_priority.svg" />
+    <Content Include="Images\svgIcons\memory_slot.svg" />
+    <Content Include="Images\svgIcons\menu.svg" />
+    <Content Include="Images\svgIcons\middle_battery.svg" />
+    <Content Include="Images\svgIcons\mind_map.svg" />
+    <Content Include="Images\svgIcons\minus.svg" />
+    <Content Include="Images\svgIcons\missed_call.svg" />
+    <Content Include="Images\svgIcons\mixer.svg" />
+    <Content Include="Images\svgIcons\mms.svg" />
+    <Content Include="Images\svgIcons\money_transfer.svg" />
+    <Content Include="Images\svgIcons\motion_detector.svg" />
+    <Content Include="Images\svgIcons\move_by_trolley.svg" />
+    <Content Include="Images\svgIcons\multiple_cameras.svg" />
+    <Content Include="Images\svgIcons\multiple_devices.svg" />
+    <Content Include="Images\svgIcons\multiple_inputs.svg" />
+    <Content Include="Images\svgIcons\multiple_smartphones.svg" />
+    <Content Include="Images\svgIcons\music.svg" />
+    <Content Include="Images\svgIcons\negative_dynamic.svg" />
+    <Content Include="Images\svgIcons\neutral_decision.svg" />
+    <Content Include="Images\svgIcons\neutral_trading.svg" />
+    <Content Include="Images\svgIcons\news.svg" />
+    <Content Include="Images\svgIcons\next.svg" />
+    <Content Include="Images\svgIcons\nfc_sign.svg" />
+    <Content Include="Images\svgIcons\night_landscape.svg" />
+    <Content Include="Images\svgIcons\night_portrait.svg" />
+    <Content Include="Images\svgIcons\nook.svg" />
+    <Content Include="Images\svgIcons\notebook.svg" />
+    <Content Include="Images\svgIcons\no_idea.svg" />
+    <Content Include="Images\svgIcons\no_video.svg" />
+    <Content Include="Images\svgIcons\numerical_sorting_12.svg" />
+    <Content Include="Images\svgIcons\numerical_sorting_21.svg" />
+    <Content Include="Images\svgIcons\oil_indaustry.svg" />
+    <Content Include="Images\svgIcons\ok.svg" />
+    <Content Include="Images\svgIcons\old_time_camera.svg" />
+    <Content Include="Images\svgIcons\online_support.svg" />
+    <Content Include="Images\svgIcons\opened_folder.svg" />
+    <Content Include="Images\svgIcons\open_in_browser.svg" />
+    <Content Include="Images\svgIcons\organization.svg" />
+    <Content Include="Images\svgIcons\org_unit.svg" />
+    <Content Include="Images\svgIcons\overtime.svg" />
+    <Content Include="Images\svgIcons\package.svg" />
+    <Content Include="Images\svgIcons\paid.svg" />
+    <Content Include="Images\svgIcons\paint_palette.svg" />
+    <Content Include="Images\svgIcons\panorama.svg" />
+    <Content Include="Images\svgIcons\parallel_tasks.svg" />
+    <Content Include="Images\svgIcons\phone.svg" />
+    <Content Include="Images\svgIcons\phone_android.svg" />
+    <Content Include="Images\svgIcons\phone_office.svg" />
+    <Content Include="Images\svgIcons\photo_reel.svg" />
+    <Content Include="Images\svgIcons\picture.svg" />
+    <Content Include="Images\svgIcons\pie_chart.svg" />
+    <Content Include="Images\svgIcons\pin.svg" />
+    <Content Include="Images\svgIcons\pin_cushion.svg" />
+    <Content Include="Images\svgIcons\planner.svg" />
+    <Content Include="Images\svgIcons\plumbing.svg" />
+    <Content Include="Images\svgIcons\plus.svg" />
+    <Content Include="Images\svgIcons\plush.svg" />
+    <Content Include="Images\svgIcons\podium_without_speaker.svg" />
+    <Content Include="Images\svgIcons\podium_with_audience.svg" />
+    <Content Include="Images\svgIcons\podium_with_speaker.svg" />
+    <Content Include="Images\svgIcons\poison.svg" />
+    <Content Include="Images\svgIcons\portrait_mode.svg" />
+    <Content Include="Images\svgIcons\pos.svg" />
+    <Content Include="Images\svgIcons\positive_dynamic.svg" />
+    <Content Include="Images\svgIcons\pos_terminal.svg" />
+    <Content Include="Images\svgIcons\previous.svg" />
+    <Content Include="Images\svgIcons\price_tag_euro.svg" />
+    <Content Include="Images\svgIcons\price_tag_usd.svg" />
+    <Content Include="Images\svgIcons\print.svg" />
+    <Content Include="Images\svgIcons\privacy.svg" />
+    <Content Include="Images\svgIcons\process.svg" />
+    <Content Include="Images\svgIcons\product.svg" />
+    <Content Include="Images\svgIcons\puzzle.svg" />
+    <Content Include="Images\svgIcons\qr_code.svg" />
+    <Content Include="Images\svgIcons\questions.svg" />
+    <Content Include="Images\svgIcons\radar.svg" />
+    <Content Include="Images\svgIcons\radar_plot.svg" />
+    <Content Include="Images\svgIcons\rating.svg" />
+    <Content Include="Images\svgIcons\ratings.svg" />
+    <Content Include="Images\svgIcons\reading.svg" />
+    <Content Include="Images\svgIcons\reading_ebook.svg" />
+    <Content Include="Images\svgIcons\reddit.svg" />
+    <Content Include="Images\svgIcons\redo.svg" />
+    <Content Include="Images\svgIcons\refresh.svg" />
+    <Content Include="Images\svgIcons\registered_trademark.svg" />
+    <Content Include="Images\svgIcons\remove_image.svg" />
+    <Content Include="Images\svgIcons\research.svg" />
+    <Content Include="Images\svgIcons\return_purchase.svg" />
+    <Content Include="Images\svgIcons\reuse.svg" />
+    <Content Include="Images\svgIcons\right.svg" />
+    <Content Include="Images\svgIcons\right_down.svg" />
+    <Content Include="Images\svgIcons\right_down2.svg" />
+    <Content Include="Images\svgIcons\right_up.svg" />
+    <Content Include="Images\svgIcons\right_up2.svg" />
+    <Content Include="Images\svgIcons\robot.svg" />
+    <Content Include="Images\svgIcons\rotate_camera.svg" />
+    <Content Include="Images\svgIcons\rotate_to_landscape.svg" />
+    <Content Include="Images\svgIcons\rotate_to_portrait.svg" />
+    <Content Include="Images\svgIcons\ruler.svg" />
+    <Content Include="Images\svgIcons\rules.svg" />
+    <Content Include="Images\svgIcons\safe.svg" />
+    <Content Include="Images\svgIcons\sales_performance.svg" />
+    <Content Include="Images\svgIcons\save.svg" />
+    <Content Include="Images\svgIcons\scanner.svg" />
+    <Content Include="Images\svgIcons\scatter_plot.svg" />
+    <Content Include="Images\svgIcons\sd.svg" />
+    <Content Include="Images\svgIcons\search.svg" />
+    <Content Include="Images\svgIcons\selfie.svg" />
+    <Content Include="Images\svgIcons\self_service_kiosk.svg" />
+    <Content Include="Images\svgIcons\sell.svg" />
+    <Content Include="Images\svgIcons\serial_tasks.svg" />
+    <Content Include="Images\svgIcons\services.svg" />
+    <Content Include="Images\svgIcons\service_mark.svg" />
+    <Content Include="Images\svgIcons\settings.svg" />
+    <Content Include="Images\svgIcons\shampoo_dispenser.svg" />
+    <Content Include="Images\svgIcons\share.svg" />
+    <Content Include="Images\svgIcons\shipped.svg" />
+    <Content Include="Images\svgIcons\shop.svg" />
+    <Content Include="Images\svgIcons\shoppig_bag.svg" />
+    <Content Include="Images\svgIcons\shopping_basket.svg" />
+    <Content Include="Images\svgIcons\shopping_cart.svg" />
+    <Content Include="Images\svgIcons\shopping_cart_loaded.svg" />
+    <Content Include="Images\svgIcons\shower_and_tub.svg" />
+    <Content Include="Images\svgIcons\signature.svg" />
+    <Content Include="Images\svgIcons\sim_card.svg" />
+    <Content Include="Images\svgIcons\sim_card_chip.svg" />
+    <Content Include="Images\svgIcons\slr_back_side.svg" />
+    <Content Include="Images\svgIcons\smartphone_tablet.svg" />
+    <Content Include="Images\svgIcons\sms.svg" />
+    <Content Include="Images\svgIcons\software_box.svg" />
+    <Content Include="Images\svgIcons\solar_panel.svg" />
+    <Content Include="Images\svgIcons\sound_recording_copyright.svg" />
+    <Content Include="Images\svgIcons\souvenirs.svg" />
+    <Content Include="Images\svgIcons\speaker.svg" />
+    <Content Include="Images\svgIcons\sports_mode.svg" />
+    <Content Include="Images\svgIcons\stack_of_photos.svg" />
+    <Content Include="Images\svgIcons\start.svg" />
+    <Content Include="Images\svgIcons\stationery.svg" />
+    <Content Include="Images\svgIcons\statistics.svg" />
+    <Content Include="Images\svgIcons\steam.svg" />
+    <Content Include="Images\svgIcons\stumbleupon.svg" />
+    <Content Include="Images\svgIcons\support.svg" />
+    <Content Include="Images\svgIcons\survey.svg" />
+    <Content Include="Images\svgIcons\switch_camera.svg" />
+    <Content Include="Images\svgIcons\synchronize.svg" />
+    <Content Include="Images\svgIcons\tablet_android.svg" />
+    <Content Include="Images\svgIcons\tape_drive.svg" />
+    <Content Include="Images\svgIcons\template.svg" />
+    <Content Include="Images\svgIcons\timeline.svg" />
+    <Content Include="Images\svgIcons\todo_list.svg" />
+    <Content Include="Images\svgIcons\toolbox.svg" />
+    <Content Include="Images\svgIcons\touchscreen_smartphone.svg" />
+    <Content Include="Images\svgIcons\towel.svg" />
+    <Content Include="Images\svgIcons\trademark.svg" />
+    <Content Include="Images\svgIcons\transportation.svg" />
+    <Content Include="Images\svgIcons\tree_structure.svg" />
+    <Content Include="Images\svgIcons\two_smartphones.svg" />
+    <Content Include="Images\svgIcons\undo.svg" />
+    <Content Include="Images\svgIcons\unlock.svg" />
+    <Content Include="Images\svgIcons\up.svg" />
+    <Content Include="Images\svgIcons\upload.svg" />
+    <Content Include="Images\svgIcons\up_left.svg" />
+    <Content Include="Images\svgIcons\up_right.svg" />
+    <Content Include="Images\svgIcons\usb.svg" />
+    <Content Include="Images\svgIcons\usb_on.svg" />
+    <Content Include="Images\svgIcons\vacuum_cleaner.svg" />
+    <Content Include="Images\svgIcons\video_call.svg" />
+    <Content Include="Images\svgIcons\video_file.svg" />
+    <Content Include="Images\svgIcons\video_projector.svg" />
+    <Content Include="Images\svgIcons\view_details.svg" />
+    <Content Include="Images\svgIcons\vip.svg" />
+    <Content Include="Images\svgIcons\vlc.svg" />
+    <Content Include="Images\svgIcons\voicemail.svg" />
+    <Content Include="Images\svgIcons\voice_presentation.svg" />
+    <Content Include="Images\svgIcons\webcam.svg" />
+    <Content Include="Images\svgIcons\wi-fi_logo.svg" />
+    <Content Include="Images\svgIcons\wikipedia.svg" />
+    <Content Include="Images\svgIcons\wind_turbine.svg" />
+    <Content Include="Images\svgIcons\workflow.svg" />
+    <Content Include="Images\svgIcons\workstation.svg" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Data\majorxlechondb.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>majorxlechondb.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Data\majorxlechondb.dbml.layout">
+      <DependentUpon>majorxlechondb.dbml</DependentUpon>
+    </None>
+    <Content Include="Images\logo\easyfislogonew.psd" />
+    <Content Include="fonts\font-awesome\less\animated.less" />
+    <Content Include="fonts\font-awesome\less\bordered-pulled.less" />
+    <Content Include="fonts\font-awesome\less\core.less" />
+    <Content Include="fonts\font-awesome\less\fixed-width.less" />
+    <Content Include="fonts\font-awesome\less\font-awesome.less" />
+    <Content Include="fonts\font-awesome\less\icons.less" />
+    <Content Include="fonts\font-awesome\less\larger.less" />
+    <Content Include="fonts\font-awesome\less\list.less" />
+    <Content Include="fonts\font-awesome\less\mixins.less" />
+    <Content Include="fonts\font-awesome\less\path.less" />
+    <Content Include="fonts\font-awesome\less\rotated-flipped.less" />
+    <Content Include="fonts\font-awesome\less\stacked.less" />
+    <Content Include="fonts\font-awesome\less\variables.less" />
+    <Content Include="fonts\font-awesome\scss\font-awesome.scss" />
+    <Content Include="fonts\font-awesome\scss\_animated.scss" />
+    <Content Include="fonts\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="fonts\font-awesome\scss\_core.scss" />
+    <Content Include="fonts\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="fonts\font-awesome\scss\_icons.scss" />
+    <Content Include="fonts\font-awesome\scss\_larger.scss" />
+    <Content Include="fonts\font-awesome\scss\_list.scss" />
+    <Content Include="fonts\font-awesome\scss\_mixins.scss" />
+    <Content Include="fonts\font-awesome\scss\_path.scss" />
+    <Content Include="fonts\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="fonts\font-awesome\scss\_stacked.scss" />
+    <Content Include="fonts\font-awesome\scss\_variables.scss" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\Segoe UI.ttf" />
+    <Content Include="fonts\SegoeUI.woff" />
+    <Content Include="fonts\poppins.regular.ttf" />
+    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\carbonAd.js" />
+    <Content Include="Scripts\classie.js" />
+    <Content Include="Scripts\creative.js" />
+    <Content Include="Scripts\custom-tooltip.js" />
+    <Content Include="Scripts\githubIcons.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.easing.min.js" />
+    <Content Include="Scripts\jquery.fittext.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.slimscroll.js" />
+    <Content Include="Scripts\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main3.js" />
+    <Content Include="Scripts\menu.js" />
+    <Content Include="Scripts\menu.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\loader.js" />
+    <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\snap.svg-min.js" />
+    <Content Include="Scripts\software.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\wijmo.chart.js" />
+    <Content Include="Scripts\wijmo.chart.min.js" />
+    <Content Include="Scripts\wijmo.grid.filter.js" />
+    <Content Include="Scripts\wijmo.grid.filter.min.js" />
+    <Content Include="Scripts\wijmo.grid.js" />
+    <Content Include="Scripts\wijmo.grid.min.js" />
+    <Content Include="Scripts\wijmo.input.js" />
+    <Content Include="Scripts\wijmo.input.min.js" />
+    <Content Include="Scripts\wijmo.js" />
+    <Content Include="Scripts\wijmo.min.js" />
+    <Content Include="Scripts\wow.min.js" />
+    <Content Include="Scripts\xlsxexport.js" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_AccountFooter.cshtml" />
+    <Content Include="Views\Shared\_AccountHeader.cshtml" />
+    <Content Include="Views\Shared\_AccountLogin.cshtml" />
+    <Content Include="Views\Shared\_AccountRegister.cshtml" />
+    <Content Include="Views\Shared\_HomeIndex.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageFooter.cshtml" />
+    <Content Include="Views\Shared\_ManageHeader.cshtml" />
+    <Content Include="Views\Shared\_ManageIndex.cshtml" />
+    <Content Include="Views\Shared\_SoftwareFooter.cshtml" />
+    <Content Include="Views\Shared\_SoftwareHeader.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiMstItemController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SoftwareController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\majorxlechondb.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>majorxlechondb.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\MstUser.cs" />
+    <Compile Include="Entities\MstItem.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.1.min.map" />
+    <Content Include="Views\Software\Index.cshtml" />
+    <Content Include="Views\Software\ItemList.cshtml" />
+    <Content Include="Views\Software\ItemDetail.cshtml" />
+    <Content Include="Views\Software\UserList.cshtml" />
+    <Content Include="Views\Software\UserDetail.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52003</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44367/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

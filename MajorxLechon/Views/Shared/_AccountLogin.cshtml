@@ -1,0 +1,69 @@
+﻿@model salesexpensetracker.Models.LoginViewModel
+
+@if (Request.IsAuthenticated)
+{
+    @Html.AntiForgeryToken()
+    <section>
+        @{ Response.Redirect("~/Home/Index");}
+    </section>
+}
+else
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "", role = "form" }))
+                    {
+                        <div class="panel-login panel-login-default">
+                            <div class="panel-login-heading" style="text-align: center; padding: 20px 0;">
+                                <span style="font-size:21px;">🎉 Welcome Back! 🎉</span>
+                            </div>
+                            <br/>
+                            <div class="panel-body">
+                                @Html.AntiForgeryToken()
+                                <div class="form-group" style="margin-bottom: 25px !important;">
+                                    <label>🆔 Username</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 25px !important;">
+                                    <label>✴️ Password</label>
+                                    <div>
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                    <div>
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>*@
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block btn-lg">🔑 Login</button>
+                                </div>
+                                <div class="text-danger text-center" style="margin-bottom: 25px !important;">
+                                    @if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Any()))
+                                    {
+                                        @Html.ValidationMessage("LoginError", new { @class = "text-danger" })
+                                    }
+                                </div>
+                            </div>
+                            <div class="panel-login-footer" style="text-align: center; padding: 10px 0;">
+                                <img src="~/Images/logo/STREETSMART.png" style="height: 30px; opacity: 70%; vertical-align: middle;" alt="Logo" />
+                                <span style="color: darkslategray; font-size: 12px; margin-left: 2px; vertical-align: middle;">
+                                    © 2025, Streetsmart Corporation
+                                </span>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </section>
+}

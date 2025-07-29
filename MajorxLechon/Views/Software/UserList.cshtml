@@ -1,0 +1,280 @@
+﻿@*@model easyfis.Entities.MstUserForm*@
+@{
+    // =====================
+    // User Rights Variables
+    // =====================
+    //var canAdd = Model.CanAdd;
+    //var canEdit = Model.CanEdit;
+    //var canDelete = Model.CanDelete;
+    //var canLock = Model.CanLock;
+    //var canUnlock = Model.CanUnlock;
+    //var canPrint = Model.CanPrint;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>User List</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
+    @Styles.Render("~/Content/Software-css")
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_SoftwareHeader")
+
+            <div class="container">
+                <h3>
+                    🧑‍💻 User List
+                </h3>
+            </div>
+            <section class="container">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <table style="width: 100%" border="0">
+                            <tr>
+                                <td style="width: 59%">
+                                    <button class="btn btn-primary" id="btnUserAdd" onclick="registerUser()">✍️ Register</button>
+                                </td>
+                                <td style="width: 1%"></td>
+                                <td style="width: 40%" align="right">
+                                    <button class="btn btn-danger" id="btnUserClose" onclick="closeUser()">🗙 Close</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <table id="datagridList" class="table table-striped table-bordered">
+                        <thead>
+                            <tr class="selected">
+                                <th></th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Created By</th>
+                                <th>Created Date</th>
+                                <th>Locked</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!--
+                User Confirm Delete Modal
+            -->
+            <div class="modal fade" id="deleteUserConfirm" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Delete</h4>
+                        </div>
+                        <div class="modal-body">
+                            Delete User?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnUserConfirmDelete" class="btn btn-danger" onclick="confirmDeleteUser()">🗑 Delete</button>
+                            <button id="btnUserCloseConfirmDelete" class="btn btn-primary" data-dismiss="modal">🗙 Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register User -->
+            <div class="modal fade" id="registerUser" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Register User</h4>
+                        </div>
+                        <div class="modal-body">
+                            Confirm to register?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="" class="btn btn-primary" onclick="window.location.href='@Url.Action("Register", "Account")'">✔ Confirm</button>
+                            <button id="" class="btn btn-danger" data-dismiss="modal">🗙 Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("_SoftwareFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    @Scripts.Render("~/Scripts/Software-js")
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap.js"></script>
+    <script type="text/javascript">
+        var Id = 0;
+        function populateUser() {
+            Loader.show();
+            // ✅ Destroy existing DataTable if already initialized
+            if ($.fn.DataTable.isDataTable('#datagridList')) {
+                $('#datagridList').DataTable().clear().destroy();
+            }
+
+            // ✅ Clear previous row click bindings (optional but recommended to avoid duplicates)
+            $('#datagridList tbody').off('click');
+
+            // ✅ Row selection logic
+            $('#datagridList tbody').on('click', 'tr', function () {
+                $('#datagridList tbody tr').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            // ✅ Initialize DataTable
+            $('#datagridList').DataTable({
+                ajax: {
+                    url: '/api/user/list',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-primary btn-sm" onclick="editUser(' + row.Id + ')">📝 Edit</button>';
+                        }
+                    },
+                    { data: 'UserName', className: 'text-left' },
+                    { data: 'FullName', width: '40%' },
+                    { data: 'CreatedBy' },
+                    {
+                        data: 'CreatedDateTime',
+                        render: function (data) {
+                            return new Date(data).toLocaleDateString();
+                        }
+                    },
+                    {
+                        data: 'IsLocked',
+                        className: 'dt-checkboxes',
+                        render: function (data) {
+                            return '<input type="checkbox" ' + (data ? 'checked' : '') + ' disabled>';
+                        }
+                    },
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm" onclick="deleteUser(' + row.Id + ', ' + row.IsLocked + ')">🗑 Delete</button>';
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 1,
+                        className: 'text-left'
+                    },
+                    {
+                        targets: [0, 6],
+                        orderable: false
+                    }
+                ],
+                pageLength: 10,
+                responsive: true,
+                language: {
+                    search: "Search:  ",
+                    emptyTable: "No record(s) available",
+                    "lengthMenu": "_MENU_ Records per page",
+                    "info": "_START_ - _END_ of _TOTAL_ record(s) is displayed"
+                }
+            });
+        }
+
+        // Edit User
+        function editUser(userId) {
+            window.location = '/Software/UserDetail?id=' + userId;
+        }
+
+        // Delete User
+        function deleteUser(userId, isLocked) {
+            Id = userId;
+            if (isLocked) {
+                toastr.error("Please unlock the record first before deleting...", "", { positionClass: "toast-bottom-right" });
+            } else {
+                $('#deleteUserConfirm').modal({
+                    show: true,
+                    backdrop: 'static'
+                });
+
+                document.getElementById('btnUserConfirmDelete').innerHTML = "🗑 Delete";
+                $('#btnUserConfirmDelete').prop('disabled', false);
+                $('#btnUserCloseConfirmDelete').prop('disabled', false);
+            }
+        }
+
+        // Confirm Delete User
+        function confirmDeleteUser() {
+            document.getElementById('btnUserConfirmDelete').innerHTML = "🗑 Deleting...";
+            $('#btnUserConfirmDelete').prop('disabled', true);
+            $('#btnUserCloseConfirmDelete').prop('disabled', true);
+
+            $.ajax({
+                url: '/api/user/delete/' + Id,
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Delete Successful", "", { positionClass: "toast-bottom-right" });
+                        $('#deleteUserConfirm').modal('hide');
+                        populateUser();
+                        Loader.hide();
+                        //NProgress.done();
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        $('#deleteUserConfirm').modal('hide');
+                        document.getElementById('btnUserConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnUserConfirmDelete').prop('disabled', false);
+                        $('#btnUserCloseConfirmDelete').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        $('#deleteUserConfirm').modal('hide');
+                        document.getElementById('btnUserConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnUserConfirmDelete').prop('disabled', false);
+                        $('#btnUserCloseConfirmDelete').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        $('#deleteUserConfirm').modal('hide');
+                        document.getElementById('btnUserConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnUserConfirmDelete').prop('disabled', false);
+                        $('#btnUserCloseConfirmDelete').prop('disabled', false);
+                    }
+                }
+            });
+        }
+        function registerUser() {
+            $('#registerUser').modal({
+                show: true,
+                backdrop: 'static'
+            });
+        }
+
+        // Close User
+        function closeUser() {
+            window.location = '/Software';
+        }
+
+        // On Load Page
+        $(document).ready(function () {
+            populateUser();
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        });
+    </script>
+    <div id="loader-overlay">
+        <div class="loader-circle"></div>
+    </div>
+</body>
+</html>

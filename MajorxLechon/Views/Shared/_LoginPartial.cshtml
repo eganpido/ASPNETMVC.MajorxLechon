@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    var branchId = Request.QueryString["BranchId"];
+}
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            @*@{
+                    var pageName = ViewContext.RouteData.Values["controller"].ToString();
+                    if (pageName.Equals("Home"))
+                    {
+                        <li>
+                            <a class="page-scroll" href="/Home/Index#about">About</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/Home/Index#contact">Contact</a>
+                        </li>
+                    }
+                }*@
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">🟢 @ViewData["FullName"] <i class="fa fa-caret-down"></i></a>
+                <ul class="dropdown-menu">
+            <li><a href="/Software">📋 Menu</a></li>
+                <li class="divider"></li>
+                <li><a href="/Manage/ChangePassword">🆕 Change Password</a></li>
+                @*<li><a href="/Account/Login"><i class="fa fa-gear fa-fw"></i> Settings</a></li>*@
+                <li class="divider"></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()" data-toggle="modal">📴 Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @*<a class="page-scroll" href="/Home/Index#about">About</a>*@
+        </li>
+        <li>
+            @*<a class="page-scroll" href="/Home/Index#contact">Contact</a>*@
+        </li>
+        <li>
+            <a class="page-scroll" href="/Account/Login">🔑 Login</a>
+        </li>
+    </ul>
+}
+
+<script type="text/javascript">
+    function cmdLogoutModal_OnClick() {
+        $('#modalLogout').modal({
+            show: true,
+            backdrop: 'static'
+        });
+    }
+</script>

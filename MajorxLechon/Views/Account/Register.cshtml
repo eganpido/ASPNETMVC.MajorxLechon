@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html class="account-html-custom">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title of the Page -->
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>Register</title>
+
+    <!-- CSS StyleSheets-->
+    @Styles.Render("~/Content/Home-css")
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_SoftwareHeader")
+            <div class="container">
+                <h3>
+                    ✍️ Register User
+                </h3>
+            </div>
+            <!-- Manage -->
+            @Html.Partial("_AccountRegister")
+            <!-- Footer -->
+            @Html.Partial("_SoftwareFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    @Scripts.Render("~/Scripts/Home-js")
+    @Scripts.Render("~/bundles/jqueryval")
+    @*<script src='https://www.google.com/recaptcha/api.js'></script>*@
+</body>
+</html>
