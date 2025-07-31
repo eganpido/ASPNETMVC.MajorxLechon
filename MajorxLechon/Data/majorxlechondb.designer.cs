@@ -3088,9 +3088,11 @@ namespace MajorxLechon.Data
 		
 		private string _OrderNumber;
 		
+		private System.DateTime _SalesDate;
+		
 		private System.DateTime _DeliveryDate;
 		
-		private System.DateTime _DeliveryTime;
+		private string _DeliveryTime;
 		
 		private string _CustomerName;
 		
@@ -3128,9 +3130,11 @@ namespace MajorxLechon.Data
     partial void OnIdChanged();
     partial void OnOrderNumberChanging(string value);
     partial void OnOrderNumberChanged();
+    partial void OnSalesDateChanging(System.DateTime value);
+    partial void OnSalesDateChanged();
     partial void OnDeliveryDateChanging(System.DateTime value);
     partial void OnDeliveryDateChanged();
-    partial void OnDeliveryTimeChanging(System.DateTime value);
+    partial void OnDeliveryTimeChanging(string value);
     partial void OnDeliveryTimeChanged();
     partial void OnCustomerNameChanging(string value);
     partial void OnCustomerNameChanged();
@@ -3204,6 +3208,26 @@ namespace MajorxLechon.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SalesDate", DbType="DateTime NOT NULL")]
+		public System.DateTime SalesDate
+		{
+			get
+			{
+				return this._SalesDate;
+			}
+			set
+			{
+				if ((this._SalesDate != value))
+				{
+					this.OnSalesDateChanging(value);
+					this.SendPropertyChanging();
+					this._SalesDate = value;
+					this.SendPropertyChanged("SalesDate");
+					this.OnSalesDateChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryDate", DbType="DateTime NOT NULL")]
 		public System.DateTime DeliveryDate
 		{
@@ -3224,8 +3248,8 @@ namespace MajorxLechon.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryTime", DbType="DateTime NOT NULL")]
-		public System.DateTime DeliveryTime
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryTime", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string DeliveryTime
 		{
 			get
 			{

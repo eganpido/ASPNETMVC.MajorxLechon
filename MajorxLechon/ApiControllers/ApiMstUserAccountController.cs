@@ -5,15 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Web.Http;
-using System.Web.UI;
-using System.Web.Util;
-using static iTextSharp.text.pdf.AcroFields;
 
 namespace MajorxLechon.ApiControllers
 {
-    public class ApiMstUserController : ApiController
+    public class ApiMstUserAccountController : ApiController
     {
         // ============
         // Data Context
@@ -21,7 +17,7 @@ namespace MajorxLechon.ApiControllers
         private Data.majorxlechondbDataContext db = new Data.majorxlechondbDataContext();
 
         // List Users
-        [Authorize, HttpGet, Route("api/user/list")]
+        [Authorize, HttpGet, Route("api/userAccount/list")]
         public List<Entities.MstUser> ListUser()
         {
             var currentUser = from d in db.MstUsers
@@ -65,24 +61,24 @@ namespace MajorxLechon.ApiControllers
                            };
             }
 
-                // Step 2: Materialize and format in memory
-                var users = rawUsers.ToList() // Execute query on database
-                                      .Select(d => new Entities.MstUser
-                                      {
-                                          Id = d.Id,
-                                          UserId = d.UserId,
-                                          UserName = d.UserName,
-                                          Password = d.Password,
-                                          FullName = d.FullName,
-                                          IsLocked = d.IsLocked,
-                                          CreatedById = d.CreatedById,
-                                          CreatedBy = d.CreatedBy,
-                                          CreatedDateTime = d.CreatedDateTime.ToShortDateString(), // Format in memory
-                                          UpdatedById = d.UpdatedById,
-                                          UpdatedBy = d.UpdatedBy,
-                                          UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(), // Format in memory
-                                      })
-                                      .ToList();
+            // Step 2: Materialize and format in memory
+            var users = rawUsers.ToList() // Execute query on database
+                                  .Select(d => new Entities.MstUser
+                                  {
+                                      Id = d.Id,
+                                      UserId = d.UserId,
+                                      UserName = d.UserName,
+                                      Password = d.Password,
+                                      FullName = d.FullName,
+                                      IsLocked = d.IsLocked,
+                                      CreatedById = d.CreatedById,
+                                      CreatedBy = d.CreatedBy,
+                                      CreatedDateTime = d.CreatedDateTime.ToShortDateString(), // Format in memory
+                                      UpdatedById = d.UpdatedById,
+                                      UpdatedBy = d.UpdatedBy,
+                                      UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(), // Format in memory
+                                  })
+                                  .ToList();
 
             return users;
         }
@@ -102,7 +98,7 @@ namespace MajorxLechon.ApiControllers
         }
 
         // Detail User
-        [Authorize, HttpGet, Route("api/user/detail/{id}")]
+        [Authorize, HttpGet, Route("api/userAccount/detail/{id}")]
         public Entities.MstUser DetailUser(String id)
         {
             int userId = Convert.ToInt32(id);
@@ -133,7 +129,7 @@ namespace MajorxLechon.ApiControllers
         }
 
         // Save User
-        [Authorize, HttpPut, Route("api/user/save/{id}")]
+        [Authorize, HttpPut, Route("api/userAccount/save/{id}")]
         public HttpResponseMessage SaveUser(Entities.MstUser objUser, String id)
         {
             try
@@ -185,7 +181,7 @@ namespace MajorxLechon.ApiControllers
         }
 
         // Lock User
-        [Authorize, HttpPut, Route("api/user/lock/{id}")]
+        [Authorize, HttpPut, Route("api/userAccount/lock/{id}")]
         public HttpResponseMessage LockUser(Entities.MstUser objUser, String id)
         {
             try
@@ -240,7 +236,7 @@ namespace MajorxLechon.ApiControllers
         }
 
         // Unlock User
-        [Authorize, HttpPut, Route("api/user/unlock/{id}")]
+        [Authorize, HttpPut, Route("api/userAccount/unlock/{id}")]
         public HttpResponseMessage UnlockUser(String id)
         {
             try
@@ -254,8 +250,8 @@ namespace MajorxLechon.ApiControllers
                     var currentUserId = currentUser.FirstOrDefault().Id;
 
                     var user = from d in db.MstUsers
-                                   where d.Id == Convert.ToInt32(id)
-                                   select d;
+                               where d.Id == Convert.ToInt32(id)
+                               select d;
 
                     if (user.Any())
                     {
@@ -293,7 +289,7 @@ namespace MajorxLechon.ApiControllers
         }
 
         // Delete User
-        [Authorize, HttpDelete, Route("api/user/delete/{id}")]
+        [Authorize, HttpDelete, Route("api/userAccount/delete/{id}")]
         public HttpResponseMessage DeleteBank(String id)
         {
             try
@@ -307,8 +303,8 @@ namespace MajorxLechon.ApiControllers
                     var currentUserId = currentUser.FirstOrDefault().Id;
 
                     var user = from d in db.MstUsers
-                                   where d.Id == Convert.ToInt32(id)
-                                   select d;
+                               where d.Id == Convert.ToInt32(id)
+                               select d;
 
                     if (user.Any())
                     {

@@ -361,8 +361,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiControllers\ApiMstUserController.cs" />
+    <Compile Include="ApiControllers\ApiMstUserAccountController.cs" />
     <Compile Include="ApiControllers\ApiMstItemController.cs" />
+    <Compile Include="ApiControllers\ApiTrnOrderController.cs" />
+    <Compile Include="ApiControllers\ApiTrnOrderItemController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -379,6 +381,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>majorxlechondb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\TrnOrderItem.cs" />
+    <Compile Include="Entities\TrnOrder.cs" />
     <Compile Include="Entities\MstUser.cs" />
     <Compile Include="Entities\MstItem.cs" />
     <Compile Include="Global.asax.cs">
@@ -422,6 +426,8 @@
     <Content Include="Views\Software\ItemDetail.cshtml" />
     <Content Include="Views\Software\UserList.cshtml" />
     <Content Include="Views\Software\UserDetail.cshtml" />
+    <Content Include="Views\Software\OrderList.cshtml" />
+    <Content Include="Views\Software\OrderDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

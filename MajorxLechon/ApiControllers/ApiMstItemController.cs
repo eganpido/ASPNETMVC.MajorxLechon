@@ -5,11 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Web.Http;
-using System.Web.UI;
-using System.Web.Util;
-using static iTextSharp.text.pdf.AcroFields;
 
 namespace MajorxLechon.ApiControllers
 {

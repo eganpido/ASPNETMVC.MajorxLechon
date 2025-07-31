@@ -191,7 +191,86 @@ div.dt-container div.dt-search input {
     width: 350px;
 }
 h3 {
-    margin-top: 5rem;
+    margin-top: 2.5rem;
     margin-bottom: 2rem;
 }
+.date-wrapper {
+    position: relative;
+    width: 250px;
+    padding-right: 10px;
+}
 
+.custom-date {
+    width: 100%;
+    padding: 10px 38px 10px 12px; /* leave room for icon */
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s border-color;
+}
+
+    .custom-date:focus {
+        border-color: #329494;
+        outline: none;
+        box-shadow: 0 0 5px rgba(50, 148, 148, 0.3);
+    }
+
+.calendar-icon {
+    position: absolute;
+    right: 14px;
+    top: 70%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #329494;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.calendar-button {
+    position: absolute;
+    right: 12px;
+    top: 72%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    color: #329494;
+    cursor: pointer;
+}
+
+/* Flatpickr popup styling */
+.flatpickr-calendar {
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.flatpickr-months {
+    color: white;
+}
+
+.flatpickr-day.today {
+    border: 1px solid #329494;
+}
+
+.flatpickr-day.selected {
+    background-color: #329494;
+    color: white;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    color: #329494;
+    padding: 5px;
+    transition: color 0.2s, transform 0.2s;
+    font-size: 1.2rem;
+}
+
+    /* Hover effect */
+    .flatpickr-prev-month:hover,
+    .flatpickr-next-month:hover {
+        color: #267876;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
