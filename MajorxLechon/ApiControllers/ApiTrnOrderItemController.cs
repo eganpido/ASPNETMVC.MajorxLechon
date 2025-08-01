@@ -38,7 +38,7 @@ namespace MajorxLechon.ModifiedApiControllers
         }
 
         // Dropdown List Item
-        [Authorize, HttpGet, Route("api/orderItem/dropdown/list/item")]
+        [Authorize, HttpGet, Route("api/orderItem/list/item")]
         public List<Entities.MstItem> DropdownListItem()
         {
             var items = from d in db.MstItems.OrderBy(d => d.ItemDescription)
@@ -50,6 +50,27 @@ namespace MajorxLechon.ModifiedApiControllers
                         };
 
             return items.ToList();
+        }
+
+        // Detail Order Item
+        [Authorize, HttpGet, Route("api/orderItem/detail/{id}/{OrderId}")]
+        public Entities.TrnOrderItem DetailOrderItem(String id, String OrderId)
+        {
+            var orderItem = from d in db.TrnOrderItems
+                             where d.Id == Convert.ToInt32(id)
+                             && d.OrderId == Convert.ToInt32(OrderId)
+                             select new Entities.TrnOrderItem
+                             {
+                                 Id = d.Id,
+                                 OrderId = d.OrderId,
+                                 ItemId = d.ItemId,
+                                 ItemDescription = d.MstItem.ItemDescription,
+                                 Price = d.Price,
+                                 Quantity = d.Quantity,
+                                 Amount = d.Amount
+                             };
+
+            return orderItem.FirstOrDefault();
         }
 
         // Add Order Item

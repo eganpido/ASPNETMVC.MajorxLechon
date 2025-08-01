@@ -120,15 +120,12 @@
         function populateOrder() {
             Loader.show();
 
-            // ✅ Destroy existing DataTable if already initialized
             if ($.fn.DataTable.isDataTable('#datagridList')) {
                 $('#datagridList').DataTable().clear().destroy();
             }
 
-            // ✅ Clear previous row click bindings (optional but recommended to avoid duplicates)
             $('#datagridList tbody').off('click');
 
-            // ✅ Row selection logic
             $('#datagridList tbody').on('click', 'tr', function () {
                 $('#datagridList tbody tr').removeClass('selected');
                 $(this).addClass('selected');
@@ -137,7 +134,6 @@
             const startDate = $('#startDateInput').val();
             const endDate = $('#endDateInput').val();
 
-            // ✅ Initialize DataTable
             $('#datagridList').DataTable({
                 ajax: {
                     url: '/api/order/list/' + startDate + "/" + endDate,
@@ -186,7 +182,7 @@
                         className: 'text-left'
                     },
                     {
-                        targets: [0, 8], // Edit and Delete columns
+                        targets: [0, 8],
                         orderable: false
                     }
                 ],
@@ -217,6 +213,7 @@
                 populateOrder();
             }
         });
+
         // Add Order
         function addOrder() {
             document.getElementById('btnOrderAdd').innerHTML = "🞧 Adding...";
@@ -252,6 +249,7 @@
                 }
             });
         }
+
         // Edit Order
         function editOrder(orderId) {
             window.location = '/Software/OrderDetail?id=' + orderId;
@@ -331,17 +329,16 @@
 
 
             flatpickr("#endDateInput", {
-                dateFormat: "Y-m-d", // or "m/d/Y"
+                dateFormat: "Y-m-d",
                 defaultDate: lastDayOfMonth,
                 minDate: "1753-01-01",
                 maxDate: "9999-12-31",
-                disableMobile: true // always use the custom popup
+                disableMobile: true
             });
 
             populateOrder();
         }
 
-        // Add click event to all calendar buttons
         document.querySelectorAll('.calendar-button').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 const targetInput = document.querySelector(this.dataset.target);

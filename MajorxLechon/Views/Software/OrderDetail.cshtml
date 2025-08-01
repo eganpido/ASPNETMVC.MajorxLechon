@@ -18,7 +18,68 @@
     <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
     <title>Order Detail</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Software-css")
+    <style>
+        .calendar-button {
+            position: absolute;
+            right: 14px;
+            top: 52%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            background: transparent;
+            border: none;
+            color: #329494;
+            cursor: pointer;
+        }
+
+        .combo-wrapper {
+            position: relative;
+        }
+
+        .combo-input {
+            padding-right: 24px !important;
+        }
+
+        .combo-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #aaa;
+            cursor: pointer;
+            display: none;
+        }
+
+            .combo-clear:hover {
+                color: #000;
+            }
+
+        .combo-suggestions {
+            position: absolute;
+            top: 100%; /* directly below input */
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            display: none;
+        }
+
+            .combo-suggestions > li {
+                padding: 6px 12px;
+                cursor: pointer;
+            }
+
+                .combo-suggestions > li:hover {
+                    background-color: #f5f5f5;
+                }
+    </style>
 </head>
 <body>
     <div id="o-wrapper" class="o-wrapper">
@@ -57,78 +118,112 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label col-sm-2">Order No.</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="orderOrderNumber" placeholder="Order No." disabled />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="startDateInput" class="datepicker-label">Order Date</label>
-                                        <input type="text" id="startDateInput" placeholder="Select a date" readonly>
-                                        <div id="startDatepicker" class="datepicker hidden">
-                                            <div class="datepicker-header">
-                                                <button id="startPrevYear">«</button>
-                                                <button id="startPrevMonth">&lt;</button>
-                                                <span id="startMonthYear"></span>
-                                                <button id="startNextMonth">&gt;</button>
-                                                <button id="startNextYear">»</button>
-                                            </div>
-                                            <div class="datepicker-body">
-                                                <div class="datepicker-days">
-                                                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
-                                                </div>
-                                                <div id="startCalendarDays" class="datepicker-grid"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Customer Name</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="orderCustomerName" placeholder="Customer Name" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Delivery Date</label>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-4">
                                             <input type="text" class="form-control" id="orderOrderNumber" placeholder="Order No." disabled />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-sm-2">Order Date</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="orderOrderDate" placeholder="Order Date" disabled />
+                                        <div class="col-sm-4">
+                                            <input type="text" id="orderDateInput" class="form-control custom-date" placeholder="Select date" />
+                                            <button type="button" class="calendar-button" data-target="#orderDateInput" tabindex="-1">📅</button>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2">Customer Name</label>
-                                        <div class="col-sm-8">
+                                        <label class="control-label col-sm-2">Customer</label>
+                                        <div class="col-sm-6">
                                             <input type="text" class="form-control" id="orderCustomerName" placeholder="Customer Name" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Address</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="orderAddress" placeholder="Address" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Contact No. </label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="orderContactNumber" placeholder="Contact Number" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Landmark</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="orderLandmark" placeholder="Landmark" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Look For</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="orderLookFor" placeholder="LookFor" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Delivery Date</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="deliveryDateInput" class="form-control custom-date" placeholder="Select date" />
+                                            <button type="button" class="calendar-button" data-target="#deliveryDateInput" tabindex="-1">📅</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Delivery Time</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="orderDeliveryTime" placeholder="12:00 AM" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Amount</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control numberField" id="orderAmount" placeholder="0.00" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:40px;">
+                                        <div class="col-md-4">
+                                            <p>Created by:</p>
+                                            <div style="padding-left: 10px;">
+                                                <i class="fa fa-key fa-fw"></i> <label id="createdBy">NA</label>
+                                                <br />
+                                                <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="createdDate">mm/dd/yyyy</span></small>
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p>Updated by:</p>
+                                            <div style="padding-left: 10px;">
+                                                <i class="fa fa-key fa-fw"></i> <label id="updatedBy">NA</label>
+                                                <br />
+                                                <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="updatedDate">mm/dd/yyyy</span></small>
+                                            </div>
+                                            <br />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top:40px;">
+                            <div class="row">
                                 <div class="col-md-2">
-                                    <p>Created by:</p>
-                                    <div style="padding-left: 10px;">
-                                        <i class="fa fa-key fa-fw"></i> <label id="createdBy">NA</label>
-                                        <br />
-                                        <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="createdDate">mm/dd/yyyy</span></small>
-                                    </div>
-                                    <br />
                                 </div>
-                                <div class="col-md-4">
-                                    <p>Updated by:</p>
-                                    <div style="padding-left: 10px;">
-                                        <i class="fa fa-key fa-fw"></i> <label id="updatedBy">NA</label>
-                                        <br />
-                                        <small><i class="fa fa-calendar fa-fw"></i> &nbsp;<span id="updatedDate">mm/dd/yyyy</span></small>
-                                    </div>
-                                    <br />
+                                <div class="col-md-10" align="right">
+                                    <button class="btn btn-primary" id="btnOrderDetailAdd" onclick="addOrderItem()" style="margin-right: 15px; margin-bottom: 5px;">🞧 Add  </button>
                                 </div>
                             </div>
+                            <hr style="margin: 0 15px; " />
                         </div>
+                        <table id="datagridList" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="selected">
+                                    <th></th>
+                                    <th>Item</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -138,10 +233,79 @@
     </div>
     <div id="c-mask" class="c-mask"></div>
 
+    <!--
+        Order Item: Detail Modal
+    -->
+    <div class="modal fade" id="orderItemsEdit" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="orderItemModalTitle">Order Item</h4>
+                </div>
+                <div class="modal-body">
+                    <center>
+                        <span id="orderItemLoading"></span>
+                    </center>
+                    <div id="orderItemContent">
+                        <br />
+                        <div class="tab-content">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <input type="hidden" id="orderItemId" />
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Item</label>
+                                        <div class="col-sm-7">
+                                            <div>
+                                                <input type="text"
+                                                       class="form-control combo-input"
+                                                       id="orderItemItemId"
+                                                       data-url="/api/orderItem/list/item"
+                                                       data-value-field="Id"
+                                                       data-text-field="ItemDescription"
+                                                       data-placeholder="Search item..."
+                                                       data-allow-add="false" />
+                                                <ul class="dropdown-menu combo-suggestions" style="display:none; position:absolute; z-index:1000;"></ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Price</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control numberField" id="orderItemPrice" placeholder="0.00" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Quantity</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control numberField" id="orderItemQuantity" placeholder="0.00" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Amount</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control numberField" id="orderItemAmount" placeholder="0.00" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnOrderItemSave" class="btn btn-primary" onclick="saveOrderItem()">💾 Save</button>
+                        <button id="btnOrderItemCloseModal" class="btn btn-danger" data-dismiss="modal">🗙 Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @Scripts.Render("~/Scripts/Software-js")
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
         var isLocked = false;
-
         // =======================
         // Get URL Parameter Value
         // =======================
@@ -159,77 +323,202 @@
             }
         }
 
-        // Get Item Detail Data
-        function getItemDetailData() {
+        // Get Order Detail Data
+        function getOrderDetailData() {
             Loader.show();
 
             if (document.location.search.length > 0) {
                 $.ajax({
-                    url: '/api/item/detail/' + getURLParameterValue("id"),
+                    url: '/api/order/detail/' + getURLParameterValue("id"),
                     cache: false,
                     type: 'GET',
                     contentType: 'application/json; charset=utf-8',
                     success: function (results) {
                         if (results != null) {
-                            document.getElementById('inpItemDetailItemCode').value = results.ItemCode;
-                            document.getElementById('inpItemDetailItemDescription').value = results.ItemDescription;
-                            document.getElementById('inpItemDetailPrice').value = results.Price;
-                            document.getElementById('inpItemDetailCost').value = results.Cost;
+                            document.getElementById('orderOrderNumber').value = results.OrderNumber;
+                            document.getElementById('orderDateInput').value = results.SalesDate;
+                            document.getElementById('orderCustomerName').value = results.CustomerName;
+                            document.getElementById('orderAddress').value = results.Address;
+                            document.getElementById('orderContactNumber').value = results.ContactNumber;
+                            document.getElementById('orderLandmark').value = results.Landmark;
+                            document.getElementById('orderLookFor').value = results.LookFor;
+                            document.getElementById('deliveryDateInput').value = results.DeliveryDate;
+                            document.getElementById('orderDeliveryTime').value = results.DeliveryTime;
+
+                            flatpickr("#orderDeliveryTime", {
+                                enableTime: true,
+                                noCalendar: true,
+                                dateFormat: "h:i K", // 12-hour format with AM/PM
+                                time_24hr: false,
+                                defaultDate: results.DeliveryTime
+                            });
+
+                            document.getElementById('orderAmount').value = parseFloat(results.Amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');;
                             document.getElementById('createdBy').innerHTML = results.CreatedBy;
                             document.getElementById('createdDate').innerHTML = results.CreatedDateTime;
                             document.getElementById('updatedBy').innerHTML = results.UpdatedBy;
                             document.getElementById('updatedDate').innerHTML = results.UpdatedDateTime;
 
                             if (results.IsLocked) {
-                                document.getElementById('inpItemDetailItemCode').disabled = true;
-                                document.getElementById('inpItemDetailItemDescription').disabled = true;
-                                document.getElementById('inpItemDetailPrice').disabled = true;
-                                document.getElementById('inpItemDetailCost').disabled = true;
+                                document.getElementById('orderOrderNumber').disabled = true;
+                                document.getElementById('orderDateInput').disabled = true;
+                                document.getElementById('orderCustomerName').disabled = true;
+                                document.getElementById('orderAddress').disabled = true;
+                                document.getElementById('orderContactNumber').disabled = true;
+                                document.getElementById('orderLandmark').disabled = true;
+                                document.getElementById('orderLookFor').disabled = true;
+                                document.getElementById('deliveryDateInput').disabled = true;
+                                document.getElementById('orderDeliveryTime').disabled = true;
+                                document.getElementById('orderAmount').disabled = true;
 
-                                $('#btnItemDetailSave').prop('disabled', true);
-                                $('#btnItemDetailLock').prop('disabled', true);
+                                $('#btnOrderDetailSave').prop('disabled', true);
+                                $('#btnOrderDetailLock').prop('disabled', true);
+                                $('#btnOrderDetailAdd').prop('disabled', true);
+
+                                $('#datagridList_wrapper').css({
+                                    'pointer-events': 'none',
+                                    'opacity': '0.8'
+                                });
+                                $('#datagridList').find('input, button, select, textarea').prop('disabled', true);
 
                                 isLocked = true;
                             } else {
-                                $('#btnItemDetailUnlock').prop('disabled', true);
+                                $('#btnOrderDetailUnlock').prop('disabled', true);
                             }
                         } else {
                             alert("No Data");
-                            window.location = "/Software/ItemList";
+                            window.location = "/Software/OrderList";
                         }
                     }
                 });
             } else {
                 alert("No Id Parameter Value");
-                window.location = "/Software/ItemList";
+                window.location = "/Software/OrderList";
             }
+
+            populateOrderItems();
+
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
         }
 
-        // Item Data Object
-        function itemDataObject() {
-            var itemObject = new Object();
-            itemObject.ItemCode = document.getElementById('inpItemDetailItemCode').value;
-            itemObject.ItemDescription = document.getElementById('inpItemDetailItemDescription').value;
-            itemObject.Price = document.getElementById('inpItemDetailPrice').value;
-            itemObject.Cost = document.getElementById('inpItemDetailCost').value;
-            var data = JSON.stringify(itemObject);
+        function populateOrderItems() {
+            if ($.fn.DataTable.isDataTable('#datagridList')) {
+                $('#datagridList').DataTable().clear().destroy();
+            }
+
+            $('#datagridList tbody').off('click');
+
+            $('#datagridList tbody').on('click', 'tr', function () {
+                $('#datagridList tbody tr').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            $('#datagridList').DataTable({
+                ajax: {
+                    url: '/api/orderItem/list/' + getURLParameterValue("id"),
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-primary btn-sm" onclick="editOrderItem(' + row.Id + ')">📝 Edit</button>';
+                        }, width: '8%'
+                    },
+                    { data: 'ItemDescription', className: 'text-left', width: 'auto' },
+                    {
+                        data: 'Price',
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            }
+                            return data;
+                        },
+                        width: '10%'
+                    },
+                    {
+                        data: 'Quantity',
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            }
+                            return data;
+                        },
+                        width: '10%'
+                    },
+                    {
+                        data: 'Amount',
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                            }
+                            return data;
+                        },
+                        width: '15%'
+                    },
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm" onclick="deleteOrderItem(' + row.Id + ')">🗑 Delete</button>';
+                        }, width: '8%'
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 1,
+                        className: 'text-left'
+                    },
+                    {
+                        targets: [0, 4],
+                        orderable: false
+                    }
+                ],
+                pageLength: 10,
+                responsive: true,
+                language: {
+                    search: "Search:  ",
+                    emptyTable: "No record(s) available",
+                    "lengthMenu": "_MENU_ Records per page",
+                    "info": "_START_ - _END_ of _TOTAL_ record(s) is displayed"
+                },
+            });
+        }
+
+        // Order Data Object
+        function orderDataObject() {
+            var orderObject = new Object();
+            orderObject.OrderNumber = document.getElementById('orderOrderNumber').value;
+            orderObject.SalesDate = document.getElementById('orderDateInput').value;
+            orderObject.CustomerName = document.getElementById('orderCustomerName').value;
+            orderObject.Address = document.getElementById('orderAddress').value;
+            orderObject.ContactNumber = document.getElementById('orderContactNumber').value;
+            orderObject.Landmark = document.getElementById('orderLandmark').value;
+            orderObject.LookFor = document.getElementById('orderLookFor').value;
+            orderObject.DeliveryDate = document.getElementById('deliveryDateInput').value;
+            orderObject.DeliveryTime = document.getElementById('orderDeliveryTime').value;
+            orderObject.Amount = document.getElementById('orderAmount').value;
+            var data = JSON.stringify(orderObject);
             return data;
         }
 
-        // Save Item
-        function saveItem() {
-            document.getElementById('btnItemtDetailSave').innerHTML = "💾 Saving...";
-            $('#btnItemDetailSave').prop('disabled', true);
-            $('#btnItemDetailLock').prop('disabled', true);
-            $('#btnItemDetailUnlock').prop('disabled', true);
-            $('#btnItemDetailClose').prop('disabled', true);
+        // Save Order
+        function saveOrder() {
+            document.getElementById('btnOrderDetailSave').innerHTML = "💾 Saving...";
+            $('#btnOrderDetailSave').prop('disabled', true);
+            $('#btnOrderDetailLock').prop('disabled', true);
+            $('#btnOrderDetailUnlock').prop('disabled', true);
+            $('#btnOrderDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/item/save/' + getURLParameterValue("id"),
+                url: '/api/order/save/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: itemDataObject(),
+                data: orderDataObject(),
                 statusCode: {
                     200: function () {
                         toastr.success("Save Successful", "", { positionClass: "toast-bottom-right" });
@@ -239,61 +528,61 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
-                        $("#btnItemDetailSave").prop("disabled", false);
+                        document.getElementById('btnOrderDetailSave').innerHTML = "💾 Save";
+                        $("#btnOrderDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnItemDetailUnlock").prop("disabled", false);
+                            $("#btnOrderDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnItemDetailLock").prop("disabled", false);
+                            $("#btnOrderDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnItemDetailClose").prop("disabled", false);
+                        $("#btnOrderDetailClose").prop("disabled", false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
-                        $("#btnItemDetailSave").prop("disabled", false);
+                        document.getElementById('btnOrderDetailSave').innerHTML = "💾 Save";
+                        $("#btnOrderDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnItemDetailUnlock").prop("disabled", false);
+                            $("#btnOrderDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnItemDetailLock").prop("disabled", false);
+                            $("#btnOrderDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnItemDetailClose").prop("disabled", false);
+                        $("#btnOrderDetailClose").prop("disabled", false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailSave').innerHTML = "💾 Save";
-                        $("#btnItemDetailSave").prop("disabled", false);
+                        document.getElementById('btnOrderDetailSave').innerHTML = "💾 Save";
+                        $("#btnOrderDetailSave").prop("disabled", false);
 
                         if (isLocked) {
-                            $("#btnItemDetailUnlock").prop("disabled", false);
+                            $("#btnOrderDetailUnlock").prop("disabled", false);
                         } else {
-                            $("#btnItemDetailLock").prop("disabled", false);
+                            $("#btnOrderDetailLock").prop("disabled", false);
                         }
 
-                        $("#btnItemDetailClose").prop("disabled", false);
+                        $("#btnOrderDetailClose").prop("disabled", false);
                     }
                 },
             });
         }
 
-        // Lock Item
-        function lockItem() {
-            document.getElementById('btnItemDetailLock').innerHTML = "🔒 Locking...";
-            $('#btnItemDetailSave').prop('disabled', true);
-            $('#btnItemDetailLock').prop('disabled', true);
-            $('#btnItemDetailUnlock').prop('disabled', true);
-            $('#btnItemDetailClose').prop('disabled', true);
+        // Lock Order
+        function lockOrder() {
+            document.getElementById('btnOrderDetailLock').innerHTML = "🔒 Locking...";
+            $('#btnOrderDetailSave').prop('disabled', true);
+            $('#btnOrderDetailLock').prop('disabled', true);
+            $('#btnOrderDetailUnlock').prop('disabled', true);
+            $('#btnOrderDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/item/lock/' + getURLParameterValue("id"),
+                url: '/api/order/lock/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: itemDataObject(),
+                data: orderDataObject(),
                 statusCode: {
                     200: function () {
                         toastr.success("Lock Successful", "", { positionClass: "toast-bottom-right" });
@@ -303,40 +592,40 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailLock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailLock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailLock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailLock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailLock').innerHTML = "🔒 Lock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailLock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailLock').innerHTML = "🔒 Lock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailLock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     }
                 },
             });
         }
 
-        // Unlock Item
-        function unlockItem() {
-            document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlocking...";
-            $('#btnItemDetailSave').prop('disabled', true);
-            $('#btnItemDetailLock').prop('disabled', true);
-            $('#btnItemDetailUnlock').prop('disabled', true);
-            $('#btnItemDetailClose').prop('disabled', true);
+        // Unlock Order
+        function unlockOrder() {
+            document.getElementById('btnOrderDetailUnlock').innerHTML = "🔓 Unlocking...";
+            $('#btnOrderDetailSave').prop('disabled', true);
+            $('#btnOrderDetailLock').prop('disabled', true);
+            $('#btnOrderDetailUnlock').prop('disabled', true);
+            $('#btnOrderDetailClose').prop('disabled', true);
 
             $.ajax({
                 type: "PUT",
-                url: '/api/item/unlock/' + getURLParameterValue("id"),
+                url: '/api/order/unlock/' + getURLParameterValue("id"),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 statusCode: {
@@ -348,42 +637,213 @@
                     },
                     404: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailUnlock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailUnlock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     },
                     400: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailUnlock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailUnlock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     },
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
-                        document.getElementById('btnItemDetailUnlock').innerHTML = "🔓 Unlock";
-                        $('#btnItemDetailSave').prop('disabled', false);
-                        $('#btnItemDetailUnlock').prop('disabled', false);
-                        $('#btnItemDetailClose').prop('disabled', false);
+                        document.getElementById('btnOrderDetailUnlock').innerHTML = "🔓 Unlock";
+                        $('#btnOrderDetailSave').prop('disabled', false);
+                        $('#btnOrderDetailUnlock').prop('disabled', false);
+                        $('#btnOrderDetailClose').prop('disabled', false);
                     }
                 }
             });
         }
 
-        // Close Item
-        function closeItemDetail() {
-            window.location = '/Software/ItemList';
+        // Edit Order Item
+        function editOrderItem(orderItemId) {
+            $('#orderItemsEdit').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            $("#orderItemLoading").show();
+            document.getElementById("orderItemLoading").innerHTML = 'Loading...';
+            $("#orderItemContent").hide();
+
+            document.getElementById("orderItemModalTitle").innerHTML = 'Edit Order Item';
+
+            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+            $("#btnOrderItemSave").prop("disabled", true);
+            $("#btnOrderItemCloseModal").prop("disabled", false);
+
+            $.ajax({
+                url: '/api/orderItem/detail/' + orderItemId + '/' + getURLParameterValue("id"),
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results != null) {
+                        const $input = $('#orderItemItemId');
+                        document.getElementById('orderItemId').value = results.Id;
+                        $input.val(results.ItemDescription).data('selected-id', results.ItemId);
+                        document.getElementById('orderItemPrice').value = formatDecimalValues(results.Price);
+                        document.getElementById('orderItemQuantity').value = formatDecimalValues(results.Quantity);
+                        document.getElementById('orderItemAmount').value = formatDecimalValues(results.Amount);
+
+                        $("#btnOrderItemSave").prop("disabled", false);
+                        $("#orderItemLoading").hide();
+                        $("#orderItemContent").show();
+                    } else {
+                        alert("No Data");
+                        window.location = "/Software/OrderList";
+                    }
+                }
+            });
         }
+
+        // Save Order Item
+        function saveOrderItem() {
+            const selectedId = $('#orderItemItemId').data('selected-id');
+            var orderItemObject = new Object();
+            var ordItemId = 0;
+            ordItemId = document.getElementById('orderItemId').value
+            var orderId = getURLParameterValue('id');
+            orderItemObject.OrderId = orderId;
+            orderItemObject.ItemId = selectedId;
+            orderItemObject.Price = document.getElementById('orderItemPrice').value;
+            orderItemObject.Quantity = document.getElementById('orderItemQuantity').value;
+            orderItemObject.Amount = document.getElementById('orderItemAmount').value;
+            var orderItemData = JSON.stringify(orderItemObject);
+
+            document.getElementById('btnOrderItemSave').innerHTML = "💾 Saving...";
+            $("#btnOrderItemSave").prop("disabled", true);
+            $("#btnOrderItemCloseModal").prop("disabled", true);
+
+            if (ordItemId == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/orderItem/add/' + orderId,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: orderItemData,
+                    statusCode: {
+                        200: function () {
+                            toastr.success("Save Succesful");
+                            $('#orderItemsEdit').modal('hide');
+                            populateOrderItems();
+                        },
+                        404: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        },
+                        400: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        },
+                        500: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: "PUT",
+                    url: '/api/orderItem/update/' + ordItemId + '/' + orderId,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: orderItemData,
+                    statusCode: {
+                        200: function () {
+                            toastr.success("Update Successful");
+                            $('#orderItemsEdit').modal('hide');
+                            populateOrderItems();
+                        },
+                        404: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        },
+                        400: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        },
+                        500: function (message) {
+                            toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500");
+                            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+                            $("#btnOrderItemSave").prop("disabled", false);
+                            $("#btnOrderItemCloseModal").prop("disabled", false);
+                        }
+                    }
+                });
+            }
+        }
+
+        $("#orderItemPrice").keyup(function (e) { computeAmount(); });
+        $("#orderItemQuantity").keyup(function (e) { computeAmount(); });
+
+        // Compute Amount
+        function computeAmount() {
+            var price = document.getElementById('orderItemPrice').value.replace(/\,/g, '');
+            var quantity = document.getElementById('orderItemQuantity').value.replace(/\,/g, '');
+            var amount = price * quantity;
+
+            document.getElementById('orderItemAmount').value = formatDecimalValues(amount);
+        }
+
+        // Close Order
+        function closeOrderDetail() {
+            window.location = '/Software/OrderList';
+        }
+
+        function initializeDate() {
+            const today = new Date();
+
+            flatpickr("#orderDateInput", {
+                dateFormat: "Y-m-d",
+                defaultDate: today,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+
+            flatpickr("#deliveryDateInput", {
+                dateFormat: "Y-m-d",
+                defaultDate: today,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+            getOrderDetailData();
+        }
+
+        document.querySelectorAll('.calendar-button').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const targetInput = document.querySelector(this.dataset.target);
+                if (targetInput && targetInput._flatpickr) {
+                    targetInput._flatpickr.open();
+                }
+            });
+        });
 
         // ============
         // On Load Page
         // ============
         $(document).ready(function () {
-            getItemDetailData();
-            setTimeout(() => {
-                Loader.hide();
-            }, 1000);
+            initializeDate();
+            initComboBoxes();
         });
     </script>
     <div id="loader-overlay">

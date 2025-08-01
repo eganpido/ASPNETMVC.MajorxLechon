@@ -57,6 +57,7 @@ namespace MajorxLechon
                     "~/Scripts/toastr.js",
                     "~/Scripts/nprogress.js",
                     "~/Scripts/loader.js",
+                    "~/Scripts/combobox.js",
                     "~/Scripts/menu.js",
                     "~/Scripts/software.js",
                     "~/Scripts/jquery.slimscroll.min.js",

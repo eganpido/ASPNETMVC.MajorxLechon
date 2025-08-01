@@ -260,6 +260,7 @@ namespace MajorxLechon.ModifiedApiControllers
                             lockOrder.Landmark = objOrder.Landmark;
                             lockOrder.LookFor = objOrder.LookFor;
                             lockOrder.Amount = amount;
+                            lockOrder.IsLocked = true;
                             lockOrder.UpdatedById = currentUserId;
                             lockOrder.UpdatedDateTime = DateTime.Now;
                             db.SubmitChanges();

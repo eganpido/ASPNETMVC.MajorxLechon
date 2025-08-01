@@ -296,6 +296,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\combobox.js" />
     <Content Include="Scripts\main3.js" />
     <Content Include="Scripts\menu.js" />
     <Content Include="Scripts\menu.min.js" />
