@@ -70,6 +70,10 @@ textarea {
     background-color: #1ddda8;
 }
 
+.btn {
+    padding: 8px 20px;
+}
+
 .btn-primary {
     background: #149c7c;
     border-color: #1d7e74;
@@ -86,6 +90,23 @@ textarea {
         background-color: #24e0ad;
         border-color: #24e0ad;
     }
+
+.btn-info {
+    background-color: #389938;
+    border-color: #389938;
+}
+
+    .btn-info:hover {
+        background-color: #88D388;
+        border-color: #88D388;
+    }
+
+    .btn-info.active.focus, .btn-info.active:focus, .btn-info.active:hover, .btn-info:active.focus, .btn-info:active:focus, .btn-info:active:hover, .open > .dropdown-toggle.btn-info.focus, .open > .dropdown-toggle.btn-info:focus, .open > .dropdown-toggle.btn-info:hover {
+        color: #fff;
+        background-color: #88D388;
+        border-color: #88D388;
+    }
+        
 
 .btn-danger:hover {
     color: #fff;
@@ -135,7 +156,7 @@ label {
 body.account-body-custom {
     margin-top: 100px;
     margin-bottom: 100px;
-    background: linear-gradient(to top, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
+    background: linear-gradient(to top left, rgba(255, 255, 0, .8), rgba(156, 7, 15, 1));
 }
 
 .panel {

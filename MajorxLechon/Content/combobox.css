@@ -1,0 +1,43 @@
+.combo-container {
+    position: relative;
+}
+
+.combo-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 999;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.combo-item-row {
+    display: flex;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+    .combo-item-row:hover {
+        background-color: #f5f5f5;
+    }
+
+.combo-col {
+    flex: 1;
+    padding: 0 4px;
+}
+
+.combo-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 16px;
+}

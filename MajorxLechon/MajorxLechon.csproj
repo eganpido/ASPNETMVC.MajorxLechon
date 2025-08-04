@@ -192,6 +192,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\home.css" />
+    <Content Include="Content\combobox.css" />
     <Content Include="Content\loader.css" />
     <Content Include="Content\nprogress.css" />
     <Content Include="Content\responsive.css" />
@@ -393,6 +394,9 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\RepOrderDetailReportController.cs" />
+    <Compile Include="Reports\RepOrderController.cs" />
+    <Compile Include="Reports\RepOrderSummaryReportController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -429,6 +433,7 @@
     <Content Include="Views\Software\UserDetail.cshtml" />
     <Content Include="Views\Software\OrderList.cshtml" />
     <Content Include="Views\Software\OrderDetail.cshtml" />
+    <Content Include="Views\Software\ReportList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

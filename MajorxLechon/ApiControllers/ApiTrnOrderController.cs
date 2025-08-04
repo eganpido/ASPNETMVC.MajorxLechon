@@ -128,7 +128,7 @@ namespace MajorxLechon.ModifiedApiControllers
                     if (lastOrder.Any())
                     {
                         var orderNumber = Convert.ToInt32(lastOrder.FirstOrDefault().OrderNumber) + 000001;
-                        defaultOrderNumber = FillLeadingZeroes(orderNumber, 10);
+                        defaultOrderNumber = FillLeadingZeroes(orderNumber, 6);
                     }
 
                     Data.TrnOrder newOrder = new Data.TrnOrder
@@ -136,6 +136,7 @@ namespace MajorxLechon.ModifiedApiControllers
                         OrderNumber = defaultOrderNumber,
                         SalesDate = DateTime.Today,
                         DeliveryDate = DateTime.Today,
+                        DeliveryTime = "12:00 AM",
                         CustomerName = "NA",
                         ContactNumber = "NA",
                         Address = "NA",

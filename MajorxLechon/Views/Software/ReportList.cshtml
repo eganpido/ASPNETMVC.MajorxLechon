@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
+    <title>Reports </title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    @Styles.Render("~/Content/Software-css")
+    <style>
+        body {
+            background: linear-gradient(to top left, rgba(255, 255, 0, 0.8), rgba(156, 7, 15, 0.9)) no-repeat;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .report-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            opacity: 0.97;
+            width: calc(100% - 60px);
+            aspect-ratio: 16 / 9;
+            max-height: calc(100vh - 60px);
+            overflow: auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-actions {
+            position: absolute;
+            bottom: 30px; /* Matches the container's padding */
+            right: 30px; /* Matches the container's padding */
+            display: flex;
+            gap: 5px; /* Space between buttons */
+        }
+
+        .report-header h3 {
+            margin-top: 0;
+            font-weight: 400;
+            color: #149c7c;
+            border-bottom: 2px solid #149c7c;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .report-sidebar {
+            border-right: 1px solid #e0e0e0;
+            padding-right: 20px;
+        }
+
+        .report-tab-menu {
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+            .report-tab-menu > li > a {
+                display: block;
+                padding: 12px 18px;
+                color: #333;
+                background-color: #f9f9f9;
+                margin-bottom: 6px;
+                border-left: 4px solid transparent;
+                border-radius: 6px;
+                font-weight: 400;
+                transition: all 0.2s ease;
+            }
+
+                .report-tab-menu > li > a:hover {
+                    background-color: #17e0a7;
+                    color: #fff;
+                }
+
+            .report-tab-menu > li.active > a,
+            .report-tab-menu > li.active > a:hover {
+                background-color: #149c7c;
+                color: #fff;
+                border-left: 4px solid #0f7a63;
+            }
+
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #ced4da;
+        }
+
+        label {
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .btn .glyphicon {
+            margin-right: 6px;
+        }
+
+        .tab-content-section {
+            display: none;
+        }
+
+            .tab-content-section.active {
+                display: block;
+            }
+
+        .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+            background-color: #149c7c;
+            color: #fff;
+            border-left: 4px solid #0f7a63;
+        }
+
+        .calendar-button {
+            position: absolute;
+            right: 11px;
+            top: 78%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            background: transparent;
+            border: none;
+            color: #329494;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="o-wrapper" class="o-wrapper">
+        <main class="o-content">
+            @Html.Partial("_SoftwareHeader")
+
+            <section class="container" style="padding-top: 40px;">
+                <div class="container-fluid report-container" style="height:65vh;">
+                    <div class="report-header">
+                        <h3>🖨️ Reports</h3>
+                    </div>
+                    <div class="row">
+                        <!-- Sidebar -->
+                        <div class="col-sm-4 col-md-3 report-sidebar">
+                            <ul class="nav nav-pills nav-stacked report-tab-menu">
+                                <li class="active"><a href="#" data-target="#orderSummaryTab">Order Summary</a></li>
+                                <li><a href="#" data-target="#orderDetailTab">Order Details</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Report Content -->
+                        <div class="col-sm-8 col-md-9">
+                            <div id="orderSummaryTab" class="tab-content-section active">
+                                <div class="date-wrapper">
+                                    <label for="orderSummaryStartDate">Date From : </label>
+                                    <input type="text" id="orderSummaryStartDate" class="form-control custom-date" placeholder="Select date" />
+                                    <button type="button" class="calendar-button" data-target="#orderSummaryStartDate" tabindex="-1">📅</button>
+                                </div>
+
+                                <div class="date-wrapper">
+                                    <label for="orderSummaryEndDate">Date To : </label>
+                                    <input type="text" id="orderSummaryEndDate" class="form-control custom-date" placeholder="Select date" />
+                                    <button type="button" class="calendar-button" data-target="#orderSummaryEndDate" tabindex="-1">📅</button>
+                                </div>
+                            </div>
+
+                            <div id="orderDetailTab" class="tab-content-section">
+                                <div class="date-wrapper">
+                                    <label for="orderDetailStartDate">Date From : </label>
+                                    <input type="text" id="orderDetailStartDate" class="form-control custom-date" placeholder="Select date" />
+                                    <button type="button" class="calendar-button" data-target="#orderDetailStartDate" tabindex="-1">📅</button>
+                                </div>
+
+                                <div class="date-wrapper">
+                                    <label for="orderDetailEndDate">Date To : </label>
+                                    <input type="text" id="orderDetailEndDate" class="form-control custom-date" placeholder="Select date" />
+                                    <button type="button" class="calendar-button" data-target="#orderDetailEndDate" tabindex="-1">📅</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-info" id="btnPrintReport">
+                            🖨️ Print
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="closeReportList()">
+                            🗙 Close
+                        </button>
+                    </div>
+                </div>
+            </section>
+            @Html.Partial("_SoftwareFooter")
+        </main>
+    </div>
+    <div id="c-mask" class="c-mask"></div>
+
+    @Scripts.Render("~/Scripts/Software-js")
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        function initializeDateFilters() {
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+            flatpickr("#orderSummaryStartDate", {
+                dateFormat: "Y-m-d",
+                defaultDate: firstDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+
+            flatpickr("#orderSummaryEndDate", {
+                dateFormat: "Y-m-d",
+                defaultDate: lastDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+            flatpickr("#orderDetailStartDate", {
+                dateFormat: "Y-m-d",
+                defaultDate: firstDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+
+            flatpickr("#orderDetailEndDate", {
+                dateFormat: "Y-m-d",
+                defaultDate: lastDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+        }
+
+        document.getElementById('btnPrintReport').addEventListener('click', function () {
+            const activeTab = document.querySelector('.report-tab-menu > li.active a');
+            if (!activeTab) {
+                alert('No active tab found.');
+                return;
+            }
+
+            const target = activeTab.dataset.target;
+
+            switch (target) {
+                case '#orderSummaryTab':
+                    printOrderSummaryReport();
+                    break;
+                case '#orderDetailTab':
+                    printOrderDetailReport();
+                    break;
+                default:
+                    toastr.success("Please select a report!", "", { positionClass: "toast-bottom-right" });
+            }
+        });
+
+        // Print Order Summary Report
+        function printOrderSummaryReport() {
+            const startDate = $('#orderSummaryStartDate').val();
+            const endDate = $('#orderSummaryEndDate').val();
+
+            var printLink = '/RepOrderSummaryReport/OrderSummaryReport?StartDate=' + startDate + '&EndDate=' + endDate;
+            window.open(printLink, '_blank');
+        }
+
+        // Print Order Detail Report
+        function printOrderDetailReport() {
+            const startDate = $('#orderDetailStartDate').val();
+            const endDate = $('#orderDetailEndDate').val();
+
+            var printLink = '/RepOrderDetailReport/OrderDetailReport?StartDate=' + startDate + '&EndDate=' + endDate;
+            window.open(printLink, '_blank');
+        }
+
+        // Close Report
+        function closeReportList() {
+            window.location = '/Software/Index';
+        }
+
+        $(document).ready(function () {
+            Loader.show();
+            $('.report-tab-menu > li > a').on('click', function (e) {
+                e.preventDefault();
+
+                // Toggle active state on sidebar
+                $('.report-tab-menu > li').removeClass('active');
+                $(this).parent().addClass('active');
+
+                // Show corresponding tab section
+                var target = $(this).data('target');
+                $('.tab-content-section').removeClass('active');
+                $(target).addClass('active');
+            });
+
+            initializeDateFilters();
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        });
+    </script>
+    <div id="loader-overlay">
+        <div class="loader-circle"></div>
+    </div>
+</body>
+</html>

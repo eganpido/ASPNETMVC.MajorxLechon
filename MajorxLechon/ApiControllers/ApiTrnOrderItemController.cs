@@ -22,43 +22,7 @@ namespace MajorxLechon.ModifiedApiControllers
         public List<Entities.TrnOrderItem> ListOrderItem(String OrderId)
         {
             var orderItems = from d in db.TrnOrderItems
-                                  where d.OrderId == Convert.ToInt32(OrderId)
-                                  select new Entities.TrnOrderItem
-                                  {
-                                      Id = d.Id,
-                                      OrderId = d.OrderId,
-                                      ItemId = d.ItemId,
-                                      ItemDescription = d.MstItem.ItemDescription,
-                                      Price = d.Price,
-                                      Quantity = d.Quantity,
-                                      Amount = d.Amount
-                                  };
-
-            return orderItems.ToList();
-        }
-
-        // Dropdown List Item
-        [Authorize, HttpGet, Route("api/orderItem/list/item")]
-        public List<Entities.MstItem> DropdownListItem()
-        {
-            var items = from d in db.MstItems.OrderBy(d => d.ItemDescription)
-                        where d.IsLocked == true
-                        select new Entities.MstItem
-                        {
-                            Id = d.Id,
-                            ItemDescription = d.ItemDescription
-                        };
-
-            return items.ToList();
-        }
-
-        // Detail Order Item
-        [Authorize, HttpGet, Route("api/orderItem/detail/{id}/{OrderId}")]
-        public Entities.TrnOrderItem DetailOrderItem(String id, String OrderId)
-        {
-            var orderItem = from d in db.TrnOrderItems
-                             where d.Id == Convert.ToInt32(id)
-                             && d.OrderId == Convert.ToInt32(OrderId)
+                             where d.OrderId == Convert.ToInt32(OrderId)
                              select new Entities.TrnOrderItem
                              {
                                  Id = d.Id,
@@ -69,6 +33,52 @@ namespace MajorxLechon.ModifiedApiControllers
                                  Quantity = d.Quantity,
                                  Amount = d.Amount
                              };
+
+            return orderItems.ToList();
+        }
+
+        // Dropdown List Item
+        [Authorize, HttpGet, Route("api/orderItem/list/item")]
+        public List<Entities.MstItem> DropdownListItem()
+        {
+            var items = db.MstItems
+                        .Where(d => d.IsLocked == true)
+                        .OrderBy(d => d.ItemDescription)
+                        .Select(d => new
+                        {
+                            d.Id,
+                            d.ItemDescription,
+                            d.Price
+                        })
+                        .ToList() // executes the SQL and brings results into memory
+                        .Select(d => new Entities.MstItem
+                        {
+                            Id = d.Id,
+                            ItemDescription = d.ItemDescription,
+                            Price = d.Price.ToString("#,##0.00") // now allowed since it's in memory
+                        })
+                        .ToList();
+
+            return items;
+        }
+
+        // Detail Order Item
+        [Authorize, HttpGet, Route("api/orderItem/detail/{id}/{OrderId}")]
+        public Entities.TrnOrderItem DetailOrderItem(String id, String OrderId)
+        {
+            var orderItem = from d in db.TrnOrderItems
+                            where d.Id == Convert.ToInt32(id)
+                            && d.OrderId == Convert.ToInt32(OrderId)
+                            select new Entities.TrnOrderItem
+                            {
+                                Id = d.Id,
+                                OrderId = d.OrderId,
+                                ItemId = d.ItemId,
+                                ItemDescription = d.MstItem.ItemDescription,
+                                Price = d.Price,
+                                Quantity = d.Quantity,
+                                Amount = d.Amount
+                            };
 
             return orderItem.FirstOrDefault();
         }
@@ -88,8 +98,8 @@ namespace MajorxLechon.ModifiedApiControllers
                     var currentUserId = currentUser.FirstOrDefault().Id;
 
                     var order = from d in db.TrnOrders
-                                     where d.Id == Convert.ToInt32(OrderId)
-                                     select d;
+                                where d.Id == Convert.ToInt32(OrderId)
+                                select d;
 
                     if (order.Any())
                     {
@@ -168,16 +178,16 @@ namespace MajorxLechon.ModifiedApiControllers
                     var currentUserId = currentUser.FirstOrDefault().Id;
 
                     var order = from d in db.TrnOrders
-                                     where d.Id == Convert.ToInt32(OrderId)
-                                     select d;
+                                where d.Id == Convert.ToInt32(OrderId)
+                                select d;
 
                     if (order.Any())
                     {
                         if (!order.FirstOrDefault().IsLocked)
                         {
                             var orderItem = from d in db.TrnOrderItems
-                                                 where d.Id == Convert.ToInt32(id)
-                                                 select d;
+                                            where d.Id == Convert.ToInt32(id)
+                                            select d;
 
                             if (orderItem.Any())
                             {
@@ -204,7 +214,7 @@ namespace MajorxLechon.ModifiedApiControllers
                                     }
 
                                     var updateOrderAmount = order.FirstOrDefault();
-                                    updateOrderAmount.Amount =orderItemTotalAmount;
+                                    updateOrderAmount.Amount = orderItemTotalAmount;
                                     db.SubmitChanges();
 
                                     return Request.CreateResponse(HttpStatusCode.OK);
@@ -256,16 +266,16 @@ namespace MajorxLechon.ModifiedApiControllers
                     var currentUserId = currentUser.FirstOrDefault().Id;
 
                     var order = from d in db.TrnOrders
-                                     where d.Id == Convert.ToInt32(OrderId)
-                                     select d;
+                                where d.Id == Convert.ToInt32(OrderId)
+                                select d;
 
                     if (order.Any())
                     {
                         if (!order.FirstOrDefault().IsLocked)
                         {
                             var orderItem = from d in db.TrnOrderItems
-                                                 where d.Id == Convert.ToInt32(id)
-                                                 select d;
+                                            where d.Id == Convert.ToInt32(id)
+                                            select d;
 
                             if (orderItem.Any())
                             {

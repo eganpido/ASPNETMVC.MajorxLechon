@@ -22,9 +22,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Software-css")
-    <style>
-       
-    </style>
 </head>
 <body>
     <div id="o-wrapper" class="o-wrapper">
@@ -148,8 +145,26 @@
                         }, width: '8%'
                     },
                     { data: 'OrderNumber', className: 'text-left' },
-                    { data: 'SalesDate' },
-                    { data: 'DeliveryDate' },
+                    {
+                        data: 'SalesDate',
+                        render: function (data, type, row) {
+                            if (!data) return '';
+                            const date = new Date(data);
+                            return date.getFullYear() + '-' +
+                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(date.getDate()).padStart(2, '0');
+                        }, className: 'text-left'
+                    },
+                    {
+                        data: 'DeliveryDate',
+                        render: function (data, type, row) {
+                            if (!data) return '';
+                            const date = new Date(data);
+                            return date.getFullYear() + '-' +
+                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(date.getDate()).padStart(2, '0');
+                        }, className: 'text-left'
+                    },
                     { data: 'DeliveryTime' },
                     { data: 'CustomerName', width: '20%' },
                     {

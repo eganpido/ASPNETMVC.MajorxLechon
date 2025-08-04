@@ -37,6 +37,7 @@ namespace MajorxLechon
                       "~/Content/wijmo.min.css",
                       "~/Content/nprogress.css",
                       "~/Content/loader.css",
+                      "~/Content/combobox.css",
                       "~/Content/software.css",
                       "~/Content/Site.css"));
 

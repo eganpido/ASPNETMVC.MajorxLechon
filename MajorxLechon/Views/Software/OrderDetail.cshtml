@@ -18,7 +18,6 @@
     <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
     <title>Order Detail</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Software-css")
@@ -34,51 +33,6 @@
             color: #329494;
             cursor: pointer;
         }
-
-        .combo-wrapper {
-            position: relative;
-        }
-
-        .combo-input {
-            padding-right: 24px !important;
-        }
-
-        .combo-clear {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            color: #aaa;
-            cursor: pointer;
-            display: none;
-        }
-
-            .combo-clear:hover {
-                color: #000;
-            }
-
-        .combo-suggestions {
-            position: absolute;
-            top: 100%; /* directly below input */
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            max-height: 200px;
-            overflow-y: auto;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            display: none;
-        }
-
-            .combo-suggestions > li {
-                padding: 6px 12px;
-                cursor: pointer;
-            }
-
-                .combo-suggestions > li:hover {
-                    background-color: #f5f5f5;
-                }
     </style>
 </head>
 <body>
@@ -103,6 +57,7 @@
                             </div>
                             <div class="col-md-10" align="right">
                                 <button class="btn btn-primary" id="btnOrderDetailLock" onclick="lockOrder()">🔒 Lock</button>
+                                <button class="btn btn-info" id="btnOrderDetailPrint" onclick="printOrder()">🖨️ Print</button>
                                 <button class="btn btn-primary" id="btnOrderDetailUnlock" onclick="unlockOrder()">🔓 Unlock</button>
                                 <button class="btn btn-danger" id="btnOrderDetailClose" onclick="closeOrderDetail()">🗙 Close</button>
                             </div>
@@ -222,6 +177,13 @@
                                     <th></th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" style="text-align: right;">Total:</th>
+                                    <th class="text-right" id="amountTotalFooter"></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                             <tbody></tbody>
                         </table>
                     </div>
@@ -255,18 +217,20 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3">Item</label>
                                         <div class="col-sm-7">
-                                            <div>
+                                            <div class="combo-container">
                                                 <input type="text"
                                                        class="form-control combo-input"
                                                        id="orderItemItemId"
                                                        data-url="/api/orderItem/list/item"
                                                        data-value-field="Id"
                                                        data-text-field="ItemDescription"
+                                                       data-display-fields="ItemDescription,Price"
                                                        data-placeholder="Search item..."
+                                                       data-selected-id="1"
                                                        data-allow-add="false" />
-                                                <ul class="dropdown-menu combo-suggestions" style="display:none; position:absolute; z-index:1000;"></ul>
+                                                <span class="combo-clear" style="display:none;">&times;</span>
+                                                <ul class="dropdown-menu combo-suggestions"></ul>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -300,12 +264,33 @@
         </div>
     </div>
 
+    <!--
+        Order Confirm Delete Modal
+    -->
+    <div class="modal fade" id="deleteOrderItemConfirmModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    Delete Item?
+                </div>
+                <div class="modal-footer">
+                    <button id="btnOrderItemConfirmDelete" class="btn btn-danger" onclick="confirmDeleteOrderItem()">🗑 Delete</button>
+                    <button id="btnOrderItemCloseConfirmDelete" class="btn btn-primary" data-dismiss="modal">🗙 Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @Scripts.Render("~/Scripts/Software-js")
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
         var isLocked = false;
+        var ordItemId = 0;
         // =======================
         // Get URL Parameter Value
         // =======================
@@ -336,15 +321,26 @@
                     success: function (results) {
                         if (results != null) {
                             document.getElementById('orderOrderNumber').value = results.OrderNumber;
-                            document.getElementById('orderDateInput').value = results.SalesDate;
+
+                            const salesDate = new Date(results.SalesDate);
+                            const formattedSalesDate = salesDate.getFullYear() + '-' +
+                                String(salesDate.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(salesDate.getDate()).padStart(2, '0');
+                            document.querySelector("#orderDateInput")._flatpickr.setDate(formattedSalesDate);
+
                             document.getElementById('orderCustomerName').value = results.CustomerName;
                             document.getElementById('orderAddress').value = results.Address;
                             document.getElementById('orderContactNumber').value = results.ContactNumber;
                             document.getElementById('orderLandmark').value = results.Landmark;
                             document.getElementById('orderLookFor').value = results.LookFor;
-                            document.getElementById('deliveryDateInput').value = results.DeliveryDate;
-                            document.getElementById('orderDeliveryTime').value = results.DeliveryTime;
 
+                            const deliveryDate = new Date(results.DeliveryDate);
+                            const formattedDeliveryDate = deliveryDate.getFullYear() + '-' +
+                                String(deliveryDate.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(deliveryDate.getDate()).padStart(2, '0');
+                            document.querySelector("#deliveryDateInput")._flatpickr.setDate(formattedDeliveryDate);
+
+                            document.getElementById('orderDeliveryTime').value = results.DeliveryTime;
                             flatpickr("#orderDeliveryTime", {
                                 enableTime: true,
                                 noCalendar: true,
@@ -463,7 +459,7 @@
                         data: null,
                         className: 'text-center',
                         render: function (data, type, row) {
-                            return '<button class="btn btn-danger btn-sm" onclick="deleteOrderItem(' + row.Id + ')">🗑 Delete</button>';
+                            return '<button class="btn btn-danger btn-sm" onclick="deleteOrderItem(' + row.Id + ',' + row.OrderId + ')">🗑 Delete</button>';
                         }, width: '8%'
                     }
                 ],
@@ -485,6 +481,20 @@
                     "lengthMenu": "_MENU_ Records per page",
                     "info": "_START_ - _END_ of _TOTAL_ record(s) is displayed"
                 },
+                footerCallback: function (row, data, start, end, display) {
+                    const api = this.api();
+
+                    let total = api
+                        .column(4, { page: 'current' }) // column index for Amount
+                        .data()
+                        .reduce(function (a, b) {
+                            return parseFloat(a || 0) + parseFloat(b || 0);
+                        }, 0);
+
+                    $(api.column(4).footer()).html(
+                        total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                    );
+                }
             });
         }
 
@@ -660,6 +670,41 @@
             });
         }
 
+        // Print Order
+        function printOrder() {
+            var orderId = getURLParameterValue("id");
+
+            var printLink = '/RepOrder/Order?OrderId=' + orderId;
+            window.open(printLink, '_blank');
+        }
+
+        // Add Order Item
+        function addOrderItem() {
+            ordItemId = 0;
+            $('#orderItemsEdit').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            $("#orderItemLoading").show();
+            document.getElementById("orderItemLoading").innerHTML = 'Loading...';
+            $("#orderItemContent").hide();
+
+            document.getElementById("orderItemModalTitle").innerHTML = 'Add Order Item';
+
+            document.getElementById('btnOrderItemSave').innerHTML = "💾 Save";
+            $("#btnOrderItemSave").prop("disabled", true);
+            $("#btnOrderItemCloseModal").prop("disabled", false);
+
+            document.getElementById('orderItemPrice').value = formatDecimalValues(1);
+            document.getElementById('orderItemQuantity').value = formatDecimalValues(1);
+            computeAmount();
+
+            $("#orderItemLoading").hide();
+            $("#orderItemContent").show();
+            $("#btnOrderItemSave").prop("disabled", false);
+        }
+
         // Edit Order Item
         function editOrderItem(orderItemId) {
             $('#orderItemsEdit').modal({
@@ -686,6 +731,7 @@
                     if (results != null) {
                         const $input = $('#orderItemItemId');
                         document.getElementById('orderItemId').value = results.Id;
+                        ordItemId = results.Id;
                         $input.val(results.ItemDescription).data('selected-id', results.ItemId);
                         document.getElementById('orderItemPrice').value = formatDecimalValues(results.Price);
                         document.getElementById('orderItemQuantity').value = formatDecimalValues(results.Quantity);
@@ -706,8 +752,6 @@
         function saveOrderItem() {
             const selectedId = $('#orderItemItemId').data('selected-id');
             var orderItemObject = new Object();
-            var ordItemId = 0;
-            ordItemId = document.getElementById('orderItemId').value
             var orderId = getURLParameterValue('id');
             orderItemObject.OrderId = orderId;
             orderItemObject.ItemId = selectedId;
@@ -731,7 +775,11 @@
                         200: function () {
                             toastr.success("Save Succesful");
                             $('#orderItemsEdit').modal('hide');
+                            Loader.show();
                             populateOrderItems();
+                            setTimeout(() => {
+                                Loader.hide();
+                            }, 1000);
                         },
                         404: function (message) {
                             toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
@@ -764,7 +812,11 @@
                         200: function () {
                             toastr.success("Update Successful");
                             $('#orderItemsEdit').modal('hide');
+                            Loader.show();
                             populateOrderItems();
+                            setTimeout(() => {
+                                Loader.hide();
+                            }, 1000);
                         },
                         404: function (message) {
                             toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
@@ -789,8 +841,74 @@
             }
         }
 
+        // Delete Order Item
+        var delOrderItemId = 0;
+        var delOrderId = 0;
+        function deleteOrderItem(orderItemId, orderId) {
+            delOrderItemId = orderItemId;
+            delOrderId = orderId;
+            $('#deleteOrderItemConfirmModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            document.getElementById('btnOrderItemConfirmDelete').innerHTML = "🗑 Delete";
+            $("#btnOrderItemConfirmDelete").prop("disabled", false);
+            $("#btnOrderItemCloseConfirmDelete").prop("disabled", false);
+        }
+
+        // Delete Confirm Order Item
+        function confirmDeleteOrderItem() {
+            document.getElementById('btnOrderItemConfirmDelete').innerHTML = "🗑 Deleting...";
+            $("#btnOrderItemConfirmDelete").prop("disabled", true);
+            $("#btnOrderItemCloseConfirmDelete").prop("disabled", true);
+
+            $.ajax({
+                url: '/api/orderItem/delete/' + delOrderItemId + '/' + delOrderId,
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Delete Successful");
+                        $('#deleteOrderItemConfirmModal').modal('hide');
+                        Loader.show();
+                        populateOrderItems();
+                        setTimeout(() => {
+                            Loader.hide();
+                        }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404");
+                        document.getElementById('btnOrderItemConfirmDelete').innerHTML = "🗑 Delete";
+                        $("#btnOrderItemConfirmDelete").prop("disabled", false);
+                        $("#btnOrderItemCloseConfirmDelete").prop("disabled", false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400");
+                        document.getElementById('btnOrderItemConfirmDelete').innerHTML = "🗑 Delete";
+                        $("#btnOrderItemConfirmDelete").prop("disabled", false);
+                        $("#btnOrderItemCloseConfirmDelete").prop("disabled", false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500");
+                        document.getElementById('btnOrderItemConfirmDelete').innerHTML = "🗑 Delete";
+                        $("#btnOrderItemConfirmDelete").prop("disabled", false);
+                        $("#btnOrderItemCloseConfirmDelete").prop("disabled", false);
+                    }
+                }
+            });
+        }
+
         $("#orderItemPrice").keyup(function (e) { computeAmount(); });
         $("#orderItemQuantity").keyup(function (e) { computeAmount(); });
+        $('#orderItemItemId').on('change', function () {
+            const item = $(this).data('selected-item');
+            if (item) {
+                $('#orderItemPrice').val(item.Price); // Assign to hidden or display field
+                computeAmount();
+            }
+        });
 
         // Compute Amount
         function computeAmount() {
@@ -816,7 +934,6 @@
                 maxDate: "9999-12-31",
                 disableMobile: true
             });
-
 
             flatpickr("#deliveryDateInput", {
                 dateFormat: "Y-m-d",

@@ -181,6 +181,6 @@ namespace MajorxLechon.Controllers
         public ActionResult UserDetail() { return View(); }
 
         // Reports
-        public ActionResult SalesReport() { return View(); }
+        public ActionResult ReportList() { return View(); }
     }
 }
