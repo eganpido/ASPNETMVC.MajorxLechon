@@ -365,6 +365,7 @@
   <ItemGroup>
     <Compile Include="ApiControllers\ApiMstUserAccountController.cs" />
     <Compile Include="ApiControllers\ApiMstItemController.cs" />
+    <Compile Include="ApiControllers\ApiTrnReservationController.cs" />
     <Compile Include="ApiControllers\ApiTrnOrderController.cs" />
     <Compile Include="ApiControllers\ApiTrnOrderItemController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

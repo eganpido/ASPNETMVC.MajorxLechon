@@ -24,61 +24,50 @@ namespace MajorxLechon.ApiControllers
                               where d.UserId == User.Identity.GetUserId()
                               select d;
 
-            var rawUsers = from d in db.MstUsers.OrderByDescending(d => d.Id)
-                           select new
-                           {
-                               Id = d.Id,
-                               UserId = d.UserId,
-                               UserName = d.UserName,
-                               Password = d.Password,
-                               FullName = d.FullName,
-                               IsLocked = d.IsLocked,
-                               CreatedById = d.CreatedById,
-                               CreatedBy = GetCreatedBy(d.CreatedById),
-                               CreatedDateTime = d.CreatedDateTime, // Keep as DateTime
-                               UpdatedById = d.UpdatedById,
-                               UpdatedBy = GetUpdatedBy(d.UpdatedById),
-                               UpdatedDateTime = d.UpdatedDateTime, // Keep as DateTime
-                           };
-            if (currentUser.FirstOrDefault().Id != 1)
+            var userQuery = db.MstUsers.AsQueryable();
+
+            if (currentUser.FirstOrDefault()?.Id != 1)
             {
-                rawUsers = from d in db.MstUsers.OrderByDescending(d => d.Id)
-                           where d.Id != 1
-                           select new
-                           {
-                               Id = d.Id,
-                               UserId = d.UserId,
-                               UserName = d.UserName,
-                               Password = d.Password,
-                               FullName = d.FullName,
-                               IsLocked = d.IsLocked,
-                               CreatedById = d.CreatedById,
-                               CreatedBy = GetCreatedBy(d.CreatedById),
-                               CreatedDateTime = d.CreatedDateTime, // Keep as DateTime
-                               UpdatedById = d.UpdatedById,
-                               UpdatedBy = GetUpdatedBy(d.UpdatedById),
-                               UpdatedDateTime = d.UpdatedDateTime, // Keep as DateTime
-                           };
+                userQuery = userQuery.Where(d => d.Id != 1);
             }
 
-            // Step 2: Materialize and format in memory
-            var users = rawUsers.ToList() // Execute query on database
-                                  .Select(d => new Entities.MstUser
-                                  {
-                                      Id = d.Id,
-                                      UserId = d.UserId,
-                                      UserName = d.UserName,
-                                      Password = d.Password,
-                                      FullName = d.FullName,
-                                      IsLocked = d.IsLocked,
-                                      CreatedById = d.CreatedById,
-                                      CreatedBy = d.CreatedBy,
-                                      CreatedDateTime = d.CreatedDateTime.ToShortDateString(), // Format in memory
-                                      UpdatedById = d.UpdatedById,
-                                      UpdatedBy = d.UpdatedBy,
-                                      UpdatedDateTime = d.UpdatedDateTime.ToShortDateString(), // Format in memory
-                                  })
-                                  .ToList();
+            // Step 2: Materialize in memory (ToList), then project using custom methods
+            var rawUsers = userQuery
+                .OrderByDescending(d => d.Id)
+                .ToList() // Now in memory, so you can use C# methods
+                .Select(d => new
+                {
+                    d.Id,
+                    d.UserId,
+                    d.UserName,
+                    d.Password,
+                    d.FullName,
+                    d.IsLocked,
+                    d.CreatedById,
+                    CreatedBy = GetCreatedBy(d.CreatedById), // safe now
+                    d.CreatedDateTime,
+                    d.UpdatedById,
+                    UpdatedBy = GetUpdatedBy(d.UpdatedById), // safe now
+                    d.UpdatedDateTime
+                })
+                .ToList();
+
+            // Step 3: Format fields and return model
+            var users = rawUsers.Select(d => new Entities.MstUser
+            {
+                Id = d.Id,
+                UserId = d.UserId,
+                UserName = d.UserName,
+                Password = d.Password,
+                FullName = d.FullName,
+                IsLocked = d.IsLocked,
+                CreatedById = d.CreatedById,
+                CreatedBy = d.CreatedBy,
+                CreatedDateTime = d.CreatedDateTime.ToShortDateString(),
+                UpdatedById = d.UpdatedById,
+                UpdatedBy = d.UpdatedBy,
+                UpdatedDateTime = d.UpdatedDateTime.ToShortDateString()
+            }).ToList();
 
             return users;
         }

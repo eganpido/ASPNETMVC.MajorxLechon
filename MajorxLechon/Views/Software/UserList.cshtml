@@ -132,7 +132,7 @@
             // ✅ Initialize DataTable
             $('#datagridList').DataTable({
                 ajax: {
-                    url: '/api/user/list',
+                    url: '/api/userAccount/list',
                     dataSrc: ''
                 },
                 columns: [
@@ -217,7 +217,7 @@
             $('#btnUserCloseConfirmDelete').prop('disabled', true);
 
             $.ajax({
-                url: '/api/user/delete/' + Id,
+                url: '/api/userAccount/delete/' + Id,
                 type: "DELETE",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

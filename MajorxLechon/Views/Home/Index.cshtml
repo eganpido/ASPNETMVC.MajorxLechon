@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model MajorxLechon.Entities.TrnReservation
+<!DOCTYPE html>
 <html class="home-html-height">
 <head>
     <meta charset="utf-8" />
@@ -294,7 +295,7 @@
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-3 col-xs-12">Name</label>
-                                    <div class="col-sm-6 col-xs-12">
+                                    <div class="col-sm-8 col-xs-12">
                                         <input type="text" class="form-control" id="resCustomerName" placeholder="Name..." />
                                     </div>
                                 </div>
@@ -307,7 +308,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-3 col-xs-12">Address</label>
+                                    <label class="control-label col-sm-3 col-xs-12">Delivery Address</label>
                                     <div class="col-sm-8 col-xs-12">
                                         <textarea id="resAddress" class="textarea-custom form-control" rows="2" placeholder="Address..."></textarea>
                                     </div>
@@ -333,16 +334,35 @@
                                         <input type="text" class="form-control" id="resLookFor" placeholder="Look For..." />
                                     </div>
                                 </div>
-
+                                <br />
                             </form>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button id="btnReserveConfirm" class="btn btn-primary" onclick="confirmReservation()">✅ Confirm</button>
+                        <button id="btnReserveConfirm" class="btn btn-primary" onclick="saveReservation()">💾 Save</button>
                         <button id="btnReserveCloseModal" class="btn btn-danger" data-dismiss="modal">🗙 Close</button>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+        Reservation Confirm Modal
+    -->
+    <div class="modal fade" id="reserveConfirmModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    Confirm?
+                </div>
+                <div class="modal-footer">
+                    <button id="btnConfirmReserve" class="btn btn-primary" onclick="confirmReservation()">✅ Confirm</button>
+                    <button id="btnConfirmCloseReserve" class="btn btn-danger" data-dismiss="modal">🗙 Cancel</button>
                 </div>
             </div>
         </div>
@@ -364,7 +384,7 @@
 
             document.getElementById("resModalTitle").innerHTML = 'Reserve';
 
-            document.getElementById('btnReserveConfirm').innerHTML = "✅ Confirm";
+            document.getElementById('btnReserveConfirm').innerHTML = "💾 Save";
             $("#btnReserveConfirm").prop("disabled", true);
             $("#btnReserveCloseModal").prop("disabled", false);
 
@@ -376,6 +396,73 @@
                 Loader.hide();
             }, 1000);
         }
+        // Save Reservation
+        function saveReservation() {
+            $('#reserveConfirmModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+        }
+        // Confirm Reservation
+        function confirmReservation() {
+
+            var reservation = {
+                DeliveryDate: document.getElementById('deliveryDateInput').value,
+                DeliveryTime: document.getElementById('resDeliveryTime').value,
+                CustomerName: document.getElementById('resCustomerName').value,
+                ItemOrder: document.getElementById('resOrder').value,
+                Address: document.getElementById('resAddress').value,
+                ContactNumber: document.getElementById('resContactNumber').value,
+                Landmark: document.getElementById('resLandmark').value,
+                LookFor: document.getElementById('resLookFor').value
+            };
+            var reservationData = JSON.stringify(reservation);
+
+            document.getElementById('btnConfirmReserve').innerHTML = "💾 Saving...";
+            $('#btnConfirmReserve').prop('disabled', true);
+            $('#btnConfirmCloseReserve').prop('disabled', true);
+
+            $.ajax({
+                url: '/api/reservation/add',
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: reservationData,
+                statusCode: {
+                    200: function () {
+                        toastr.success("Save Successful", "", { positionClass: "toast-bottom-right" });
+                        $('#reserveConfirmModal').modal('hide');
+                        Loader.show();
+                        $('#resModal').modal('hide');
+                        setTimeout(() => {
+                            Loader.hide();
+                        }, 1000);
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        $('#reserveConfirmModal').modal('hide');
+                        document.getElementById('btnConfirmReserve').innerHTML = "✅ Confirm";
+                        $('#btnConfirmReserve').prop('disabled', false);
+                        $('#btnConfirmCloseReserve').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        $('#reserveConfirmModal').modal('hide');
+                        document.getElementById('btnConfirmReserve').innerHTML = "✅ Confirm";
+                        $('#btnConfirmReserve').prop('disabled', false);
+                        $('#btnConfirmCloseReserve').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        $('#reserveConfirmModal').modal('hide');
+                        document.getElementById('btnConfirmReserve').innerHTML = "✅ Confirm";
+                        $('#btnConfirmReserve').prop('disabled', false);
+                        $('#btnConfirmCloseReserve').prop('disabled', false);
+                    }
+                }
+            });
+        }
+
         function initializeDate() {
             const today = new Date();
             flatpickr("#deliveryDateInput", {
