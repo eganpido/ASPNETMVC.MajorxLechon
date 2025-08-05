@@ -295,3 +295,24 @@ h3 {
         transform: scale(1.2);
         cursor: pointer;
     }
+
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 10px auto;
+        width: 95%;
+    }
+
+    .control-label {
+        text-align: left !important;
+        margin-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .calendar-button {
+        margin-top: 5px;
+        display: inline-block;
+    }
+}

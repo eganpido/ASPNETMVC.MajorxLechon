@@ -383,6 +383,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>majorxlechondb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\TrnReservation.cs" />
     <Compile Include="Entities\TrnOrderItem.cs" />
     <Compile Include="Entities\TrnOrder.cs" />
     <Compile Include="Entities\MstUser.cs" />

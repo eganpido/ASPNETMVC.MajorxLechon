@@ -14,6 +14,7 @@ namespace MajorxLechon
                         "~/Content/toastr.css",
                         "~/Content/font-awesome.min.css",
                         "~/Content/nprogress.css",
+                        "~/Content/loader.css",
                         "~/Content/home.css",
                         "~/Content/Site.css",
                         "~/Scripts/loader.css"));
@@ -27,6 +28,7 @@ namespace MajorxLechon
                         "~/Scripts/toastr.js",
                         "~/Scripts/menu.js",
                         "~/Scripts/nprogress.js",
+                        "~/Scripts/loader.js",
                         "~/Scripts/loader.js"));
 
             // Software - css

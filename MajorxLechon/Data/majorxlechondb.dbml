@@ -159,4 +159,19 @@
       <Association Name="MstUser_TrnOrder1" Member="MstUser1" ThisKey="UpdatedById" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.TrnReservation" Member="TrnReservations">
+    <Type Name="TrnReservation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ReservationNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ReservedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DeliveryTime" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ItemOrder" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ContactNumber" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Landmark" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="LookFor" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

@@ -66,12 +66,16 @@ namespace MajorxLechon.Data
     partial void InsertTrnOrder(TrnOrder instance);
     partial void UpdateTrnOrder(TrnOrder instance);
     partial void DeleteTrnOrder(TrnOrder instance);
+    partial void InsertTrnReservation(TrnReservation instance);
+    partial void UpdateTrnReservation(TrnReservation instance);
+    partial void DeleteTrnReservation(TrnReservation instance);
         #endregion
         public majorxlechondbDataContext() :
-                base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
+        base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, mappingSource)
         {
             OnCreated();
         }
+
         public majorxlechondbDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -189,6 +193,14 @@ namespace MajorxLechon.Data
 			get
 			{
 				return this.GetTable<TrnOrder>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TrnReservation> TrnReservations
+		{
+			get
+			{
+				return this.GetTable<TrnReservation>();
 			}
 		}
 	}
@@ -3607,6 +3619,308 @@ namespace MajorxLechon.Data
 		{
 			this.SendPropertyChanging();
 			entity.TrnOrder = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TrnReservation")]
+	public partial class TrnReservation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _ReservationNumber;
+		
+		private System.DateTime _ReservedDate;
+		
+		private System.DateTime _DeliveryDate;
+		
+		private string _DeliveryTime;
+		
+		private string _CustomerName;
+		
+		private string _ItemOrder;
+		
+		private string _ContactNumber;
+		
+		private string _Address;
+		
+		private string _Landmark;
+		
+		private string _LookFor;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnReservationNumberChanging(string value);
+    partial void OnReservationNumberChanged();
+    partial void OnReservedDateChanging(System.DateTime value);
+    partial void OnReservedDateChanged();
+    partial void OnDeliveryDateChanging(System.DateTime value);
+    partial void OnDeliveryDateChanged();
+    partial void OnDeliveryTimeChanging(string value);
+    partial void OnDeliveryTimeChanged();
+    partial void OnCustomerNameChanging(string value);
+    partial void OnCustomerNameChanged();
+    partial void OnItemOrderChanging(string value);
+    partial void OnItemOrderChanged();
+    partial void OnContactNumberChanging(string value);
+    partial void OnContactNumberChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnLandmarkChanging(string value);
+    partial void OnLandmarkChanged();
+    partial void OnLookForChanging(string value);
+    partial void OnLookForChanged();
+    #endregion
+		
+		public TrnReservation()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReservationNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string ReservationNumber
+		{
+			get
+			{
+				return this._ReservationNumber;
+			}
+			set
+			{
+				if ((this._ReservationNumber != value))
+				{
+					this.OnReservationNumberChanging(value);
+					this.SendPropertyChanging();
+					this._ReservationNumber = value;
+					this.SendPropertyChanged("ReservationNumber");
+					this.OnReservationNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReservedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ReservedDate
+		{
+			get
+			{
+				return this._ReservedDate;
+			}
+			set
+			{
+				if ((this._ReservedDate != value))
+				{
+					this.OnReservedDateChanging(value);
+					this.SendPropertyChanging();
+					this._ReservedDate = value;
+					this.SendPropertyChanged("ReservedDate");
+					this.OnReservedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryDate", DbType="DateTime NOT NULL")]
+		public System.DateTime DeliveryDate
+		{
+			get
+			{
+				return this._DeliveryDate;
+			}
+			set
+			{
+				if ((this._DeliveryDate != value))
+				{
+					this.OnDeliveryDateChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryDate = value;
+					this.SendPropertyChanged("DeliveryDate");
+					this.OnDeliveryDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliveryTime", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string DeliveryTime
+		{
+			get
+			{
+				return this._DeliveryTime;
+			}
+			set
+			{
+				if ((this._DeliveryTime != value))
+				{
+					this.OnDeliveryTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DeliveryTime = value;
+					this.SendPropertyChanged("DeliveryTime");
+					this.OnDeliveryTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomerName", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string CustomerName
+		{
+			get
+			{
+				return this._CustomerName;
+			}
+			set
+			{
+				if ((this._CustomerName != value))
+				{
+					this.OnCustomerNameChanging(value);
+					this.SendPropertyChanging();
+					this._CustomerName = value;
+					this.SendPropertyChanged("CustomerName");
+					this.OnCustomerNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ItemOrder", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string ItemOrder
+		{
+			get
+			{
+				return this._ItemOrder;
+			}
+			set
+			{
+				if ((this._ItemOrder != value))
+				{
+					this.OnItemOrderChanging(value);
+					this.SendPropertyChanging();
+					this._ItemOrder = value;
+					this.SendPropertyChanged("ItemOrder");
+					this.OnItemOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactNumber", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string ContactNumber
+		{
+			get
+			{
+				return this._ContactNumber;
+			}
+			set
+			{
+				if ((this._ContactNumber != value))
+				{
+					this.OnContactNumberChanging(value);
+					this.SendPropertyChanging();
+					this._ContactNumber = value;
+					this.SendPropertyChanged("ContactNumber");
+					this.OnContactNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Landmark", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Landmark
+		{
+			get
+			{
+				return this._Landmark;
+			}
+			set
+			{
+				if ((this._Landmark != value))
+				{
+					this.OnLandmarkChanging(value);
+					this.SendPropertyChanging();
+					this._Landmark = value;
+					this.SendPropertyChanged("Landmark");
+					this.OnLandmarkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LookFor", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string LookFor
+		{
+			get
+			{
+				return this._LookFor;
+			}
+			set
+			{
+				if ((this._LookFor != value))
+				{
+					this.OnLookForChanging(value);
+					this.SendPropertyChanging();
+					this._LookFor = value;
+					this.SendPropertyChanged("LookFor");
+					this.OnLookForChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

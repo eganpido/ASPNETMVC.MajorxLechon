@@ -2,17 +2,18 @@
 <html class="home-html-height">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="~/Images/icon/streetsmartLogo.ico">
     <title>Majorx Lechon</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Home-css")
     <style>
         /*
-        * CSS for Sticky Footer using Flexbox
-        * This ensures the footer is always at the bottom of the viewport
-        * even if the content is short.
-        */
+            * CSS for Sticky Footer using Flexbox
+            * This ensures the footer is always at the bottom of the viewport
+            * even if the content is short.
+            */
         html, body {
             height: 100%; /* Make html and body take full viewport height */
             margin: 0; /* Remove default body margin */
@@ -96,6 +97,7 @@
         .feature-description {
             font-size: 1.5rem;
         }
+
         .order-btn {
             display: inline-block;
             padding: 12px 24px;
@@ -110,6 +112,7 @@
             .order-btn:hover {
                 background-color: #218838;
             }
+
         .carousel-inner .item img {
             display: block; /* Ensures the image is a block-level element */
             margin: 0 auto; /* Horizontally centers the image */
@@ -117,12 +120,14 @@
             height: 400px; /* Controls the height of the image */
             object-fit: cover; /* Ensures the image covers the area without distorting */
         }
+
         .img-banner {
             max-width: 1300px;
             width: 1300px;
             margin: 0 auto; /* Centers the image horizontally */
             display: block; /* Makes the image a block element to center it */
         }
+
         .corner-logo {
             opacity: 0.80;
             z-index: 1000;
@@ -136,6 +141,39 @@
                 transform: scale(1.05);
                 opacity: 1;
             }
+
+        .textarea-custom {
+            width: 100%;
+            max-width: 100%;
+            min-height: calc(4em + 28px);
+            padding: 10px 14px;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            resize: vertical;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+            .textarea-custom:focus {
+                border-color: #66afe9;
+                outline: none;
+                box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+            }
+
+        .calendar-button {
+            position: absolute;
+            right: 14px;
+            top: 52%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            background: transparent;
+            border: none;
+            color: #329494;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body id="page-top" class="home-body-height">
@@ -161,7 +199,7 @@
                 <div>
                     <img class="img-banner" src="~/Images/majorxBanner.jpg" alt="Majorx Banner">
                 </div>
-                <a href="/Account/Login" class="btn btn-primary order-btn" style="margin-top:40px;">🐷 Order Now!</a>
+                <a class="btn btn-primary order-btn" style="margin-top:40px;" onclick="addReservation()">📝 Order Now!</a>
             </div>
             <div class="container" style="padding: 40px 0;">
                 <!-- Image Carousel -->
@@ -219,6 +257,159 @@
             </div>
         </div>
     </footer>
+
+    <!--
+        Reservation Modal
+    -->
+    <div class="modal fade" id="resModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="resModalTitle">Reserve</h4>
+                </div>
+
+                <div class="modal-body">
+                    <center><span id="resModalLoading"></span></center>
+
+                    <div id="resModalContent">
+                        <br />
+                        <div class="tab-content">
+                            <form class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Delivery Date</label>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <input type="text" id="deliveryDateInput" class="form-control custom-date" placeholder="Select date" />
+                                        <button type="button" class="calendar-button" data-target="#deliveryDateInput" tabindex="-1">📅</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Delivery Time</label>
+                                    <div class="col-sm-3 col-xs-12">
+                                        <input type="text" class="form-control" id="resDeliveryTime" placeholder="12:00 AM" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Name</label>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <input type="text" class="form-control" id="resCustomerName" placeholder="Name..." />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Order</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <textarea id="resOrder" class="textarea-custom form-control" rows="2" placeholder="Fill-in Order..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Address</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <textarea id="resAddress" class="textarea-custom form-control" rows="2" placeholder="Address..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Contact No.</label>
+                                    <div class="col-sm-5 col-xs-12">
+                                        <input type="text" class="form-control" id="resContactNumber" placeholder="Contact Number..." />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Landmark</label>
+                                    <div class="col-sm-8 col-xs-12">
+                                        <textarea id="resLandmark" class="textarea-custom form-control" rows="2" placeholder="Landmark..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3 col-xs-12">Look For</label>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <input type="text" class="form-control" id="resLookFor" placeholder="Look For..." />
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="btnReserveConfirm" class="btn btn-primary" onclick="confirmReservation()">✅ Confirm</button>
+                        <button id="btnReserveCloseModal" class="btn btn-danger" data-dismiss="modal">🗙 Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     @Scripts.Render("~/Scripts/Home-js")
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Add Reservation
+        function addReservation() {
+            Loader.show();
+            $('#resModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            $("#resModalLoading").show();
+            document.getElementById("resModalLoading").innerHTML = 'Loading...';
+            $("#resModalContent").hide();
+
+            document.getElementById("resModalTitle").innerHTML = 'Reserve';
+
+            document.getElementById('btnReserveConfirm').innerHTML = "✅ Confirm";
+            $("#btnReserveConfirm").prop("disabled", true);
+            $("#btnReserveCloseModal").prop("disabled", false);
+
+            $("#btnReserveConfirm").prop("disabled", false);
+            $("#resModalLoading").hide();
+            $("#resModalContent").show();
+
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        }
+        function initializeDate() {
+            const today = new Date();
+            flatpickr("#deliveryDateInput", {
+                dateFormat: "Y-m-d",
+                defaultDate: today,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+            flatpickr("#resDeliveryTime", {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "h:i K", // 12-hour format with AM/PM
+                time_24hr: false,
+                defaultDate: "12:00 AM"
+            });
+        }
+
+        document.querySelectorAll('.calendar-button').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const targetInput = document.querySelector(this.dataset.target);
+                if (targetInput && targetInput._flatpickr) {
+                    targetInput._flatpickr.open();
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            initializeDate();
+        });
+    </script>
+    <div id="loader-overlay">
+        <div class="loader-circle"></div>
+    </div>
 </body>
 </html>

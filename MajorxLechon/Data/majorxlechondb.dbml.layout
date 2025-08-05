@@ -131,7 +131,7 @@
         <classShapeMoniker Id="f74729f4-b0f7-4fe1-9404-4c1ea5773817" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.75 : 2.19314697265625); (7.5 : 2.19314697265625); (7.5 : 6.75)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.75 : 2.8862939453125); (6.125 : 3.2612939453125); (6.125 : 8.11620198567708); (6.5 : 8.11620198567708)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/setdbDataContext/SysForm/SysForm_MstUserForm" />
       <nodes>
         <classShapeMoniker Id="8ccef4cc-3b77-4a36-85c2-0b5ab262766d" />
@@ -144,26 +144,32 @@
         <elementListCompartment Id="782f7231-8173-4e3e-87ff-567dc65308e2" absoluteBounds="3.39, 13.71, 1.9700000000000002, 3.3262125651041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.375 : 15.1931062825521); (7.25 : 15.1931062825521); (7.25 : 13.0881982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.375 : 15.1931062825521); (7.25 : 15.1931062825521); (7.25 : 13.0881982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/setdbDataContext/TrnOrder/TrnOrder_TrnOrderItem" />
       <nodes>
         <classShapeMoniker Id="e3064ec2-b084-4ddd-8454-a727f0aa523e" />
         <classShapeMoniker Id="4c6255d4-ea3a-4639-9ac2-df147dbb0c73" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 10.4824039713542); (1.75 : 15.1931062825521); (3.375 : 15.1931062825521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.75 : 10.4824039713542); (1.75 : 15.1931062825521); (3.375 : 15.1931062825521)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/setdbDataContext/MstUser/MstUser_TrnOrder" />
       <nodes>
         <classShapeMoniker Id="342659c0-8daf-4489-8a03-d4d7396515c8" />
         <classShapeMoniker Id="e3064ec2-b084-4ddd-8454-a727f0aa523e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.2812525 : 10.4824039713542); (2.2812525 : 14.190300641276); (3.375 : 14.190300641276)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.2812525 : 10.4824039713542); (2.2812525 : 14.190300641276); (3.375 : 14.190300641276)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/setdbDataContext/MstUser/MstUser_TrnOrder1" />
       <nodes>
         <classShapeMoniker Id="342659c0-8daf-4489-8a03-d4d7396515c8" />
         <classShapeMoniker Id="e3064ec2-b084-4ddd-8454-a727f0aa523e" />
       </nodes>
     </associationConnector>
+    <classShape Id="2aa4f156-c568-4796-8f9a-11d8e219c4c4" absoluteBounds="7, 1.125, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/setdbDataContext/TrnReservation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f74c3d52-4b72-4bcd-b068-28ab3a7b47b2" absoluteBounds="7.015, 1.585, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
