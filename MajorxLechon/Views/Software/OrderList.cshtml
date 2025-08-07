@@ -22,6 +22,19 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Software-css")
+    <style>
+        .calendar-button {
+            position: absolute;
+            right: 14px;
+            top: 52%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            background: transparent;
+            border: none;
+            color: #329494;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="o-wrapper" class="o-wrapper">
@@ -56,12 +69,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="width: 20%">
-                                    <div class="row">
-                                        <button class="btn btn-primary" id="btnOrderAdd" onclick="viewReservations()">👁️ View Reservations</button>
-                                    </div>
-                                </td>
-                                <td style="width: 30%" align="right">
+                                <td style="width: 50%" align="right">
+                                    <button class="btn btn-primary" id="btnOrderAdd" onclick="viewReservations()">👁️ View Reservations</button>
                                     <button class="btn btn-primary" id="btnOrderAdd" onclick="addOrder()">🞧 Add</button>
                                     <button class="btn btn-danger" id="btnOrderClose" onclick="closeOrder()">🗙 Close</button>
                                 </td>
@@ -86,6 +95,167 @@
                     </table>
                 </div>
             </section>
+
+            <!--
+                View Reservation Modal
+            -->
+            <div class="modal fade" id="reservationModal" role="dialog">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Order Reservations</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel-heading">
+                                <table style="width: 100%" border="0">
+                                    <tr>
+                                        <td style="width: 50%">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="date-wrapper">
+                                                        <label for="startDateReservation">From : </label>
+                                                        <input type="text" id="startDateReservation" class="form-control custom-date" placeholder="Select date" />
+                                                        <button type="button" class="calendar-button" data-target="#startDateReservation" tabindex="-1">📅</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="date-wrapper">
+                                                        <label for="endDateReservation">To : </label>
+                                                        <input type="text" id="endDateReservation" class="form-control custom-date" placeholder="Select date" />
+                                                        <button type="button" class="calendar-button" data-target="#endDateReservation" tabindex="-1">📅</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 50%" align="right">
+                                            <button id="btnViewReservationCloseModal" class="btn btn-danger" data-dismiss="modal">🗙 Close</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table id="datagridListReservation" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr class="selected">
+                                        <th></th>
+                                        <th></th>
+                                        <th>Res. No.</th>
+                                        <th>Date</th>
+                                        <th>Del. Date</th>
+                                        <th>Del. Time</th>
+                                        <th>Customer Name</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                Reservation Detail Modal
+            -->
+            <div class="modal fade" id="resDetailModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="resDetailModalTitle">Reserve</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <center><span id="resDetailModalLoading"></span></center>
+
+                            <div id="resDetailModalContent">
+                                <br />
+                                <div class="tab-content">
+                                    <form class="form-horizontal">
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Reservation No.</label>
+                                            <div class="col-sm-3 col-xs-12">
+                                                <input type="text" class="form-control" id="resDetailReservationNumber" placeholder="Reservation No. ..." />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Reservation Date</label>
+                                            <div class="col-sm-4 col-xs-12">
+                                                <input type="text" id="resDetailReservedDate" class="form-control custom-date" placeholder="Select date" />
+                                                <button type="button" class="calendar-button" data-target="#resDetailReservedDate" tabindex="-1">📅</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Delivery Date</label>
+                                            <div class="col-sm-4 col-xs-12">
+                                                <input type="text" id="resDetailDeliveryDate" class="form-control custom-date" placeholder="Select date" />
+                                                <button type="button" class="calendar-button" data-target="#resDetailDeliveryDate" tabindex="-1">📅</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Delivery Time</label>
+                                            <div class="col-sm-3 col-xs-12">
+                                                <input type="text" class="form-control" id="resDetailDeliveryTime" placeholder="12:00 AM" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Delivery Address</label>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <textarea id="resDetailAddress" class="textarea-custom form-control" rows="2" placeholder="Address..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Name</label>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <input type="text" class="form-control" id="resDetailCustomerName" placeholder="Name..." />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Order</label>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <textarea id="resDetailOrder" class="textarea-custom form-control" rows="2" placeholder="Fill-in Order..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Contact No.</label>
+                                            <div class="col-sm-5 col-xs-12">
+                                                <input type="text" class="form-control" id="resDetailContactNumber" placeholder="Contact Number..." />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Landmark</label>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <textarea id="resDetailLandmark" class="textarea-custom form-control" rows="2" placeholder="Landmark..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-xs-12">Look For</label>
+                                            <div class="col-sm-6 col-xs-12">
+                                                <input type="text" class="form-control" id="resDetailLookFor" placeholder="Look For..." />
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button id="btnReservationDetailCloseModal" class="btn btn-danger" data-dismiss="modal">🗙 Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!--
                 Order Confirm Delete Modal
@@ -220,6 +390,99 @@
                 Loader.hide();
             }, 1000);
         }
+        function populateReservation() {
+            Loader.show();
+
+            if ($.fn.DataTable.isDataTable('#datagridListReservation')) {
+                $('#datagridListReservation').DataTable().clear().destroy();
+            }
+
+            $('#datagridListReservation tbody').off('click');
+
+            $('#datagridListReservation tbody').on('click', 'tr', function () {
+                $('#datagridListReservation tbody tr').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            const startDate = $('#startDateReservation').val();
+            const endDate = $('#endDateReservation').val();
+
+            $('#datagridListReservation').DataTable({
+                ajax: {
+                    url: '/api/reservation/list/' + startDate + "/" + endDate,
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-primary btn-sm" onclick="viewReservationDetail(' + row.Id + ')">👁️ View</button>';
+                        }, width: '8%'
+                    },
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-primary btn-sm" onclick="addReservationOrder(' + row.Id + ')">🞧 Add Order</button>';
+                        }, width: '8%'
+                    },
+                    { data: 'ReservationNumber', className: 'text-left' },
+                    {
+                        data: 'ReservedDate',
+                        render: function (data, type, row) {
+                            if (!data) return '';
+                            const date = new Date(data);
+                            return date.getFullYear() + '-' +
+                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(date.getDate()).padStart(2, '0');
+                        }, className: 'text-left'
+                    },
+                    {
+                        data: 'DeliveryDate',
+                        render: function (data, type, row) {
+                            if (!data) return '';
+                            const date = new Date(data);
+                            return date.getFullYear() + '-' +
+                                String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                                String(date.getDate()).padStart(2, '0');
+                        }, className: 'text-left'
+                    },
+                    { data: 'DeliveryTime' },
+                    { data: 'CustomerName', width: '20%' },
+                    {
+                        data: null,
+                        className: 'text-center',
+                        render: function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm" onclick="deleteReservation(' + row.Id + ')">🗑 Delete</button>';
+                        }, width: '8%'
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 1,
+                        className: 'text-left'
+                    },
+                    {
+                        targets: [0, 7],
+                        orderable: false
+                    }
+                ],
+                pageLength: 5,
+                lengthMenu: [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+                responsive: true,
+                language: {
+                    search: "Search:  ",
+                    emptyTable: "No record(s) available",
+                    "lengthMenu": "_MENU_ Records per page",
+                    "info": "_START_ - _END_ of _TOTAL_ record(s) is displayed"
+                }
+            });
+
+            setTimeout(() => {
+                Loader.hide();
+            }, 1000);
+        }
         function isValidDate(dateStr) {
             const d = new Date(dateStr);
             return !isNaN(d.getTime()) && d >= new Date('1753-01-01') && d <= new Date('9999-12-31');
@@ -231,6 +494,15 @@
 
             if (isValidDate(startDate) && isValidDate(endDate)) {
                 populateOrder();
+            }
+        });
+
+        $('#startDateReservation, #endDateReservation').on('change', function () {
+            const startDate = $('#startDateReservation').val();
+            const endDate = $('#endDateReservation').val();
+
+            if (isValidDate(startDate) && isValidDate(endDate)) {
+                populateReservation();
             }
         });
 
@@ -334,6 +606,93 @@
             });
         }
 
+        //View Reservation Detail
+        function viewReservationDetail(reservationId) {
+            $('#resDetailModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            $("#resDetailModalLoading").show();
+            document.getElementById("resDetailModalLoading").innerHTML = 'Loading...';
+            $("#resDetailModalContent").hide();
+
+            document.getElementById("resDetailModalTitle").innerHTML = 'Order Reservation Detail';
+
+            $("#btnReservationDetailCloseModal").prop("disabled", false);
+
+            $.ajax({
+                url: '/api/reservation/detail/' + reservationId,
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    if (results != null) {
+                        document.getElementById('resDetailReservationNumber').value = results.ReservationNumber;
+
+                        flatpickr("#resDetailReservedDate", {
+                            dateFormat: "Y-m-d",
+                            minDate: "1753-01-01",
+                            maxDate: "9999-12-31",
+                            disableMobile: true
+                        });
+
+                        flatpickr("#resDetailDeliveryDate", {
+                            dateFormat: "Y-m-d",
+                            minDate: "1753-01-01",
+                            maxDate: "9999-12-31",
+                            disableMobile: true
+                        });
+
+                        const reservedDate = new Date(results.ReservedDate);
+                        const formattedReservedDate = reservedDate.getFullYear() + '-' +
+                            String(reservedDate.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(reservedDate.getDate()).padStart(2, '0');
+                        document.querySelector("#resDetailReservedDate")._flatpickr.setDate(formattedReservedDate);
+
+                        const deliveryDate = new Date(results.DeliveryDate);
+                        const formattedDeliveryDate = deliveryDate.getFullYear() + '-' +
+                            String(deliveryDate.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(deliveryDate.getDate()).padStart(2, '0');
+                        document.querySelector("#resDetailDeliveryDate")._flatpickr.setDate(formattedDeliveryDate);
+
+                        document.getElementById('resDetailDeliveryTime').value = results.DeliveryTime;
+                        flatpickr("#resDetailDeliveryTime", {
+                            enableTime: true,
+                            noCalendar: true,
+                            dateFormat: "h:i K", // 12-hour format with AM/PM
+                            time_24hr: false,
+                            defaultDate: results.DeliveryTime
+                        });
+
+                        document.getElementById('resDetailAddress').value = results.Address;
+                        document.getElementById('resDetailCustomerName').value = results.CustomerName;
+                        document.getElementById('resDetailOrder').value = results.ItemOrder;
+                        document.getElementById('resDetailContactNumber').value = results.ContactNumber;
+                        document.getElementById('resDetailLandmark').value = results.Landmark;
+                        document.getElementById('resDetailLookFor').value = results.LookFor;
+
+                        document.getElementById('resDetailReservationNumber').disabled = true;
+                        document.getElementById('resDetailReservedDate').disabled = true;
+                        document.getElementById('resDetailDeliveryDate').disabled = true;
+                        document.getElementById('resDetailDeliveryTime').disabled = true;
+                        document.getElementById('resDetailAddress').disabled = true;
+                        document.getElementById('resDetailCustomerName').disabled = true;
+                        document.getElementById('resDetailOrder').disabled = true;
+                        document.getElementById('resDetailContactNumber').disabled = true;
+                        document.getElementById('resDetailLandmark').disabled = true;
+                        document.getElementById('resDetailLookFor').disabled = true;
+
+                        $("#resDetailModalLoading").hide();
+                        $("#resDetailModalContent").show();
+                    } else {
+                        alert("No Data");
+                        window.location = "/Software/OrderList";
+                    }
+                }
+            });
+        }
+
         function initializeDateFilters() {
             const today = new Date();
             const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -359,6 +718,31 @@
             populateOrder();
         }
 
+        function initializeDateFiltersReservations() {
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+            flatpickr("#startDateReservation", {
+                dateFormat: "Y-m-d",
+                defaultDate: firstDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+
+            flatpickr("#endDateReservation", {
+                dateFormat: "Y-m-d",
+                defaultDate: lastDayOfMonth,
+                minDate: "1753-01-01",
+                maxDate: "9999-12-31",
+                disableMobile: true
+            });
+
+            populateReservation();
+        }
+
         document.querySelectorAll('.calendar-button').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 const targetInput = document.querySelector(this.dataset.target);
@@ -371,6 +755,16 @@
         // Close Order
         function closeOrder() {
             window.location = '/Software';
+        }
+
+        // View Reservations
+        function viewReservations() {
+            $('#reservationModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            initializeDateFiltersReservations();
         }
 
         // On Load Page

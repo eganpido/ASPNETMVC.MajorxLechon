@@ -370,6 +370,11 @@
     @Scripts.Render("~/Scripts/Home-js")
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        $('#resModal').on('shown.bs.modal', function () {
+            // Clear all input fields inside the modal
+            $(this).find('input[type="text"], input[type="date"], input[type="time"], textarea').val('');
+            initializeDate()
+        });
         // Add Reservation
         function addReservation() {
             Loader.show();
@@ -402,6 +407,10 @@
                 show: true,
                 backdrop: 'static'
             });
+
+            document.getElementById('btnConfirmReserve').innerHTML = "✅ Confirm";
+            $('#btnConfirmReserve').prop('disabled', false);
+            $('#btnConfirmCloseReserve').prop('disabled', false);
         }
         // Confirm Reservation
         function confirmReservation() {
@@ -417,6 +426,7 @@
                 LookFor: document.getElementById('resLookFor').value
             };
             var reservationData = JSON.stringify(reservation);
+            console.log(reservationData);
 
             document.getElementById('btnConfirmReserve').innerHTML = "💾 Saving...";
             $('#btnConfirmReserve').prop('disabled', true);

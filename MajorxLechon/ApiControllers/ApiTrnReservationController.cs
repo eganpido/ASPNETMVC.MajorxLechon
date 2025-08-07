@@ -97,50 +97,39 @@ namespace MajorxLechon.ModifiedApiControllers
         }
 
         // Add Reservation
-        [Authorize, HttpPost, Route("api/reservation/add")]
+        [HttpPost, Route("api/reservation/add")]
         public HttpResponseMessage AddReservation(Entities.TrnReservation objReservation)
         {
             try
             {
-                var currentUser = from d in db.MstUsers
-                                  where d.UserId == User.Identity.GetUserId()
-                                  select d;
+                var defaultResNumber = "000001";
+                var lastReserved = from d in db.TrnReservations.OrderByDescending(d => d.Id)
+                                   select d;
 
-                if (currentUser.Any())
+                if (lastReserved.Any())
                 {
-                    var defaultResNumber = "000001";
-                    var lastReserved = from d in db.TrnReservations.OrderByDescending(d => d.Id)
-                                    select d;
-
-                    if (lastReserved.Any())
-                    {
-                        var resNumber = Convert.ToInt32(lastReserved.FirstOrDefault().ReservationNumber) + 000001;
-                        defaultResNumber = FillLeadingZeroes(resNumber, 6);
-                    }
-
-                    Data.TrnReservation newReservation = new Data.TrnReservation
-                    {
-                        ReservationNumber = defaultResNumber,
-                        ReservedDate = DateTime.Today,
-                        DeliveryDate = Convert.ToDateTime(objReservation.DeliveryDate),
-                        DeliveryTime = objReservation.DeliveryTime,
-                        CustomerName = objReservation.CustomerName,
-                        ItemOrder = objReservation.ItemOrder,
-                        ContactNumber = objReservation.ContactNumber,
-                        Address = objReservation.Address,
-                        Landmark = objReservation.Landmark,
-                        LookFor = objReservation.LookFor
-                    };
-
-                    db.TrnReservations.InsertOnSubmit(newReservation);
-                    db.SubmitChanges();
-
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    var resNumber = Convert.ToInt32(lastReserved.FirstOrDefault().ReservationNumber) + 000001;
+                    defaultResNumber = FillLeadingZeroes(resNumber, 6);
                 }
-                else
+
+                Data.TrnReservation newReservation = new Data.TrnReservation
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Theres no current user logged in.");
-                }
+                    ReservationNumber = defaultResNumber,
+                    ReservedDate = DateTime.Today,
+                    DeliveryDate = Convert.ToDateTime(objReservation.DeliveryDate),
+                    DeliveryTime = objReservation.DeliveryTime,
+                    CustomerName = objReservation.CustomerName,
+                    ItemOrder = objReservation.ItemOrder,
+                    ContactNumber = objReservation.ContactNumber,
+                    Address = objReservation.Address,
+                    Landmark = objReservation.Landmark,
+                    LookFor = objReservation.LookFor
+                };
+
+                db.TrnReservations.InsertOnSubmit(newReservation);
+                db.SubmitChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception e)
             {
