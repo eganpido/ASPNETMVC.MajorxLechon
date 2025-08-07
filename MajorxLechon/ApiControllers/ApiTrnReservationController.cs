@@ -165,7 +165,7 @@ namespace MajorxLechon.ModifiedApiControllers
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "Data not found. These order details are not found in the server.");
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Data not found. These reservation details are not found in the server.");
                     }
                 }
                 else

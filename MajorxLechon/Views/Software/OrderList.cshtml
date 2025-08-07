@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @Styles.Render("~/Content/Software-css")
     <style>
-        .calendar-button {
+        .calendar-button-reservationdetail {
             position: absolute;
             right: 14px;
             top: 52%;
@@ -183,7 +183,7 @@
                                             <label class="control-label col-sm-3 col-xs-12">Reservation Date</label>
                                             <div class="col-sm-4 col-xs-12">
                                                 <input type="text" id="resDetailReservedDate" class="form-control custom-date" placeholder="Select date" />
-                                                <button type="button" class="calendar-button" data-target="#resDetailReservedDate" tabindex="-1">📅</button>
+                                                <button type="button" class="calendar-button-reservationdetail" data-target="#resDetailReservedDate" tabindex="-1">📅</button>
                                             </div>
                                         </div>
 
@@ -191,7 +191,7 @@
                                             <label class="control-label col-sm-3 col-xs-12">Delivery Date</label>
                                             <div class="col-sm-4 col-xs-12">
                                                 <input type="text" id="resDetailDeliveryDate" class="form-control custom-date" placeholder="Select date" />
-                                                <button type="button" class="calendar-button" data-target="#resDetailDeliveryDate" tabindex="-1">📅</button>
+                                                <button type="button" class="calendar-button-reservationdetail" data-target="#resDetailDeliveryDate" tabindex="-1">📅</button>
                                             </div>
                                         </div>
 
@@ -277,6 +277,46 @@
                 </div>
             </div>
 
+            <!--
+                Order Reservation Confirm Delete Modal
+            -->
+            <div class="modal fade" id="deleteOrderReservationConfirm" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Delete</h4>
+                        </div>
+                        <div class="modal-body">
+                            Delete Order Reservation?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnOrderReservationConfirmDelete" class="btn btn-danger" onclick="confirmDeleteReservation()">🗑 Delete</button>
+                            <button id="btnOrderReservationCloseConfirmDelete" class="btn btn-primary" data-dismiss="modal">🗙 Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--
+                Add Order Confirm Modal
+            -->
+            <div class="modal fade" id="addOrderConfirmModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Add Order Confirmation</h4>
+                        </div>
+                        <div class="modal-body">
+                            Confirm?
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnConfirmAddOrder" class="btn btn-primary" onclick="confirmAddOrderReservation()">✅ Confirm</button>
+                            <button id="btnConfirmCloseAddOrder" class="btn btn-danger" data-dismiss="modal">🗙 Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @Html.Partial("_SoftwareFooter")
         </main>
     </div>
@@ -288,6 +328,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script type="text/javascript">
         var Id = 0;
+        var reservationId = 0;
+        var orderReservationId = 0;
 
         function populateOrder() {
             Loader.show();
@@ -424,7 +466,7 @@
                         data: null,
                         className: 'text-center',
                         render: function (data, type, row) {
-                            return '<button class="btn btn-primary btn-sm" onclick="addReservationOrder(' + row.Id + ')">🞧 Add Order</button>';
+                            return '<button class="btn btn-primary btn-sm" onclick="addOrderReservation(' + row.Id + ')">🞧 Add Order</button>';
                         }, width: '8%'
                     },
                     { data: 'ReservationNumber', className: 'text-left' },
@@ -542,6 +584,56 @@
             });
         }
 
+        // Add Order Reservation
+        function addOrderReservation(resId) {
+            orderReservationId = resId;
+            $('#addOrderConfirmModal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            document.getElementById('btnConfirmAddOrder').innerHTML = "✅ Confirm";
+            $('#btnConfirmAddOrder').prop('disabled', false);
+            $('#btnConfirmCloseAddOrder').prop('disabled', false);
+        }
+
+        // Confirm Order Reservation
+        function confirmAddOrderReservation() {
+            document.getElementById('btnConfirmAddOrder').innerHTML = "🞧 Adding...";
+            $('#btnConfirmAddOrder').prop('disabled', true);
+            $('#btnConfirmCloseAddOrder').prop('disabled', true);
+
+            $.ajax({
+                type: "POST",
+                url: '/api/orderReservation/add/' + orderReservationId,
+                contentType: "application/json; charset=utf-8",
+                statusCode: {
+                    200: function (id) {
+                        $('#addOrderConfirmModal').modal('hide');
+                        window.location = '/Software/OrderDetail?id=' + id;
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnConfirmAddOrder').innerHTML = "✅ Confirm";
+                        $('#btnConfirmAddOrder').prop('disabled', false);
+                        $('#btnConfirmCloseAddOrder').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnConfirmAddOrder').innerHTML = "✅ Confirm";
+                        $('#btnConfirmAddOrder').prop('disabled', false);
+                        $('#btnConfirmCloseAddOrder').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        document.getElementById('btnConfirmAddOrder').innerHTML = "✅ Confirm";
+                        $('#btnConfirmAddOrder').prop('disabled', false);
+                        $('#btnConfirmCloseAddOrder').prop('disabled', false);
+                    }
+                }
+            });
+        }
+
         // Edit Order
         function editOrder(orderId) {
             window.location = '/Software/OrderDetail?id=' + orderId;
@@ -598,9 +690,64 @@
                     500: function (message) {
                         toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
                         $('#deleteOrderConfirm').modal('hide');
-                        document.getElementById('btnProductConfirmDelete').innerHTML = "🗑 Delete";
+                        document.getElementById('btnOrderConfirmDelete').innerHTML = "🗑 Delete";
                         $('#btnOrderConfirmDelete').prop('disabled', false);
                         $('#btnOrderCloseConfirmDelete').prop('disabled', false);
+                    }
+                }
+            });
+        }
+
+        // Delete Order Reservation
+        function deleteReservation(resId) {
+            reservationId = resId;
+            $('#deleteOrderReservationConfirm').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+            document.getElementById('btnOrderReservationConfirmDelete').innerHTML = "🗑 Delete";
+            $('#btnOrderReservationConfirmDelete').prop('disabled', false);
+            $('#btnOrderReservationCloseConfirmDelete').prop('disabled', false);
+        }
+
+        // Confirm Delete Order Reservation
+        function confirmDeleteReservation() {
+            document.getElementById('btnOrderReservationConfirmDelete').innerHTML = "🗑 Deleting...";
+            $('#btnOrderReservationConfirmDelete').prop('disabled', true);
+            $('#btnOrderReservationCloseConfirmDelete').prop('disabled', true);
+
+            $.ajax({
+                url: '/api/reservation/delete/' + reservationId,
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                statusCode: {
+                    200: function () {
+                        toastr.success("Delete Successful", "", { positionClass: "toast-bottom-right" });
+                        $('#deleteOrderReservationConfirm').modal('hide');
+                        populateReservation();
+                    },
+                    404: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 404", { positionClass: "toast-bottom-right" });
+                        $('#deleteOrderReservationConfirm').modal('hide');
+                        document.getElementById('btnOrderReservationConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnOrderReservationConfirmDelete').prop('disabled', false);
+                        $('#btnOrderReservationCloseConfirmDelete').prop('disabled', false);
+                    },
+                    400: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 400", { positionClass: "toast-bottom-right" });
+                        $('#deleteOrderReservationConfirm').modal('hide');
+                        document.getElementById('btnOrderReservationConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnOrderReservationConfirmDelete').prop('disabled', false);
+                        $('#btnOrderReservationCloseConfirmDelete').prop('disabled', false);
+                    },
+                    500: function (message) {
+                        toastr.error(message.responseText.replace(/^"(.*)"$/, '$1'), "Error 500", { positionClass: "toast-bottom-right" });
+                        $('#deleteOrderReservationConfirm').modal('hide');
+                        document.getElementById('btnOrderReservationConfirmDelete').innerHTML = "🗑 Delete";
+                        $('#btnOrderReservationConfirmDelete').prop('disabled', false);
+                        $('#btnOrderReservationCloseConfirmDelete').prop('disabled', false);
                     }
                 }
             });

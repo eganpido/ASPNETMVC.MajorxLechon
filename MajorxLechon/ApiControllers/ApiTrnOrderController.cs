@@ -7,6 +7,7 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
 using System.Reflection;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace MajorxLechon.ModifiedApiControllers
 {
@@ -154,6 +155,78 @@ namespace MajorxLechon.ModifiedApiControllers
                     db.SubmitChanges();
 
                     return Request.CreateResponse(HttpStatusCode.OK, newOrder.Id);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Theres no current user logged in.");
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Something's went wrong from the server.");
+            }
+        }
+
+        // Add Order Reservation
+        [Authorize, HttpPost, Route("api/orderReservation/add/{reservationId}")]
+        public HttpResponseMessage AddOrderReservation(string reservationId)
+        {
+            try
+            {
+                var currentUser = from d in db.MstUsers
+                                  where d.UserId == User.Identity.GetUserId()
+                                  select d;
+
+                if (currentUser.Any())
+                {
+                    var currentUserId = currentUser.FirstOrDefault().Id;
+
+                    var defaultOrderNumber = "000001";
+                    var lastOrder = from d in db.TrnOrders.OrderByDescending(d => d.Id)
+                                    select d;
+
+                    if (lastOrder.Any())
+                    {
+                        var orderNumber = Convert.ToInt32(lastOrder.FirstOrDefault().OrderNumber) + 000001;
+                        defaultOrderNumber = FillLeadingZeroes(orderNumber, 6);
+                    }
+
+                    var reservation = from d in db.TrnReservations
+                                      where d.Id == Convert.ToInt32(reservationId)
+                                      select d;
+                    if (reservation.Any())
+                    {
+                        var res = reservation.FirstOrDefault();
+
+                        Data.TrnOrder newOrder = new Data.TrnOrder
+                        {
+                            OrderNumber = defaultOrderNumber,
+                            SalesDate = DateTime.Today,
+                            DeliveryDate = res.DeliveryDate,
+                            DeliveryTime = res.DeliveryTime,
+                            CustomerName = res.CustomerName,
+                            ContactNumber = res.ContactNumber,
+                            Address = res.Address,
+                            Landmark = res.Landmark,
+                            LookFor = res.LookFor,
+                            Amount = 0,
+                            IsLocked = false,
+                            CreatedById = currentUserId,
+                            CreatedDateTime = DateTime.Now,
+                            UpdatedById = currentUserId,
+                            UpdatedDateTime = DateTime.Now
+                        };
+
+                        db.TrnOrders.InsertOnSubmit(newOrder);
+                        db.SubmitChanges();
+
+                        return Request.CreateResponse(HttpStatusCode.OK, newOrder.Id);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Record does not exist!");
+                    }
                 }
                 else
                 {
